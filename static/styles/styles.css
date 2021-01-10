@@ -1,0 +1,67 @@
+form {
+  /* Just to center the form on the page */
+  margin: 0 auto;
+  width: 500px;
+  /* To see the outline of the form */
+  padding: 1em;
+  border: 1px solid #ccc;
+  border-radius: 1em;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+form li + li {
+  margin-top: 1em;
+}
+
+label {
+  /* To make sure that all labels have the same size and are properly aligned */
+  font-family:verdana;
+  display: inline-block;
+  width: 150px;
+  text-align: right;
+}
+
+h1 {
+  font-family:verdana;
+}
+
+h2 {
+  font-family:verdana;
+}
+
+input, select{
+  /* To make sure that all text fields have the same font settings By default, textareas have a monospace font */
+  font: 1em sans-serif;
+  /* To give the same size to all text fields */
+  width: 300px;
+  box-sizing: border-box; /* To harmonize the look & feel of text field border */
+  border: 1px solid #999;
+  border-radius: 5px;
+}
+
+input:focus{
+  /* To give a little highlight on active elements */
+  border-color: #000;
+}
+
+input.button {
+  /* To position the buttons to the same position of the text fields */
+  /* padding-left: 90px; */
+  position: relative;
+  left: 70%;
+  width: 90px;
+  border-radius: 5px;
+  /* same size as the label elements */
+
+}
+
+button {
+  /* This extra margin represent roughly the same space as the space between the labels and their text fields */
+  font-family:verdana;
+  margin-left: 0.5em;
+}
