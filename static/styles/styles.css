@@ -57,7 +57,6 @@ input.button {
   width: 90px;
   border-radius: 5px;
   /* same size as the label elements */
-
 }
 
 button {
@@ -65,3 +64,14 @@ button {
   font-family:verdana;
   margin-left: 0.5em;
 }
+
+input.buttonget {
+  border-color: #2196F3;
+  color: dodgerblue;
+  border: 10px solid black;
+}
+
+table, th, td {
+  border: 1px solid black;
+  border-collapse: collapse;
+  }

@@ -1,0 +1,222 @@
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/styles.css') }}">
+	</head>
+
+	<body>
+		<form method="post", action="">
+			<H1>Meal Updater</H1>
+			<ul>
+				<li>
+					<label for="name">Meal Name: </label>
+					<input type = "text" id="name" name= "Name" required />
+				</li>
+				<li>
+					<label for="staple">Staple:</label>
+					<select name="Staple">
+						<option value="null"></option>
+						<option value="Bread">Bread</option>
+						<option value="Cous Cous">Cous Cous</option>
+						<option value="Pasta">Pasta</option>
+						<option value="Pastry">Pastry</option>
+						<option value="Potato">Potato</option>
+						<option value="Rice">Rice</option>
+					</select>
+				</li>
+				<li>
+					<label for="book">Book:</label>
+					<select name="Book">
+						<option value="null"></option>
+						<option value="Bosh 1">Bosh 1</option>
+						<option value="Bosh 2">Bosh 2</option>
+						<option value="Jamie Oliver">Jamie Oliver</option>
+						<option value="Nigel Slater AW">Nigel Slater Autumn/Winter</option>
+						<option value="Ultimate Pasta">Ultimate Pasta</option>
+						<option value="Riverford SS">Riverford Spring/Summer</option>
+						<option value="Riverford AW">Riverford Autumn/Winter</option>
+					</select>
+				</li>
+				<li>
+					<label for="page">Page no: </label>
+					<input type = "text" name = "Page" />
+				</li>
+				<li>
+					<label for="website">Website: </label>
+					<input type = "text" name = "Website" />
+				</li>
+				<H2>Fresh Ingredients</H2>
+				<li>
+					<label for="aubergine">Aubergine </label>
+					<input type = "text" name = "Fresh Aubergine" />
+				</li>
+				<li>
+					<label for="broccoli">Broccoli </label>
+					<input type = "text" name = "Fresh Broccoli" />
+				</li>
+				<li>
+					<label for="butternut squash">Butternut Squash </label>
+					<input type = "text" name = "Fresh Butternut Squash" />
+				</li>
+				<li>
+					<label for="carrots">Carrots </label>
+					<input type = "text" name = "Fresh Carrots" />
+				</li>
+				<li>
+					<label for="cherry tomatoes">Cherry Tomatoes </label>
+					<input type = "text" name = "Fresh Cherry Tomatoes" /> 
+				</li>
+				<li>
+					<label for="chilli peppers">Chilli Peppers </label>
+					<input type = "text" name = "Fresh Chilli Peppers" />
+				</li>
+				<li>
+					<label for="clementines">Clementines </label>
+					<input type = "text" name = "Fresh Clementines" /> 
+				</li>
+				<li>
+					<label for="courgettes">Courgettes </label>
+					<input type = "text" name = "Fresh Courgettes" />
+				</li>
+				<li>
+					<label for="garlic">Garlic </label>
+					<input type = "text" name = "Fresh Garlic" />
+				</li>
+				<li>
+					<label for="kale">Kale </label>
+					<input type = "text" name = "Fresh Kale" />
+				</li>
+				<li>
+					<label for="leek">Leek </label>
+					<input type = "text" name = "Fresh Leek" />
+				</li>
+				<li>
+					<label for="lemon">Lemon </label>
+					<input type = "text" name = "Fresh Lemon" /> 
+				</li>
+				<li>
+					<label for="lime">Lime </label>
+					<input type = "text" name = "Fresh Lime" />
+				</li>
+				<li>
+					<label for="onions (white)">Onions (White) </label>
+					<input type = "text" name = "Fresh White Onions" />
+				</li>
+				<li>
+					<label for="onions (red)">Onions (Red) </label>
+					<input type = "text" name = "Fresh Red Onions" />
+				</li>
+				<li>
+					<label for="peppers (green)">Peppers (Green) </label>
+					<input type = "text" name = "Fresh Green Peppers" /> 
+				</li>
+				<li>
+					<label for="peppers (red)">Peppers (Red) </label>
+					<input type = "text" name = "Fresh Red Peppers" />
+				</li>
+				<li>
+					<label for="peppers (yellow)">Pepper (Yellow) </label>
+					<input type = "text" name = "Fresh Yellow Peppers" />
+				</li>
+				<li>
+					<label for="potatoes (baking)">Potatoes (Baking) </label>
+					<input type = "text" name = "Fresh Baking Potatoes" />
+				</li>
+				<li>
+					<label for="potatoes (marris piper)">Potatoes (Marris Piper) </label>
+					<input type = "text" name = "Fresh Marris Piper Potatoes" />
+				</li>
+				<li>
+					<label for="potatoes (new)">Potatoes (New) </label>
+					<input type = "text" name = "Fresh New Potatoes" />
+				</li>
+				<li>
+					<label for="potatoes (sweet)">Potatoes (Sweet) </label>
+					<input type = "text" name = "Fresh Sweet Potatoes" />
+				</li>
+				<li>
+					<label for="spinach">Spinach </label>
+					<input type = "text" name = "Fresh Spinach" />
+				</li>
+				<li>
+					<label for="spinach">Spring Onions </label>
+					<input type = "text" name = "Fresh Spring Onions" />
+				</li>
+				<H2>Tinned Ingredients</H2>
+				<li>
+					<label for="butter beans">Butter Beans </label>
+					<input type = "text" name = "Tinned Butter Beans" />
+				</li>
+				<li>
+					<label for="canneloni beans">Canneloni Beans </label>
+					<input type = "text" name = "Tinned Canneloni Beans" />
+				</li>
+				<li>
+					<label for="kidney beans">Kidney Beans </label>
+					<input type = "text" name = "Tinned Kidney Beans" />
+				</li>
+				<li>
+					<label for="mixed beans">Mixed Beans </label>
+					<input type = "text" name = "Tinned Mixed Beans" />
+				</li>
+				<li>
+					<label for="plum tomatoes">Plum Tomatoes </label>
+					<input type = "text" name = "Tinned Plum Tomatoes" />
+				</li>
+				<H2>Dry Ingredients</H2>
+				<li>
+					<label for="cous cous">Cous Cous </label>
+					<input type = "text" name = "Dry Cous Cous" /> <br>
+				</li>
+				<li>
+					<label for="naan bread">Naan Bread </label>
+					<input type = "text" name = "Dry Naan Bread" /> <br>
+				</li>
+				<li>
+					<label for="orzo">Orzo </label>
+					<input type = "text" name = "Dry Orzo" /> <br>
+				</li>
+				<li>
+					<label for="pasta (lasagne)">Pasta (Lasagne) </label>
+					<input type = "text" name = "Dry Lasagne" /> <br>
+				</li>
+				<li>
+					<label for="pasta (penne)">Pasta (Penne) </label>
+					<input type = "text" name = "Dry Penne" /> <br>
+				</li>
+				<li>
+					<label for="pasta (spaghetti)">Pasta (Spaghetti) </label>
+					<input type = "text" name = "Dry Spaghetti" /> <br>
+				</li>
+				<li>
+					<label for="rice (arborio)">Rice (Arborio) </label>
+					<input type = "text" name = "Dry Arborio Rice" /> <br>
+				</li>
+				<li>
+					<label for="rice (long grain)">Rice (Long Grain) </label>
+					<input type = "text" name = "Dry Long Grain Rice" /> <br>
+				</li>
+				<H2>Dairy Ingredients</H2>
+				<li>
+					<label for="butter">Butter </label>
+					<input type = "text" name = "Dairy Butter" /> <br>
+				</li>
+				<li>
+					<label for="cheese (cheddar)">Cheese (Cheddar) </label>
+					<input type = "text" name = "Dairy Cheddar" /> <br>
+				</li>
+				<li>
+					<label for="cheese (mozzarella)">Cheese (Mozzarella) </label>
+					<input type = "text" name = "Dairy Mozzarella" /> <br>
+				</li>
+				<li>
+					<label for="milk">Milk </label>
+					<input type = "text" name = "Dairy Milk" /> <br>
+				</li>
+				<li>
+					<input class="button" type="submit">
+				</li>
+			</ul>
+		</form>
+	</body>
+</html>
