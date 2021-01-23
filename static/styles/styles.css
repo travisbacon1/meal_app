@@ -14,6 +14,20 @@ ul {
   margin: 0;
 }
 
+ul li {
+  font-family:verdana;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+/* ul + li {
+  font-family:verdana;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+} */
+
 form li + li {
   margin-top: 1em;
 }
@@ -31,6 +45,10 @@ h1 {
 }
 
 h2 {
+  font-family:verdana;
+}
+
+p.ul {
   font-family:verdana;
 }
 
@@ -65,10 +83,11 @@ button {
   margin-left: 0.5em;
 }
 
-input.buttonget {
-  border-color: #2196F3;
-  color: dodgerblue;
-  border: 10px solid black;
+#homepagebutton {
+  border: 1px solid black;
+  position: relative;
+  left: 30%;
+  width: 120px;
 }
 
 table, th, td {
