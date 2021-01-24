@@ -52,7 +52,7 @@ def parse_ingredients(ingredients_dict, filter_word):
 @app.route('/', methods=['GET', 'POST'])
 def index():
     if request.method == "POST":
-        request.form
+        # request.form
         if request.form['submit'] == 'Add Meal':
             return redirect(url_for('add'))
         elif request.form['submit'] == 'Get Meal Info':
@@ -95,14 +95,19 @@ def find():
     meals = [result['Name'] for result in results]
     if request.method == "POST":
         details = request.form
-        if details['Meal'] == 'null':
-            return render_template('find.html')
+        
+        # print(request.form['submit'])
+        # if 'Submit' in details:
+        # if details['Meal'] == 'null':
+        #     return render_template('find.html')
         app.config['MYSQL_CURSORCLASS'] = 'DictCursor'
         db_cursor = mysql.connection.cursor()
         query = f"SELECT * FROM MealsDatabase.MealsTable WHERE Name='{details['Meal']}';"
         db_cursor.execute(query)
         result = db_cursor.fetchall()
         return redirect(url_for('some_meal_page', meal = result[0]['Name']))
+        # elif 'Return' in details:
+        #     render_template('index.html')
     return render_template('find.html',
                             len_meals = len(meals), meals = meals)
 
