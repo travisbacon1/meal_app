@@ -12,37 +12,18 @@
                             <label for="meal">Meal:</label>
                             <select name="Meal" required>
                                 <option value="null"></option>
-        <option value="2efwefewf">2efwefewf</option>
-                            <option value="3feferf">3feferf</option>
-                            <option value="Carrot Risotto">Carrot Risotto</option>
-                            <option value="Creamy Orzo">Creamy Orzo</option>
-                            <option value="efeffrfrf">efeffrfrf</option>
-                            <option value="efewfef">efewfef</option>
-                            <option value="erefefegf">erefefegf</option>
-                            <option value="ervev">ervev</option>
-                            <option value="ewev">ewev</option>
-                            <option value="Hassleback Potatoes">Hassleback Potatoes</option>
-                            <option value="Mac & Greens">Mac & Greens</option>
-                            <option value="Pizza Naan">Pizza Naan</option>
-                            <option value="Pizza Naan23er2r2r">Pizza Naan23er2r2r</option>
-                            <option value="rest">rest</option>
-                            <option value="Rice & Greens">Rice & Greens</option>
-                            <option value="Roasted Veg & Beans">Roasted Veg & Beans</option>
-                            <option value="ssssssss">ssssssss</option>
-                            <option value="test">test</option>
-                            <option value="test2">test2</option>
-                            <option value="test2222222">test2222222</option>
-                            <option value="testefd3wef">testefd3wef</option>
-                            <option value="wefewfefw">wefewfefw</option>
-                            <option value="wefweff">wefweff</option>
-                            <option value="wvw">wvw</option>
-                            
-                        </select>
-                    </li>
-                    <li>
-					    <input class="button" type="submit">
-				    </li>
-                </ul>
-            </form>
-        </html>
-                    
+                                {%for i in range(0, len_meals)%}
+                                <option value = "{{meals[i]}}">{{meals[i]}}</option> 
+                                {%endfor%}
+                            </select>
+                        </li>
+                        <li>
+                            <input class="button" type="submit">
+                        </li>
+                        <li>
+                            <input class="button" type="submit" value="Return">
+                        </li>
+                    </ul>
+                </form>
+            </html>
+                     
