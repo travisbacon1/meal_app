@@ -6,8 +6,10 @@ from string import Template
 from tabulate import _table_formats, tabulate
 import subprocess
 
+
 app = Flask(__name__)
 app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
+
 
 def configure_mqsql_server(action):
     process = subprocess.Popen(['sudo', '/usr/local/mysql/support-files/mysql.server', action],
@@ -85,40 +87,12 @@ def add():
 
 @app.route('/find', methods=['GET', 'POST'])
 def find():
-    html_template = """<!DOCTYPE html>
-    <html>
-        <head>
-            <meta charset="utf-8" />
-            <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/styles.css') }}">
-        </head>
-        	<body>
-		        <form method="post", action="">
-                    <H1>Meal Information</H1>
-                    <ul>
-                        <li>
-                            <label for="meal">Meal:</label>
-                            <select name="Meal" required>
-                                <option value="null"></option>
-        """
     app.config['MYSQL_CURSORCLASS'] = 'DictCursor'
     db_cursor = mysql.connection.cursor()
     query = f"SELECT Name FROM MealsDatabase.MealsTable;"
     db_cursor.execute(query)
     results = db_cursor.fetchall()
     meals = [result['Name'] for result in results]
-    for meal in meals:
-        html_template += f"""<option value="{meal}">{meal}</option>
-                            """
-    html_template += """
-                        </select>
-                    </li>
-                    <li>
-					    <input class="button" type="submit">
-				    </li>
-                </ul>
-            </form>
-        </html>
-                    """
     if request.method == "POST":
         details = request.form
         if details['Meal'] == 'null':
@@ -126,40 +100,38 @@ def find():
         app.config['MYSQL_CURSORCLASS'] = 'DictCursor'
         db_cursor = mysql.connection.cursor()
         query = f"SELECT * FROM MealsDatabase.MealsTable WHERE Name='{details['Meal']}';"
-        # db_cursor = database.cursor(dictionary=True)
         db_cursor.execute(query)
         result = db_cursor.fetchall()
         return redirect(url_for('some_meal_page', meal = result[0]['Name']))
-    with open("./templates/find.html", "w") as file:
-        file.write(html_template)
-    return render_template('find.html')
+    return render_template('find.html',
+                            len_meals = len(meals), meals = meals)
 
 
 @app.route('/find/<meal>', methods=['GET', 'POST'])
 def some_meal_page(meal):
     if request.method == "GET":
-        HTML_TEMPLATE = Template("""<!DOCTYPE html>
-    <html>
-        <head>
-        	<body>
-                <meta charset="utf-8" />
-                <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/styles.css') }}">
-                    <h1>Meal info for ${meal_name}!</h1>
-                        <p>${ingredients}</p>
-                            <form method="post", action="">
-                                <input class="button" type="submit" value="Return">
-                            </form>
-                        <body>
-                    </head>
-                </html>
-            """)
         app.config['MYSQL_CURSORCLASS'] = 'DictCursor'
         db_cursor = mysql.connection.cursor()
         query = f"SELECT * FROM MealsDatabase.MealsTable WHERE Name='{meal}';"
         db_cursor.execute(query)
         result = db_cursor.fetchall()
-
-        return(HTML_TEMPLATE.substitute(meal_name=meal, ingredients=result))
+        location_details = {}
+        if result[0]['Website'] == None or result[0]['Website'] == '':
+            location_details['Book'] = result[0]['Book']
+            location_details['Page'] = result[0]['Page']
+        else:
+            location_details['Website'] = result[0]['Website']
+        fresh_ingredients = [list(json.loads(result[0]['Fresh_Ingredients']).keys()), list(json.loads(result[0]['Fresh_Ingredients']).values())]
+        tinned_ingredients = [list(json.loads(result[0]['Tinned_Ingredients']).keys()), list(json.loads(result[0]['Tinned_Ingredients']).values())]
+        dry_ingredients = [list(json.loads(result[0]['Dry_Ingredients']).keys()), list(json.loads(result[0]['Dry_Ingredients']).values())]
+        dairy_ingredients = [list(json.loads(result[0]['Dairy_Ingredients']).keys()), list(json.loads(result[0]['Dairy_Ingredients']).values())]
+        return render_template('find_results.html', meal_name=meal,
+                                location_details = location_details, location_keys = location_details.keys(),
+                                staple = result[0]['Staple'],
+                                len_fresh_ingredients = len(fresh_ingredients[0]), fresh_ingredients_keys=fresh_ingredients[0], fresh_ingredients_values=fresh_ingredients[1],
+                                len_tinned_ingredients = len(tinned_ingredients[0]), tinned_ingredients_keys=tinned_ingredients[0], tinned_ingredients_values=tinned_ingredients[1],
+                                len_dry_ingredients = len(dry_ingredients[0]), dry_ingredients_keys=dry_ingredients[0], dry_ingredients_values=dry_ingredients[1],
+                                len_dairy_ingredients = len(dairy_ingredients[0]), dairy_ingredients_keys=dairy_ingredients[0], dairy_ingredients_values=dairy_ingredients[1])
     else:
         return redirect(url_for('find'))
 
@@ -182,7 +154,6 @@ def search():
     if request.method == "POST":
         details = request.form
         details_dict = details.to_dict()
-        print(details_dict)
         if "null" not in request.form["Fresh_Ingredients"]:
             json_key = "Fresh_Ingredients"
             ingredient = details_dict[json_key]
@@ -195,15 +166,12 @@ def search():
         elif "null" not in request.form["Dairy_Ingredients"]:
             json_key = "Dairy_Ingredients"
             ingredient = details_dict[json_key]
-        print(json_key)
         app.config['MYSQL_CURSORCLASS'] = 'DictCursor'
         db_cursor = mysql.connection.cursor()
         query = f"""SELECT * FROM MealsDatabase.MealsTable
                 WHERE JSON_EXTRACT({json_key}, '$."{ingredient}"');"""
-        print(query)
         db_cursor.execute(query)
         results = db_cursor.fetchall()
-
         session['meal_list'] = [result['Name'] for result in results]
         return redirect(url_for('search_results', ingredient = ingredient))
     return render_template('search.html', 
@@ -213,11 +181,9 @@ def search():
                             len_dairy_ingredients = len(dairy_ingredients), dairy_ingredients = dairy_ingredients)
 
 
-
 @app.route('/search/<ingredient>', methods=['GET', 'POST'])
 def search_results(ingredient):
     if request.method == "GET":
-        ingredient = ingredient
         meals = session.pop('meal_list', [])
         return render_template('search_results.html', ingredient = ingredient, len_meals = len(meals), meals = meals)
     else:
