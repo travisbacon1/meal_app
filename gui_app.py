@@ -59,6 +59,8 @@ def index():
             return redirect(url_for('find'))
         elif request.form['submit'] == 'Search Ingredients':
             return redirect(url_for('search'))
+        elif request.form['submit'] == 'List Meals':
+            return redirect(url_for('list_meals'))
     return render_template('index.html')
 
 
@@ -194,6 +196,18 @@ def search_results(ingredient):
     else:
         return redirect(url_for('search'))
 
+
+@app.route('/list', methods=['GET', 'POST'])
+def list_meals():
+    db_cursor = mysql.connection.cursor()
+    query = "SELECT *, CAST(Page AS SIGNED) AS Page FROM MealsDatabase.MealsTable ORDER BY Book, Page;"
+    db_cursor.execute(query)
+    results = db_cursor.fetchall()
+    new_results = []
+    for result in results:
+        new_results.append(str(result))
+    print(new_results)
+    return render_template('list_meals.html', len_meals = len(results), meals = results)
 
 @app.route('/test', methods=['GET'])
 def test():
