@@ -10,30 +10,54 @@
                         {% else %}
                             <h2>{{location_details['Website']}}</h2>
                         {% endif %}
-                        <h2>Fresh Ingredients</h2>
-                        <ul>
+                        <table>
+                            <tr>
+                                <th class="ingredients">Fresh Ingredients</th>
+                                <th class="quantity">Quantity</th>
+                            </tr>
                             {%for i in range(0, len_fresh_ingredients)%}
-                                <li>{{fresh_ingredients_keys[i]}}: {{fresh_ingredients_values[i]}}</li>
+                                <tr>
+                                    <td>{{fresh_ingredients_keys[i]}}</td>
+                                    <td>{{fresh_ingredients_values[i]}}</td>
+                                </tr>
                             {%endfor%}
-                        </ul>
-                        <h2>Tinned Ingredients</h2>
-                        <ul>
+                        </table>
+                        <table>
+                            <tr>
+                                <th class="ingredients">Tinned Ingredients</th>
+                                <th class="quantity"> </th>
+                            </tr>
                             {%for i in range(0, len_tinned_ingredients)%}
-                                <li>{{tinned_ingredients_keys[i]}}: {{tinned_ingredients_values[i]}}</li>
+                                <tr>
+                                    <td>{{tinned_ingredients_keys[i]}}</td>
+                                    <td>{{tinned_ingredients_values[i]}}</td>
+                                </tr>
                             {%endfor%}
-                        </ul>
-                        <h2>Dry Ingredients</h2>
-                        <ul>
+                        </table>
+                        <table>
+                            <tr>
+                                <th class="ingredients">Dry Ingredients</th>
+                                <th class="quantity"> </th>
+                            </tr>
                             {%for i in range(0, len_dry_ingredients)%}
-                                <li>{{dry_ingredients_keys[i]}}: {{dry_ingredients_values[i]}}</li>
+                                <tr>
+                                    <td>{{dry_ingredients_keys[i]}}</td>
+                                    <td>{{dry_ingredients_values[i]}}</td>
+                                </tr>
                             {%endfor%}
-                        </ul>
-                        <h2>Dairy Ingredients</h2>
-                        <ul>
+                        </table>
+                        <table>
+                            <tr>
+                                <th class="ingredients">Dairy Ingredients</th>
+                                <th class="quantity"> </th>
+                            </tr>
                             {%for i in range(0, len_dairy_ingredients)%}
-                                <li>{{dairy_ingredients_keys[i]}}: {{dairy_ingredients_values[i]}}</li>
+                            <tr>
+                                <td>{{dairy_ingredients_keys[i]}}</td>
+                                <td>{{dairy_ingredients_values[i]}}</td>
+                            </tr>
                             {%endfor%}
-                        </ul>
+                        </table>
                             <form method="post", action="" id="returnform">
                                 <input class="button" type="submit" value="Return" id="returnbutton">
                             </form>
