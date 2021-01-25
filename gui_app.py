@@ -11,14 +11,6 @@ app = Flask(__name__)
 app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
 
 
-def configure_mqsql_server(action):
-    process = subprocess.Popen(['sudo', '/usr/local/mysql/support-files/mysql.server', action],
-                        stdout=subprocess.PIPE, 
-                        stderr=subprocess.PIPE)
-    stdout, stderr = process.communicate()
-    print(stdout.decode('utf-8'))
-    print(stderr.decode('utf-8'))
-
 if os.path.isfile('credentials.txt'):
     with open("credentials.txt", "r") as reader:
         credentials = reader.readlines()
@@ -52,7 +44,6 @@ def parse_ingredients(ingredients_dict, filter_word):
 @app.route('/', methods=['GET', 'POST'])
 def index():
     if request.method == "POST":
-        # request.form
         if request.form['submit'] == 'Add Meal':
             return redirect(url_for('add'))
         elif request.form['submit'] == 'Get Meal Info':
@@ -97,19 +88,12 @@ def find():
     meals = [result['Name'] for result in results]
     if request.method == "POST":
         details = request.form
-        
-        # print(request.form['submit'])
-        # if 'Submit' in details:
-        # if details['Meal'] == 'null':
-        #     return render_template('find.html')
         app.config['MYSQL_CURSORCLASS'] = 'DictCursor'
         db_cursor = mysql.connection.cursor()
         query = f"SELECT * FROM MealsDatabase.MealsTable WHERE Name='{details['Meal']}';"
         db_cursor.execute(query)
         result = db_cursor.fetchall()
         return redirect(url_for('some_meal_page', meal = result[0]['Name']))
-        # elif 'Return' in details:
-        #     render_template('index.html')
     return render_template('find.html',
                             len_meals = len(meals), meals = meals)
 
@@ -141,6 +125,7 @@ def some_meal_page(meal):
                                 len_dairy_ingredients = len(dairy_ingredients[0]), dairy_ingredients_keys=dairy_ingredients[0], dairy_ingredients_values=dairy_ingredients[1])
     else:
         return redirect(url_for('find'))
+
 
 @app.route('/search', methods=['GET', 'POST'])
 def search():
@@ -199,59 +184,27 @@ def search_results(ingredient):
 
 @app.route('/list', methods=['GET', 'POST'])
 def list_meals():
-    db_cursor = mysql.connection.cursor()
-    query = "SELECT *, CAST(Page AS SIGNED) AS Page FROM MealsDatabase.MealsTable ORDER BY Book, Page;"
-    db_cursor.execute(query)
-    results = db_cursor.fetchall()
-    new_results = []
-    for result in results:
-        new_results.append(str(result))
-    print(new_results)
-    return render_template('list_meals.html', len_meals = len(results), meals = results)
-
-@app.route('/test', methods=['GET'])
-def test():
-
-    meal_name = "meal"
-    ing_dict = {
-        "Fresh Ingredients": {
-            "Tomatoes": 5,
-            "Courgettes": 6
-        }
-    }
-    ingredients = list(ing_dict["Fresh Ingredients"].keys())
-    quantities = list(ing_dict["Fresh Ingredients"].values())
-    print(type(ingredients))
-    row = ""
-    for i, _ in enumerate(ingredients):
-        row += f"""
-            <tr>
-                <td>{ingredients[i]}</td>
-                <td>{quantities[i]}</td>
-            </tr>"""
-    html_template = """<!DOCTYPE html>
-    <html>
-        <head>
-            <meta charset="utf-8" />
-            <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/styles.css') }}">
-        </head>
-        """
-    html_template += f"""
-        <h1>Ingredients List</h1>
-        <table>
-            <tr>
-                <th>Fresh Ingredients</th>
-                <th>Quantity</th>
-            </tr>{row}
-        </table>
-    </html>
-        """
-    with open("./templates/ingredients_list.html", "w") as file:
-        file.write(html_template)
-
-    return render_template("ingredients_list.html")
+    if request.method == "GET":
+        app.config['MYSQL_CURSORCLASS'] = 'DictCursor'
+        db_cursor = mysql.connection.cursor()
+        query = "SELECT *, CAST(Page AS SIGNED) AS Page FROM MealsDatabase.MealsTable ORDER BY Book, Page;"
+        db_cursor.execute(query)
+        results = db_cursor.fetchall()
+        results = [result for result in results]
+        meal_names = [meal['Name'] for meal in results]
+        staples = [meal['Staple'] for meal in results]
+        books = [meal['Book'] for meal in results]
+        page = [meal['Page'] for meal in results]
+        website = [meal['Website'] for meal in results]
+        return render_template('list_meals.html', len_meals = len(meal_names),
+                                meal_names = meal_names, staples=staples,
+                                books=books, page=page, website=website)
+    elif request.method == "POST":
+        if (request.form['submit']):
+            details_dict = request.form.to_dict()
+            meal = json.dumps(details_dict['submit']).replace('"', '')
+            return redirect(url_for('some_meal_page', meal = meal))
 
 
 if __name__ == '__main__':
-    # configure_mqsql_server('stop')
     app.run(host='0.0.0.0', debug=True)
