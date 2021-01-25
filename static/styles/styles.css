@@ -21,13 +21,6 @@ ul li {
   margin: 0;
 }
 
-/* ul + li {
-  font-family:verdana;
-  list-style: none;
-  padding: 0;
-  margin: 0;
-} */
-
 form li + li {
   margin-top: 1em;
 }
@@ -107,16 +100,35 @@ button {
   width: 100px;
 }
 
-/* table, th, td {
+#form1 {  /* Just to center the form on the page */
+  width: 0px;
+  border: 0px solid #ccc;
+  padding: 0px;
+  position: relative;
+  left: -100px;
+  /* To see the outline of the form */}
+
+#MealLink {
   border: 1px solid black;
-  border-collapse: collapse;
-  } */
+  position: relative;
+  left: 1%;
+  width: 40px;
+  background-color:#f5f5f5;
+  color: #f5f5f5;
+}
 
 table {
     width: 22%;
     text-align: left;
     table-layout: fixed;
     border-collapse: collapse;
+    cursor: default;
+}
+
+/* Sortable tables */
+table.sortable thead {
+  font-weight: bold;
+  cursor: default;
 }
 
 th.ingredients {
