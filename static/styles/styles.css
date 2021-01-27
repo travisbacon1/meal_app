@@ -125,6 +125,23 @@ table {
     cursor: default;
 }
 
+#checkboxtable {
+  position: relative;
+  left:12%;
+  text-align: left;
+  table-layout: fixed;
+  border-collapse: collapse;
+  cursor: default;
+}
+
+#checkboxtable_col1 {
+  width: 200px;
+}
+
+#checkboxtable_col2 {
+  width: 50px;
+}
+
 /* Sortable tables */
 table.sortable thead {
   font-weight: bold;
@@ -156,3 +173,8 @@ th, td {
 }
 
 tr:hover {background-color: #f5f5f5;}
+
+input[type=checkbox] {
+  position: relative;
+  left: -150px;
+}
