@@ -107,3 +107,19 @@ dairy_ingredients = sorted(
 
     ]
 )
+
+extras = sorted(
+    [
+        'Apples',
+        'Bananas',
+        'Grapes',
+        'Gravy Granules',
+        'Harisa Paste',
+        'Herbs',
+        'Mackerel',
+        'Olive Oil',
+        'Stuffing',
+        'Sunflower Oil',
+        'Soy Sauce'
+    ]
+)

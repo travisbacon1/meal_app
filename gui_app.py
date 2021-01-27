@@ -31,6 +31,7 @@ app.config['MYSQL_DB'] = 'MealsDatabase'
 
 mysql = MySQL(app)
 
+
 def parse_ingredients(ingredients_dict, filter_word):
     parsed_ingredient_dict = {}
     excluded_keys = ['Name', 'Staple', 'Book', 'Page', 'Website']
@@ -39,6 +40,15 @@ def parse_ingredients(ingredients_dict, filter_word):
             new_key = key.removeprefix(filter_word)
             parsed_ingredient_dict[new_key] = ingredients_dict[key]
     return json.dumps(parsed_ingredient_dict)
+
+
+def get_meal_info(meal_list):
+    meal_list = str(meal_list).strip("[]")
+    db_cursor = mysql.connection.cursor()
+    query = f"SELECT * FROM MealsDatabase.MealsTable WHERE Name IN ({meal_list});"
+    db_cursor.execute(query)
+    result = db_cursor.fetchall()
+    return result
 
 
 @app.route('/', methods=['GET', 'POST'])
@@ -52,6 +62,8 @@ def index():
             return redirect(url_for('search'))
         elif request.form['submit'] == 'List Meals':
             return redirect(url_for('list_meals'))
+        elif request.form['submit'] == 'Create Meal Plan':
+            return redirect(url_for('create_meal_plan'))
     return render_template('index.html')
 
 
@@ -206,5 +218,33 @@ def list_meals():
             return redirect(url_for('some_meal_page', meal = meal))
 
 
+@app.route('/create', methods=['GET', 'POST'])
+def create_meal_plan():
+    app.config['MYSQL_CURSORCLASS'] = 'DictCursor'
+    db_cursor = mysql.connection.cursor()
+    query = f"SELECT GROUP_CONCAT(Name) as Meals, Staple FROM MealsDatabase.MealsTable GROUP BY Staple;"
+    db_cursor.execute(query)
+    results = db_cursor.fetchall()
+    staples_dict = {str(item['Staple']): list(item['Meals'].split(',')) for item in results}
+    staple_dict_keys =  list(staples_dict.keys())
+
+    if request.method == "POST":
+        details = request.form
+        details_dict = details.to_dict()
+        meal_list = [value for key, value in details_dict.items() if 'Meal' in key]
+        extras = [value for key, value in details_dict.items() if 'Extra' in key]
+        print(extras)
+        new_meal_list = get_meal_info(meal_list)
+        print(new_meal_list)
+        return render_template('display_meal_plan.html')
+    from variables import extras
+    return render_template('create_meal_plan.html',
+                            len_bread_meals=len(staples_dict['Bread']), bread_meals=staples_dict['Bread'],
+                            len_cous_cous_meals=len(staples_dict['Cous Cous']), cous_cous_meals=staples_dict['Cous Cous'],
+                            len_pasta_meals=len(staples_dict['Pasta']), pasta_meals=staples_dict['Pasta'],
+                            len_pastry_meals=len(staples_dict['Pastry']), pastry_meals=staples_dict['Pastry'],
+                            len_potato_meals=len(staples_dict['Potato']), potato_meals=staples_dict['Potato'],
+                            len_rice_meals=len(staples_dict['Rice']), rice_meals=staples_dict['Rice'],
+                            len_extras = len(extras), extras = extras)
 if __name__ == '__main__':
     app.run(host='0.0.0.0', debug=True)
