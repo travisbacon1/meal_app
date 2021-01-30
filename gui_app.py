@@ -349,11 +349,10 @@ def list_meals():
         return render_template('list_meals.html', len_meals = len(meal_names),
                                 meal_names = meal_names, staples=staples,
                                 books=books, page=page, website=website)
-    elif request.method == "POST":
-        if (request.form['submit']):
-            details_dict = request.form.to_dict()
-            meal = json.dumps(details_dict['submit']).replace('"', '')
-            return redirect(url_for('some_meal_page', meal = meal))
+    elif request.method == "POST" and (request.form['submit']):
+        details_dict = request.form.to_dict()
+        meal = json.dumps(details_dict['submit']).replace('"', '')
+        return redirect(url_for('some_meal_page', meal = meal))
 
 
 @app.route('/create', methods=['GET', 'POST'])
@@ -364,7 +363,6 @@ def create_meal_plan():
     db_cursor.execute(query)
     results = db_cursor.fetchall()
     staples_dict = {str(item['Staple']): list(item['Meals'].split(',')) for item in results}
-    staple_dict_keys =  list(staples_dict.keys())
 
     if request.method == "POST":
         details = request.form
@@ -403,11 +401,10 @@ def display_meal_plan():
                             len_dairy_ingredients = len(dairy_ingredients[0]), dairy_ingredients_keys=dairy_ingredients[0], dairy_ingredients_values=dairy_ingredients[1],
                             len_extra_ingredients = len(complete_ingredient_dict['Extra_Ingredients']), extra_ingredients=complete_ingredient_dict['Extra_Ingredients'])
 
-    if request.method == "POST":
-        if request.form['submit'] == 'Save':
-            complete_ingredient_dict = session.pop('complete_ingredient_dict')
-            file_path = save_meal_plan(complete_ingredient_dict)
-            return render_template('save_complete.html', file_path = file_path)
+    if request.method == "POST" and request.form['submit'] == 'Save':
+        complete_ingredient_dict = session.pop('complete_ingredient_dict')
+        file_path = save_meal_plan(complete_ingredient_dict)
+        return render_template('save_complete.html', file_path = file_path)
 
 
 @app.route('/choose_meal_plan', methods=['GET', 'POST'])
