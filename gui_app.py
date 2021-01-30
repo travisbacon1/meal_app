@@ -5,6 +5,7 @@ import os
 from string import Template
 from tabulate import _table_formats, tabulate
 import subprocess
+from datetime import datetime
 
 
 app = Flask(__name__)
@@ -38,7 +39,7 @@ def variable_printer(variable_name, variable):
 
 def parse_ingredients(ingredients_dict, filter_word):
     parsed_ingredient_dict = {}
-    excluded_keys = ['Name', 'Staple', 'Book', 'Page', 'Website']
+    # excluded_keys = ['Name', 'Staple', 'Book', 'Page', 'Website']
     for key in list(ingredients_dict.keys()):
         if filter_word in key and ingredients_dict[key] != '' and key not in excluded_keys:
             new_key = key.removeprefix(filter_word)
@@ -49,7 +50,7 @@ def parse_ingredients(ingredients_dict, filter_word):
 def get_meal_info(meal_list):
     meal_list = str(meal_list).strip("[]")
     db_cursor = mysql.connection.cursor()
-    query = f"SELECT * FROM MealsDatabase.MealsTable WHERE Name IN ({meal_list});"
+    query = f"SELECT Fresh_Ingredients, Tinned_Ingredients, Dry_Ingredients, Dairy_Ingredients FROM MealsDatabase.MealsTable WHERE Name IN ({meal_list});"
     db_cursor.execute(query)
     result = db_cursor.fetchall()
     return result
@@ -66,6 +67,7 @@ def build_ingredient_dictionary(meal_ingredient_dict, deduped_ingredient_dict):
 
 
 def collate_ingredients(meal_info_list):
+    complete_deduped_ingredient_dict = {}
     fresh_ingredient_dict = {}
     tinned_ingredient_dict = {}
     dry_ingredient_dict = {}
@@ -85,7 +87,24 @@ def collate_ingredients(meal_info_list):
 
         if meal["Dairy_Ingredients"] != None:
             build_ingredient_dictionary(meal["Dairy_Ingredients"], dairy_ingredient_dict)
-    return fresh_ingredient_dict, tinned_ingredient_dict, dry_ingredient_dict, dairy_ingredient_dict
+    complete_deduped_ingredient_dict["Fresh_Ingredients"] = fresh_ingredient_dict
+    complete_deduped_ingredient_dict["Tinned_Ingredients"] = tinned_ingredient_dict
+    complete_deduped_ingredient_dict["Dry_Ingredients"] = dry_ingredient_dict
+    complete_deduped_ingredient_dict["Dairy_Ingredients"] = dairy_ingredient_dict
+
+    return complete_deduped_ingredient_dict
+
+
+def save_meal_plan(complete_ingredient_dict):
+    if not os.path.exists('saved_meal_plans'):
+        os.makedirs('saved_meal_plans')
+    dt_string = datetime.now().strftime("%d-%m-%Y %H:%M")
+    json_file = json.dumps(complete_ingredient_dict, indent=4)
+    with open(f"saved_meal_plans/{dt_string}.json","w") as f:
+        f.write(json_file)
+        f.close()
+    file_path = str(os.getcwd()) + f"/saved_meal_plans/{dt_string}.json"
+    return file_path
 
 
 @app.route('/', methods=['GET', 'POST'])
@@ -269,13 +288,11 @@ def create_meal_plan():
         details = request.form
         details_dict = details.to_dict()
         meal_list = [value for key, value in details_dict.items() if 'Meal' in key]
-        variable_printer("meal_list", meal_list)
-        # session['extras'] = [value for key, value in details_dict.items() if 'Extra' in key]
-        new_meal_list = get_meal_info(meal_list)
-        variable_printer("new_meal_list", new_meal_list)
-        meal_list_dicts = [meal for meal in new_meal_list]
-        variable_printer("meal_list_dicts", meal_list_dicts)
-        session['fresh_ingredient_dict'], session['tinned_ingredient_dict'], session['dry_ingredient_dict'], session['dairy_ingredient_dict']  = collate_ingredients(meal_list_dicts)
+        meal_tuple = get_meal_info(meal_list)
+        meal_list_dicts = [meal for meal in meal_tuple]
+        complete_ingredient_dict = collate_ingredients(meal_list_dicts)
+        complete_ingredient_dict['Extra_Ingredients'] = [value for key, value in details_dict.items() if 'Extra' in key]
+        session['complete_ingredient_dict'] = complete_ingredient_dict
         return redirect(url_for('display_meal_plan'))
     from variables import extras
     return render_template('create_meal_plan.html',
@@ -290,43 +307,28 @@ def create_meal_plan():
 
 @app.route('/display', methods=['GET', 'POST'])
 def display_meal_plan():
+    # complete_ingredient_dict = session.pop('complete_ingredient_dict')
+    # session['complete_ingredient_dict'] = complete_ingredient_dict
+    # variable_printer("complete_ingredient_dict", complete_ingredient_dict)
     if request.method == "GET":
-        fresh_ingredient_dict = session.pop('fresh_ingredient_dict')
-        tinned_ingredient_dict = session.pop('tinned_ingredient_dict')
-        dry_ingredient_dict = session.pop('dry_ingredient_dict')
-        dairy_ingredient_dict = session.pop('dairy_ingredient_dict')
-        extras_ingredients_list = session.pop('extras', [])    
-        fresh_ingredients = [list(fresh_ingredient_dict.keys()), list(fresh_ingredient_dict.values())]
-        tinned_ingredients = [list(tinned_ingredient_dict.keys()), list(tinned_ingredient_dict.values())]
-        dry_ingredients = [list(dry_ingredient_dict.keys()), list(dry_ingredient_dict.values())]
-        dairy_ingredients = [list(dairy_ingredient_dict.keys()), list(dairy_ingredient_dict.values())]
-
+        complete_ingredient_dict = session.pop('complete_ingredient_dict')
+        session['complete_ingredient_dict'] = complete_ingredient_dict
+        fresh_ingredients = [list(complete_ingredient_dict["Fresh_Ingredients"].keys()), list(complete_ingredient_dict["Fresh_Ingredients"].values())]
+        tinned_ingredients = [list(complete_ingredient_dict["Tinned_Ingredients"].keys()), list(complete_ingredient_dict["Tinned_Ingredients"].values())]
+        dry_ingredients = [list(complete_ingredient_dict["Dry_Ingredients"].keys()), list(complete_ingredient_dict["Dry_Ingredients"].values())]
+        dairy_ingredients = [list(complete_ingredient_dict["Dairy_Ingredients"].keys()), list(complete_ingredient_dict["Dairy_Ingredients"].values())]
         return render_template('display_meal_plan.html',
                             len_fresh_ingredients = len(fresh_ingredients[0]), fresh_ingredients_keys=fresh_ingredients[0], fresh_ingredients_values=fresh_ingredients[1],
                             len_tinned_ingredients = len(tinned_ingredients[0]), tinned_ingredients_keys=tinned_ingredients[0], tinned_ingredients_values=tinned_ingredients[1],
                             len_dry_ingredients = len(dry_ingredients[0]), dry_ingredients_keys=dry_ingredients[0], dry_ingredients_values=dry_ingredients[1],
                             len_dairy_ingredients = len(dairy_ingredients[0]), dairy_ingredients_keys=dairy_ingredients[0], dairy_ingredients_values=dairy_ingredients[1],
-                            len_extra_ingredients = len(extras_ingredients_list), extra_ingredients=extras_ingredients_list)
+                            len_extra_ingredients = len(complete_ingredient_dict['Extra_Ingredients']), extra_ingredients=complete_ingredient_dict['Extra_Ingredients'])
 
     if request.method == "POST":
-        # if request.form['submit'] == 'Save':
-        # fresh_ingredient_dict = session.pop('fresh_ingredient_dict')
-        # tinned_ingredient_dict = session.pop('tinned_ingredient_dict')
-        # dry_ingredient_dict = session.pop('dry_ingredient_dict')
-        # dairy_ingredient_dict = session.pop('dairy_ingredient_dict')
-        # extras_ingredients_list = session.pop('extras', [])  
-        # meal_plan_json = json.dumps(
-        #     {
-        #         "fresh_ingredients": tinned_ingredient_dict,
-        #         "tinned_ingredients": tinned_ingredient_dict,
-        #         "dry_ingredients": dry_ingredient_dict,
-        #         "dairy_ingredients": dairy_ingredient_dict,
-        #         "extra_ingredients": extras_ingredients_list
-
-        #     }
-        # )
-        # print(meal_plan_json)
-        return render_template('todo.html')
+        if request.form['submit'] == 'Save':
+            complete_ingredient_dict = session.pop('complete_ingredient_dict')
+            file_path = save_meal_plan(complete_ingredient_dict)
+            return render_template('save_complete.html', file_path = file_path)
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', debug=True)
