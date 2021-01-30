@@ -4,3 +4,4 @@ env
 credentials.txt
 saved_meal_plans/*
 notes.txt
+full_database_backup.json
