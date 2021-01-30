@@ -34,30 +34,72 @@ app.config['MYSQL_DB'] = 'MealsDatabase'
 mysql = MySQL(app)
 
 def variable_printer(variable_name, variable):
+    """Prints the name, type and contents of a variable to aid debugging
+    
+    Parameters
+    -------
+    variable_name: string\n
+    variable: any
+
+    Returns
+    ------
+    None
+    """
     print(variable_name, "type:", type(variable), "content:")
     print(variable)
 
 
 def parse_ingredients(ingredients_dict, filter_word):
+    """Parses an ingredients dictionary to create a new dictionary based on the filter_word as the key
+    
+    Parameters
+    -------
+    ingredients_dict: dict\n
+    filter_word: string
+
+    Returns
+    ------
+    parsed_ingredient_dict: dict
+    """
     parsed_ingredient_dict = {}
-    # excluded_keys = ['Name', 'Staple', 'Book', 'Page', 'Website']
     for key in list(ingredients_dict.keys()):
-        if filter_word in key and ingredients_dict[key] != '' and key not in excluded_keys:
+        if filter_word in key and ingredients_dict[key] != '':
             new_key = key.removeprefix(filter_word)
             parsed_ingredient_dict[new_key] = ingredients_dict[key]
     return json.dumps(parsed_ingredient_dict)
 
 
 def get_meal_info(meal_list):
+    """Converts a list of meals into a string and uses this in an SQL query to get the information on these meals
+    
+    Parameters
+    -------
+    meal_list: list\n
+
+    Returns
+    ------
+    result: tuple
+    """
     meal_list = str(meal_list).strip("[]")
     db_cursor = mysql.connection.cursor()
     query = f"SELECT Fresh_Ingredients, Tinned_Ingredients, Dry_Ingredients, Dairy_Ingredients FROM MealsDatabase.MealsTable WHERE Name IN ({meal_list});"
     db_cursor.execute(query)
-    result = db_cursor.fetchall()
-    return result
+    results = db_cursor.fetchall()
+    return results
 
 
 def build_ingredient_dictionary(meal_ingredient_dict, deduped_ingredient_dict):
+    """Adds together the quantities of all ingredients in a given deduped_ingredient_dict
+    
+    Parameters
+    -------
+    meal_ingredient_dict: dict\n
+    deduped_ingredient_dict: dict
+
+    Returns
+    ------
+    deduped_ingredient_dict: dict
+    """
     ingredient_list = json.loads(meal_ingredient_dict)
     for ingredient in list(ingredient_list.keys()):
         if ingredient in deduped_ingredient_dict:
@@ -68,6 +110,16 @@ def build_ingredient_dictionary(meal_ingredient_dict, deduped_ingredient_dict):
 
 
 def collate_ingredients(meal_info_list):
+    """Collates all ingredients from all meals into a dictionary of required ingredients
+    
+    Parameters
+    -------
+    meal_info_list: list
+
+    Returns
+    ------
+    complete_deduped_ingredient_dict: dict
+    """
     complete_deduped_ingredient_dict = {}
     fresh_ingredient_dict = {}
     tinned_ingredient_dict = {}
@@ -92,11 +144,20 @@ def collate_ingredients(meal_info_list):
     complete_deduped_ingredient_dict["Tinned_Ingredients"] = tinned_ingredient_dict
     complete_deduped_ingredient_dict["Dry_Ingredients"] = dry_ingredient_dict
     complete_deduped_ingredient_dict["Dairy_Ingredients"] = dairy_ingredient_dict
-
     return complete_deduped_ingredient_dict
 
 
 def save_meal_plan(complete_ingredient_dict):
+    """Saves created meal plan to the local saved_meal_plans directory
+    
+    Parameters
+    -------
+    complete_ingredient_dict: dict
+
+    Returns
+    ------
+    file_path: string
+    """
     if not os.path.exists('saved_meal_plans'):
         os.makedirs('saved_meal_plans')
     dt_string = datetime.now().strftime("%d-%m-%Y %H:%M")
