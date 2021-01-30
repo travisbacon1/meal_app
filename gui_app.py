@@ -169,6 +169,22 @@ def save_meal_plan(complete_ingredient_dict):
     return file_path
 
 
+def delete_plans(meal_plan_list):
+    """Deletes the selected meal plans from the local saved_meal_plans directory
+    
+    Parameters
+    -------
+    meal_plan_list: list
+
+    Returns
+    ------
+    None
+    """
+    for meal_plan in meal_plan_list:
+        os.remove(f"saved_meal_plans/{meal_plan}.json")
+    print("All selected meal plans deleted")
+
+
 @app.route('/', methods=['GET', 'POST'])
 def index():
     if request.method == "POST":
@@ -184,6 +200,8 @@ def index():
             return redirect(url_for('create_meal_plan'))
         elif request.form['submit'] == 'Load Meal Plan':
             return redirect(url_for('choose_meal_plan'))
+        elif request.form['submit'] == 'Delete Meal Plan':
+            return redirect(url_for('delete_meal_plan'))
     return render_template('index.html')
 
 
@@ -394,8 +412,7 @@ def display_meal_plan():
 
 @app.route('/choose_meal_plan', methods=['GET', 'POST'])
 def choose_meal_plan():
-    # if request.method == "GET":
-    meal_plans = [f.split('/')[1] for f in glob("saved_meal_plans/*.json")]
+    meal_plans = [f.replace('.json', '').split('/')[1] for f in glob("saved_meal_plans/*.json")]
     if request.method == "POST":
         details = request.form
         return redirect(url_for('load_meal_plan', meal_plan = details['Meal Plan']))
@@ -406,10 +423,23 @@ def choose_meal_plan():
 @app.route('/load_meal_plan/<meal_plan>', methods=['GET', 'POST'])
 def load_meal_plan(meal_plan):
     if request.method == "GET":
-        with open(f"saved_meal_plans/{meal_plan}","r") as f:
+        with open(f"saved_meal_plans/{meal_plan}.json","r") as f:
             session['complete_ingredient_dict'] = json.load(f)
             f.close()
         return redirect(url_for('display_meal_plan'))
+
+
+@app.route('/delete_meal_plan', methods=['GET', 'POST'])
+def delete_meal_plan():
+    meal_plans = [f.replace('.json', '').split('/')[1] for f in glob("saved_meal_plans/*.json")]
+    if request.method == "POST":
+        details = request.form
+        details_dict = details.to_dict()
+        meal_plans_to_delete = [value for key, value in details_dict.items() if 'Meal Plan' in key]
+        delete_plans(meal_plans_to_delete)
+        return render_template('delete_complete.html')
+    return render_template('delete_meal_plan.html',
+                            len_meal_plans = len(meal_plans), meal_plans = meal_plans)
 
 
 if __name__ == '__main__':

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+    <html>
+        <head>
+            <meta charset="utf-8" />
+            <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/styles.css') }}">
+        </head>
+        	<body>
+		        <form method="post", action="">
+                    <H1>Choose meal plans to delete</H1>
+                    <ul>
+                        <li>
+                            <table id="checkboxtable">
+                                {%for i in range(0, len_meal_plans)%}
+                                    <tr>
+                                        <td id="checkboxtable_col1"><label for="{{meal_plans[i]}}">{{meal_plans[i]}}</label></td>
+                                        <td id="checkboxtable_col2"><input type="checkbox" id="{{meal_plans[i]}}" name="Meal Plan {{i}}" value="{{meal_plans[i]}}"></td>
+                                    </tr>
+                                {%endfor%}
+                            </table>
+                        </li>
+                        <li>
+                            <input class="button" type="submit">
+                        </li>
+                    </ul>
+                </form>
+            </html>
+                     
