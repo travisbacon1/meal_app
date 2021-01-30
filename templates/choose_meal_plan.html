@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+    <html>
+        <head>
+            <meta charset="utf-8" />
+            <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/styles.css') }}">
+        </head>
+        	<body>
+		        <form method="post", action="">
+                    <H1>Choose meal plan</H1>
+                    <ul>
+                        <li>
+                            <label for="meal">Meal plan</label>
+                            <select name="Meal Plan" required>
+                                <option value="null"></option>
+                                {%for i in range(0, len_meal_plans)%}
+                                <option value = "{{meal_plans[i]}}">{{meal_plans[i]}}</option> 
+                                {%endfor%}
+                            </select>
+                        </li>
+                        <li>
+                            <input class="button" type="submit">
+                        </li>
+                    </ul>
+                </form>
+            </html>
+                     

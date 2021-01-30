@@ -2,3 +2,4 @@
 __pycache__
 env
 credentials.txt
+saved_meal_plans/*

@@ -6,6 +6,7 @@ from string import Template
 from tabulate import _table_formats, tabulate
 import subprocess
 from datetime import datetime
+from glob import glob
 
 
 app = Flask(__name__)
@@ -120,6 +121,8 @@ def index():
             return redirect(url_for('list_meals'))
         elif request.form['submit'] == 'Create Meal Plan':
             return redirect(url_for('create_meal_plan'))
+        elif request.form['submit'] == 'Load Meal Plan':
+            return redirect(url_for('choose_meal_plan'))
     return render_template('index.html')
 
 
@@ -307,9 +310,6 @@ def create_meal_plan():
 
 @app.route('/display', methods=['GET', 'POST'])
 def display_meal_plan():
-    # complete_ingredient_dict = session.pop('complete_ingredient_dict')
-    # session['complete_ingredient_dict'] = complete_ingredient_dict
-    # variable_printer("complete_ingredient_dict", complete_ingredient_dict)
     if request.method == "GET":
         complete_ingredient_dict = session.pop('complete_ingredient_dict')
         session['complete_ingredient_dict'] = complete_ingredient_dict
@@ -329,6 +329,27 @@ def display_meal_plan():
             complete_ingredient_dict = session.pop('complete_ingredient_dict')
             file_path = save_meal_plan(complete_ingredient_dict)
             return render_template('save_complete.html', file_path = file_path)
+
+
+@app.route('/choose_meal_plan', methods=['GET', 'POST'])
+def choose_meal_plan():
+    # if request.method == "GET":
+    meal_plans = [f.split('/')[1] for f in glob("saved_meal_plans/*.json")]
+    if request.method == "POST":
+        details = request.form
+        return redirect(url_for('load_meal_plan', meal_plan = details['Meal Plan']))
+    return render_template('choose_meal_plan.html',
+                            len_meal_plans = len(meal_plans), meal_plans = meal_plans)
+
+
+@app.route('/load_meal_plan/<meal_plan>', methods=['GET', 'POST'])
+def load_meal_plan(meal_plan):
+    if request.method == "GET":
+        with open(f"saved_meal_plans/{meal_plan}","r") as f:
+            session['complete_ingredient_dict'] = json.load(f)
+            f.close()
+        return redirect(url_for('display_meal_plan'))
+
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', debug=True)
