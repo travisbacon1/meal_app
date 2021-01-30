@@ -31,6 +31,10 @@ app.config['MYSQL_DB'] = 'MealsDatabase'
 
 mysql = MySQL(app)
 
+def variable_printer(variable_name, variable):
+    print(variable_name, "type:", type(variable), "content:")
+    print(variable)
+
 
 def parse_ingredients(ingredients_dict, filter_word):
     parsed_ingredient_dict = {}
@@ -49,6 +53,39 @@ def get_meal_info(meal_list):
     db_cursor.execute(query)
     result = db_cursor.fetchall()
     return result
+
+
+def build_ingredient_dictionary(meal_ingredient_dict, deduped_ingredient_dict):
+    ingredient_list = json.loads(meal_ingredient_dict)
+    for ingredient in list(ingredient_list.keys()):
+        if ingredient in deduped_ingredient_dict:
+            deduped_ingredient_dict[ingredient] += float(ingredient_list[ingredient])
+        else:
+            deduped_ingredient_dict[ingredient] = float(ingredient_list[ingredient])
+    return deduped_ingredient_dict
+
+
+def collate_ingredients(meal_info_list):
+    fresh_ingredient_dict = {}
+    tinned_ingredient_dict = {}
+    dry_ingredient_dict = {}
+    dairy_ingredient_dict = {}
+    for meal in meal_info_list:
+        if meal["Fresh_Ingredients"] != None:
+            build_ingredient_dictionary(meal["Fresh_Ingredients"], fresh_ingredient_dict)
+    
+        if meal["Tinned_Ingredients"] != None:
+            build_ingredient_dictionary(meal["Tinned_Ingredients"], tinned_ingredient_dict)
+
+        if meal["Dry_Ingredients"] != None:
+            build_ingredient_dictionary(meal["Dry_Ingredients"], dry_ingredient_dict)
+
+        if meal["Dairy_Ingredients"] != None:
+            build_ingredient_dictionary(meal["Dairy_Ingredients"], dairy_ingredient_dict)
+
+        if meal["Dairy_Ingredients"] != None:
+            build_ingredient_dictionary(meal["Dairy_Ingredients"], dairy_ingredient_dict)
+    return fresh_ingredient_dict, tinned_ingredient_dict, dry_ingredient_dict, dairy_ingredient_dict
 
 
 @app.route('/', methods=['GET', 'POST'])
@@ -232,11 +269,14 @@ def create_meal_plan():
         details = request.form
         details_dict = details.to_dict()
         meal_list = [value for key, value in details_dict.items() if 'Meal' in key]
-        extras = [value for key, value in details_dict.items() if 'Extra' in key]
-        print(extras)
+        variable_printer("meal_list", meal_list)
+        # session['extras'] = [value for key, value in details_dict.items() if 'Extra' in key]
         new_meal_list = get_meal_info(meal_list)
-        print(new_meal_list)
-        return render_template('display_meal_plan.html')
+        variable_printer("new_meal_list", new_meal_list)
+        meal_list_dicts = [meal for meal in new_meal_list]
+        variable_printer("meal_list_dicts", meal_list_dicts)
+        session['fresh_ingredient_dict'], session['tinned_ingredient_dict'], session['dry_ingredient_dict'], session['dairy_ingredient_dict']  = collate_ingredients(meal_list_dicts)
+        return redirect(url_for('display_meal_plan'))
     from variables import extras
     return render_template('create_meal_plan.html',
                             len_bread_meals=len(staples_dict['Bread']), bread_meals=staples_dict['Bread'],
@@ -246,5 +286,47 @@ def create_meal_plan():
                             len_potato_meals=len(staples_dict['Potato']), potato_meals=staples_dict['Potato'],
                             len_rice_meals=len(staples_dict['Rice']), rice_meals=staples_dict['Rice'],
                             len_extras = len(extras), extras = extras)
+
+
+@app.route('/display', methods=['GET', 'POST'])
+def display_meal_plan():
+    if request.method == "GET":
+        fresh_ingredient_dict = session.pop('fresh_ingredient_dict')
+        tinned_ingredient_dict = session.pop('tinned_ingredient_dict')
+        dry_ingredient_dict = session.pop('dry_ingredient_dict')
+        dairy_ingredient_dict = session.pop('dairy_ingredient_dict')
+        extras_ingredients_list = session.pop('extras', [])    
+        fresh_ingredients = [list(fresh_ingredient_dict.keys()), list(fresh_ingredient_dict.values())]
+        tinned_ingredients = [list(tinned_ingredient_dict.keys()), list(tinned_ingredient_dict.values())]
+        dry_ingredients = [list(dry_ingredient_dict.keys()), list(dry_ingredient_dict.values())]
+        dairy_ingredients = [list(dairy_ingredient_dict.keys()), list(dairy_ingredient_dict.values())]
+
+        return render_template('display_meal_plan.html',
+                            len_fresh_ingredients = len(fresh_ingredients[0]), fresh_ingredients_keys=fresh_ingredients[0], fresh_ingredients_values=fresh_ingredients[1],
+                            len_tinned_ingredients = len(tinned_ingredients[0]), tinned_ingredients_keys=tinned_ingredients[0], tinned_ingredients_values=tinned_ingredients[1],
+                            len_dry_ingredients = len(dry_ingredients[0]), dry_ingredients_keys=dry_ingredients[0], dry_ingredients_values=dry_ingredients[1],
+                            len_dairy_ingredients = len(dairy_ingredients[0]), dairy_ingredients_keys=dairy_ingredients[0], dairy_ingredients_values=dairy_ingredients[1],
+                            len_extra_ingredients = len(extras_ingredients_list), extra_ingredients=extras_ingredients_list)
+
+    if request.method == "POST":
+        # if request.form['submit'] == 'Save':
+        # fresh_ingredient_dict = session.pop('fresh_ingredient_dict')
+        # tinned_ingredient_dict = session.pop('tinned_ingredient_dict')
+        # dry_ingredient_dict = session.pop('dry_ingredient_dict')
+        # dairy_ingredient_dict = session.pop('dairy_ingredient_dict')
+        # extras_ingredients_list = session.pop('extras', [])  
+        # meal_plan_json = json.dumps(
+        #     {
+        #         "fresh_ingredients": tinned_ingredient_dict,
+        #         "tinned_ingredients": tinned_ingredient_dict,
+        #         "dry_ingredients": dry_ingredient_dict,
+        #         "dairy_ingredients": dairy_ingredient_dict,
+        #         "extra_ingredients": extras_ingredients_list
+
+        #     }
+        # )
+        # print(meal_plan_json)
+        return render_template('todo.html')
+
 if __name__ == '__main__':
     app.run(host='0.0.0.0', debug=True)

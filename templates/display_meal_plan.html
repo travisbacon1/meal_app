@@ -1,10 +1,75 @@
 <!DOCTYPE html>
     <html>
         <head>
-            <meta charset="utf-8" />
-            <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/styles.css') }}">
-        </head>
         	<body>
-                <H1>TODO</H1>
-            </body>
-        </html>
+                <meta charset="utf-8" />
+                <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/styles.css') }}">
+                    <h1>Shopping List</h1>
+                        <table>
+                            <tr>
+                                <th class="ingredients">Fresh Ingredients</th>
+                                <th class="quantity">Quantity</th>
+                            </tr>
+                            {%for i in range(0, len_fresh_ingredients)%}
+                                <tr>
+                                    <td>{{fresh_ingredients_keys[i]}}</td>
+                                    <td>{{fresh_ingredients_values[i]}}</td>
+                                </tr>
+                            {%endfor%}
+                        </table>
+                        <table>
+                            <tr>
+                                <th class="ingredients">Tinned Ingredients</th>
+                                <th class="quantity"> </th>
+                            </tr>
+                            {%for i in range(0, len_tinned_ingredients)%}
+                                <tr>
+                                    <td>{{tinned_ingredients_keys[i]}}</td>
+                                    <td>{{tinned_ingredients_values[i]}}</td>
+                                </tr>
+                            {%endfor%}
+                        </table>
+                        <table>
+                            <tr>
+                                <th class="ingredients">Dry Ingredients</th>
+                                <th class="quantity"> </th>
+                            </tr>
+                            {%for i in range(0, len_dry_ingredients)%}
+                                <tr>
+                                    <td>{{dry_ingredients_keys[i]}}</td>
+                                    <td>{{dry_ingredients_values[i]}}</td>
+                                </tr>
+                            {%endfor%}
+                        </table>
+                        <table>
+                            <tr>
+                                <th class="ingredients">Dairy Ingredients</th>
+                                <th class="quantity"> </th>
+                            </tr>
+                            {%for i in range(0, len_dairy_ingredients)%}
+                            <tr>
+                                <td>{{dairy_ingredients_keys[i]}}</td>
+                                <td>{{dairy_ingredients_values[i]}}</td>
+                            </tr>
+                            {%endfor%}
+                        </table>
+                        <table>
+                            <tr>
+                                <th class="ingredients">Don't forget!</th>
+                                <th class="quantity"> </th>
+                            </tr>
+                            {%for i in range(0, len_extra_ingredients)%}
+                            <tr>
+                                <td>{{extra_ingredients[i]}}</td>
+                                <td></td>
+                            </tr>
+                            {%endfor%}
+                        </table>
+                            <form method="post", action="" id="returnform">
+                                <!-- <input class="button" type="submit" value="Return" id="returnbutton"> -->
+                                <br></br>
+                                <input class="button" name="submit" type="submit" value="Save" id="savebutton">
+                            </form>
+                        <body>
+                    </head>
+                </html>

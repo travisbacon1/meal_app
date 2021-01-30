@@ -100,6 +100,13 @@ button {
   width: 100px;
 }
 
+#savebutton {
+  border: 1px solid black;
+  position: relative;
+  left: 1%;
+  width: 100px;
+}
+
 #form1 {  /* Just to center the form on the page */
   width: 0px;
   border: 0px solid #ccc;
