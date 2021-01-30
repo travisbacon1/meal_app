@@ -104,8 +104,10 @@ def build_ingredient_dictionary(meal_ingredient_dict, deduped_ingredient_dict):
     for ingredient in list(ingredient_list.keys()):
         if ingredient in deduped_ingredient_dict:
             deduped_ingredient_dict[ingredient] += float(ingredient_list[ingredient])
+            deduped_ingredient_dict[ingredient] = round(deduped_ingredient_dict[ingredient], 2)
         else:
             deduped_ingredient_dict[ingredient] = float(ingredient_list[ingredient])
+            deduped_ingredient_dict[ingredient] = round(deduped_ingredient_dict[ingredient], 2)
     return deduped_ingredient_dict
 
 
@@ -376,7 +378,9 @@ def create_meal_plan():
         return redirect(url_for('display_meal_plan'))
     from variables import extras
     return render_template('create_meal_plan.html',
+                            len_bean_meals=len(staples_dict['Beans']), bean_meals=staples_dict['Beans'],
                             len_bread_meals=len(staples_dict['Bread']), bread_meals=staples_dict['Bread'],
+                            len_cereal_meals=len(staples_dict['Cereal']), cereal_meals=staples_dict['Cereal'],
                             len_cous_cous_meals=len(staples_dict['Cous Cous']), cous_cous_meals=staples_dict['Cous Cous'],
                             len_pasta_meals=len(staples_dict['Pasta']), pasta_meals=staples_dict['Pasta'],
                             len_pastry_meals=len(staples_dict['Pastry']), pastry_meals=staples_dict['Pastry'],

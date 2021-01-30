@@ -38,7 +38,9 @@ book_list = sorted(
 staples_list = sorted(
     [
         '',
+        'Beans',
         'Bread',
+        'Cereal',
         'Cous Cous',
         'Pasta',
         'Pastry', 
@@ -49,53 +51,86 @@ staples_list = sorted(
 
 fresh_ingredients = sorted(
     [
+        'Asparagus',
         'Aubergine',
         'Broccoli',
         'Butternut Squash',
         'Carrots',
+        'Celery',
         'Cherry Tomatoes',
         'Chilli Peppers',
         'Clementines',
         'Courgettes',
         'Garlic',
+        'Green Beans',
         'Kale',
         'Leek',
         'Lemon',
         'Lime',
+        'Mushrooms',
         'Onions (White)',
         'Onions (Red)',
+        'Parsnips',
+        'Pastry',
         'Peppers (Green)',
         'Peppers (Red)',
         'Pepper (Yellow)',
         'Potatoes (Baking)',
-        'Potatoes (Marris Piper)',
+        'Potatoes (Maris Piper)',
         'Potatoes (New)',
         'Potatoes (Sweet)',
         'Spinach',
-        'Spring Onions'
+        'Spring Onions',
+        'Swede',
+        'Tomatoes',
+        'Vegetarian Chorizo',
+        'Vegetarian Sausages'
     ]
 )
 
 tinned_ingredients = sorted(
     [
+        'Black Beans',
+        'Black Eyed Beans',
         'Butter Beans',
-        'Canneloni Beans',
+        'Cannellini Beans',
+        'Green Lentils',
         'Kidney Beans',
         'Mixed Beans',
-        'Plum Tomatoes'
+        'Pesto (Red)',
+        'Pesto (Green)',
+        'Plum Tomatoes',
+        'Sun-dried Tomatoes',
+        'Thai Red Curry Paste'
     ]
 )
 
 dry_ingredients = sorted(
     [
+        'Bread',
+        'Bread Rolls',
+        'Coconut Flakes',
+        'Coconut Sugar',
         'Cous Cous',
+        'Flour (Self-raising)',
         'Naan Bread',
+        'Noodles',
+        'Nuts (Brazil)',
+        'Nuts (Hazelnuts)',
+        'Nuts (Pecans)',
+        'Nuts (Whole Almonds)',
+        'Oats',
         'Orzo',
+        'Panko Breadcrumbs',
         'Pasta (Lasagne)',
         'Pasta (Penne)',
         'Pasta (Spaghetti)',
+        'Pitta Bread',
+        'Red Lentils',
         'Rice (Arborio)',
-        'Rice (Long Grain)'
+        'Rice (Long Grain)',
+        'Suet',
+        'Tortilla Wraps'
     ]
 )
 
@@ -103,23 +138,61 @@ dairy_ingredients = sorted(
     [
         'Cheese (Cheddar)',
         'Cheese (Mozzarella)',
+        'Eggs',
         'Milk'
-
     ]
 )
 
 extras = sorted(
     [
+        'Apple Cider Vinegar',
         'Apples',
+        'Balsamic Vinegar',
         'Bananas',
+        'Breadsticks',
+        'Butter',
+        'Cheese (Parmesan)',
+        'Chocolate',
+        'Clementines',
+        'Coconut Oil',
+        'Coffee Beans',
+        'Cornflakes',
+        'Crackers',
+        'Flour (Pasta)',
+        'Flour (Plain)',
+        'Flour (Self-raising)',
+        'Flour (Strong White Bread)',
+        'Flour (Wholemeal Bread)',
+        'Flour (Wholemeal)',
+        'Frozen Peas',
+        'Frozen Mixed Berries',
+        'Frozen Blueberries',
         'Grapes',
         'Gravy Granules',
-        'Harisa Paste',
-        'Herbs',
+        'Harissa Paste',
+        'Herbs & Spices',
+        'Hoisin Sauce',
+        'Ice Cream',
         'Mackerel',
+        'Maple Syrup',
+        'Marmite',
+        'Mustard (English)',
+        'Mustard (Wholegrain)',
+        'Nairns',
+        'Nutritional Yeast',
+        'Nuts (Peanuts)',
+        'Nuts (Pistachios)',
+        'Nuts (Cashews)',
+        'Nuts (Whole Almonds)',
+        'Nuts (Flaked Almonds)',
         'Olive Oil',
+        'Sesame Oil',
         'Stuffing',
         'Sunflower Oil',
-        'Soy Sauce'
+        'Soy Sauce',
+        'Sultanas',
+        'Tea Bags',
+        'Tomato Purèe',
+        'Vegetable Stock'
     ]
 )
