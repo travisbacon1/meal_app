@@ -33,6 +33,14 @@ label {
   text-align: right;
 }
 
+.create_form_label {
+  /* To make sure that all labels have the same size and are properly aligned */
+  font-family:verdana;
+  display: inline-block;
+  width: 175px;
+  text-align: center;
+}
+
 h1 {
   font-family:verdana;
 }
@@ -291,4 +299,12 @@ input[type=checkbox] {
   padding: 1em;
   border: 1px solid #ccc;
   border-radius: 1em;
+}
+
+.extras_table {
+  height: 500px;
+  overflow: scroll;
+  border: 1px solid #ccc;
+  border-radius: 1em;
+  width: 32.5%;
 }
