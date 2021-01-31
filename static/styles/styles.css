@@ -185,3 +185,12 @@ input[type=checkbox] {
   position: relative;
   left: -150px;
 }
+
+#quantity {
+  position: relative;
+  left: 86%;
+  width: 50px;
+  box-sizing: border-box; /* To harmonize the look & feel of text field border */
+  border: 1px solid #999;
+  border-radius: 5px;
+}
