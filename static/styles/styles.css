@@ -46,6 +46,11 @@ h1 {
   text-align: center;
 }
 
+h1.display_meal_plan_header {
+  font-family:verdana;
+  text-align: left;
+}
+
 h2 {
   font-family:verdana;
   text-align: center;
