@@ -16,11 +16,11 @@
             </div>
             <br></br>
             <body>
-                <h1>Meal info for {{meal_name}}!</h1>
+                <h1 class="display_meal_plan_header">Meal info for {{meal_name}}!</h1>
                     {% if 'Book' in location_keys %}
-                        <h2>{{location_details['Book']}}, page {{location_details['Page']}}</h2>
+                        <h2 class="display_meal_plan_header">{{location_details['Book']}}, page {{location_details['Page']}}</h2>
                     {% else %}
-                        <h2>{{location_details['Website']}}</h2>
+                        <h2 class="display_meal_plan_header">{{location_details['Website']}}</h2>
                     {% endif %}
                     <table>
                         <tr>
