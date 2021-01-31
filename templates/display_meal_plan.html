@@ -16,6 +16,17 @@
         </div>
         <br></br>
             <body>
+                <h1>Planned Meals</h1>
+                <table>
+                    <tr>
+                        <th class="Meal">Meal</th>
+                    </tr>
+                    {%for i in range(0, len_meal_list)%}
+                        <tr>
+                            <td>{{meal_list[i]}}</td>
+                        </tr>
+                    {%endfor%}
+                </table>
                 <h1>Shopping List</h1>
                     <table>
                         <tr>

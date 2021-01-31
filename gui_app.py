@@ -165,7 +165,7 @@ def save_meal_plan(complete_ingredient_dict):
     """
     if not os.path.exists('saved_meal_plans'):
         os.makedirs('saved_meal_plans')
-    dt_string = datetime.now().strftime("%d-%m-%Y %H:%M")
+    dt_string = datetime.now().strftime("%Y-%m-%d %H:%M")
     json_file = json.dumps(complete_ingredient_dict, indent=4)
     with open(f"saved_meal_plans/{dt_string}.json","w") as f:
         f.write(json_file)
@@ -378,6 +378,7 @@ def create_meal_plan():
         meal_list_dicts = [meal for meal in meal_tuple]
         complete_ingredient_dict = collate_ingredients(meal_list_dicts, quantity_list)
         complete_ingredient_dict['Extra_Ingredients'] = [value for key, value in details_dict.items() if 'Extra' in key]
+        complete_ingredient_dict['Meal_List'] = [meal for meal in meal_list if meal != 'null']
         session['complete_ingredient_dict'] = complete_ingredient_dict
         return redirect(url_for('display_meal_plan'))
     from variables import extras
@@ -404,7 +405,9 @@ def display_meal_plan():
         tinned_ingredients = [list(complete_ingredient_dict["Tinned_Ingredients"].keys()), list(complete_ingredient_dict["Tinned_Ingredients"].values())]
         dry_ingredients = [list(complete_ingredient_dict["Dry_Ingredients"].keys()), list(complete_ingredient_dict["Dry_Ingredients"].values())]
         dairy_ingredients = [list(complete_ingredient_dict["Dairy_Ingredients"].keys()), list(complete_ingredient_dict["Dairy_Ingredients"].values())]
+        variable_printer("meal_list", complete_ingredient_dict['Meal_List'])
         return render_template('display_meal_plan.html',
+                            len_meal_list = len(complete_ingredient_dict['Meal_List']), meal_list=complete_ingredient_dict['Meal_List'],
                             len_fresh_ingredients = len(fresh_ingredients[0]), fresh_ingredients_keys=fresh_ingredients[0], fresh_ingredients_values=fresh_ingredients[1],
                             len_tinned_ingredients = len(tinned_ingredients[0]), tinned_ingredients_keys=tinned_ingredients[0], tinned_ingredients_values=tinned_ingredients[1],
                             len_dry_ingredients = len(dry_ingredients[0]), dry_ingredients_keys=dry_ingredients[0], dry_ingredients_values=dry_ingredients[1],
@@ -419,7 +422,9 @@ def display_meal_plan():
 
 @app.route('/choose_meal_plan', methods=['GET', 'POST'])
 def choose_meal_plan():
-    meal_plans = [f.replace('.json', '').split('/')[1] for f in glob("saved_meal_plans/*.json")]
+    meal_plans = sorted([f.replace('.json', '').split('/')[1] for f in glob("saved_meal_plans/*.json")])
+    if len(meal_plans) == 0:
+        return render_template('no_meal_plans.html')
     if request.method == "POST":
         details = request.form
         return redirect(url_for('load_meal_plan', meal_plan = details['Meal Plan']))
