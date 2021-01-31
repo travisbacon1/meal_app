@@ -43,10 +43,12 @@ label {
 
 h1 {
   font-family:verdana;
+  text-align: center;
 }
 
 h2 {
   font-family:verdana;
+  text-align: center;
 }
 
 p.ul {
@@ -99,7 +101,7 @@ button:hover {
 #homepagebutton {
   border: 1px solid black;
   position: relative;
-  left: 30%;
+  left: 35%;
   width: 150px;
 }
 
@@ -302,6 +304,8 @@ input[type=checkbox] {
 }
 
 .extras_table {
+  position: relative;
+  left: 33.5%;
   height: 500px;
   overflow: scroll;
   border: 1px solid #ccc;
