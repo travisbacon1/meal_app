@@ -17,6 +17,12 @@
                                     <option value = "{{bean_meals[i]}}">{{bean_meals[i]}}</option> 
                                     {%endfor%}
                                 </select>
+                                <select name="Quantity 1" id="quantity" required>
+                                    <option value="1">1</option>
+                                    {%for i in range(2, 5)%}
+                                    <option value = "{{i}}">{{i}}</option> 
+                                    {%endfor%}
+                                </select>
                             </li>
                             <li>
                                 <label for="bread">Bread</label>
@@ -24,6 +30,12 @@
                                     <option value="null"></option>
                                     {%for i in range(0, len_bread_meals)%}
                                     <option value = "{{bread_meals[i]}}">{{bread_meals[i]}}</option> 
+                                    {%endfor%}
+                                </select>
+                                <select name="Quantity 2" id="quantity" required>
+                                    <option value="1">1</option>
+                                    {%for i in range(2, 5)%}
+                                    <option value = "{{i}}">{{i}}</option> 
                                     {%endfor%}
                                 </select>
                             </li>
@@ -35,6 +47,12 @@
                                     <option value = "{{cereal_meals[i]}}">{{cereal_meals[i]}}</option> 
                                     {%endfor%}
                                 </select>
+                                <select name="Quantity 3" id="quantity" required>
+                                    <option value="1">1</option>
+                                    {%for i in range(2, 5)%}
+                                    <option value = "{{i}}">{{i}}</option> 
+                                    {%endfor%}
+                                </select>
                             </li>
                             <li>
                                 <label for="cous cous">Cous Cous</label>
@@ -42,6 +60,12 @@
                                     <option value="null"></option>
                                     {%for i in range(0, len_cous_cous_meals)%}
                                     <option value = "{{cous_cous_meals[i]}}">{{cous_cous_meals[i]}}</option> 
+                                    {%endfor%}
+                                </select>
+                                <select name="Quantity 4" id="quantity" required>
+                                    <option value="1">1</option>
+                                    {%for i in range(2, 5)%}
+                                    <option value = "{{i}}">{{i}}</option> 
                                     {%endfor%}
                                 </select>
                             </li>
@@ -53,6 +77,12 @@
                                     <option value = "{{pasta_meals[i]}}">{{pasta_meals[i]}}</option> 
                                     {%endfor%}
                                 </select>
+                                <select name="Quantity 5" id="quantity" required>
+                                    <option value="1">1</option>
+                                    {%for i in range(2, 5)%}
+                                    <option value = "{{i}}">{{i}}</option> 
+                                    {%endfor%}
+                                </select>
                             </li>
                             <li>
                                 <label for="pastry">Pastry</label>
@@ -60,6 +90,12 @@
                                     <option value="null"></option>
                                     {%for i in range(0, len_pastry_meals)%}
                                     <option value = "{{pastry_meals[i]}}">{{pastry_meals[i]}}</option> 
+                                    {%endfor%}
+                                </select>
+                                <select name="Quantity 6" id="quantity" required>
+                                    <option value="1">1</option>
+                                    {%for i in range(2, 5)%}
+                                    <option value = "{{i}}">{{i}}</option> 
                                     {%endfor%}
                                 </select>
                             </li>
@@ -71,6 +107,12 @@
                                     <option value = "{{potato_meals[i]}}">{{potato_meals[i]}}</option> 
                                     {%endfor%}
                                 </select>
+                                <select name="Quantity 7" id="quantity" required>
+                                    <option value="1">1</option>
+                                    {%for i in range(2, 5)%}
+                                    <option value = "{{i}}">{{i}}</option> 
+                                    {%endfor%}
+                                </select>
                             </li>
                             <li>
                                 <label for="rice">Rice</label>
@@ -80,9 +122,16 @@
                                     <option value = "{{rice_meals[i]}}">{{rice_meals[i]}}</option> 
                                     {%endfor%}
                                 </select>
+                                <select name="Quantity 8" id="quantity" required>
+                                    <option value="1">1</option>
+                                    {%for i in range(2, 5)%}
+                                    <option value = "{{i}}">{{i}}</option> 
+                                    {%endfor%}
+                                </select>
+                            </li>
                             </li>
                             <li>
-                                <H2>Don't forget!</H2>
+                                <H2>Remember!</H2>
                                     <table id="checkboxtable">
                                         {%for i in range(0, len_extras)%}
                                             <tr>
