@@ -16,8 +16,10 @@
         </div>
         <br></br>
         	<body>
-		        <form method="post", action="">
+		        <form method="post", action="" class="wideform">
                     <H1>Meal Planner</H1>
+                    <div class="grid-container">
+                    <div>
                         <ul>
                             <H2>Week 1 Meals</H2>
                                 <li>
@@ -51,11 +53,11 @@
                                     </select>
                                 </li>
                                 <li>
-                                    <label for="cereal">Cereal</label>
+                                    <label for="cous cous">Cous Cous</label>
                                     <select name="Meal 3" required>
                                         <option value="null"></option>
-                                        {%for i in range(0, len_cereal_meals)%}
-                                        <option value = "{{cereal_meals[i]}}">{{cereal_meals[i]}}</option> 
+                                        {%for i in range(0, len_cous_cous_meals)%}
+                                        <option value = "{{cous_cous_meals[i]}}">{{cous_cous_meals[i]}}</option> 
                                         {%endfor%}
                                     </select>
                                     <select name="Quantity 3" id="quantity" required>
@@ -66,11 +68,11 @@
                                     </select>
                                 </li>
                                 <li>
-                                    <label for="cous cous">Cous Cous</label>
+                                    <label for="noodles">Noodles</label>
                                     <select name="Meal 4" required>
                                         <option value="null"></option>
-                                        {%for i in range(0, len_cous_cous_meals)%}
-                                        <option value = "{{cous_cous_meals[i]}}">{{cous_cous_meals[i]}}</option> 
+                                        {%for i in range(0, len_noodle_meals)%}
+                                        <option value = "{{noodle_meals[i]}}">{{noodle_meals[i]}}</option> 
                                         {%endfor%}
                                     </select>
                                     <select name="Quantity 4" id="quantity" required>
@@ -81,11 +83,11 @@
                                     </select>
                                 </li>
                                 <li>
-                                    <label for="noodles">Noodles</label>
+                                    <label for="orzo">Orzo</label>
                                     <select name="Meal 5" required>
                                         <option value="null"></option>
-                                        {%for i in range(0, len_noodle_meals)%}
-                                        <option value = "{{noodle_meals[i]}}">{{noodle_meals[i]}}</option> 
+                                        {%for i in range(0, len_orzo_meals)%}
+                                        <option value = "{{orzo_meals[i]}}">{{orzo_meals[i]}}</option> 
                                         {%endfor%}
                                     </select>
                                     <select name="Quantity 5" id="quantity" required>
@@ -96,11 +98,11 @@
                                     </select>
                                 </li>
                                 <li>
-                                    <label for="orzo">Orzo</label>
+                                    <label for="pasta">Pasta</label>
                                     <select name="Meal 6" required>
                                         <option value="null"></option>
-                                        {%for i in range(0, len_orzo_meals)%}
-                                        <option value = "{{orzo_meals[i]}}">{{orzo_meals[i]}}</option> 
+                                        {%for i in range(0, len_pasta_meals)%}
+                                        <option value = "{{pasta_meals[i]}}">{{pasta_meals[i]}}</option> 
                                         {%endfor%}
                                     </select>
                                     <select name="Quantity 6" id="quantity" required>
@@ -111,11 +113,11 @@
                                     </select>
                                 </li>
                                 <li>
-                                    <label for="pasta">Pasta</label>
+                                    <label for="potato">Potato</label>
                                     <select name="Meal 7" required>
                                         <option value="null"></option>
-                                        {%for i in range(0, len_pasta_meals)%}
-                                        <option value = "{{pasta_meals[i]}}">{{pasta_meals[i]}}</option> 
+                                        {%for i in range(0, len_potato_meals)%}
+                                        <option value = "{{potato_meals[i]}}">{{potato_meals[i]}}</option> 
                                         {%endfor%}
                                     </select>
                                     <select name="Quantity 7" id="quantity" required>
@@ -126,11 +128,11 @@
                                     </select>
                                 </li>
                                 <li>
-                                    <label for="potato">Potato</label>
+                                    <label for="rice">Rice</label>
                                     <select name="Meal 8" required>
                                         <option value="null"></option>
-                                        {%for i in range(0, len_potato_meals)%}
-                                        <option value = "{{potato_meals[i]}}">{{potato_meals[i]}}</option> 
+                                        {%for i in range(0, len_rice_meals)%}
+                                        <option value = "{{rice_meals[i]}}">{{rice_meals[i]}}</option> 
                                         {%endfor%}
                                     </select>
                                     <select name="Quantity 8" id="quantity" required>
@@ -139,43 +141,47 @@
                                         <option value = "{{i}}">{{i}}</option> 
                                         {%endfor%}
                                     </select>
-                                </li>
-                                <li>
-                                    <label for="rice">Rice</label>
-                                    <select name="Meal 9" required>
-                                        <option value="null"></option>
-                                        {%for i in range(0, len_rice_meals)%}
-                                        <option value = "{{rice_meals[i]}}">{{rice_meals[i]}}</option> 
-                                        {%endfor%}
-                                    </select>
-                                    <select name="Quantity 9" id="quantity" required>
-                                        <option value="1">1</option>
-                                        {%for i in range(2, 5)%}
-                                        <option value = "{{i}}">{{i}}</option> 
-                                        {%endfor%}
-                                    </select>
                                 <li>
                                 <label for="risotto">Risotto</label>
-                                <select name="Meal 10" required>
+                                <select name="Meal 9" required>
                                     <option value="null"></option>
                                     {%for i in range(0, len_risotto_meals)%}
                                     <option value = "{{risotto_meals[i]}}">{{risotto_meals[i]}}</option> 
                                     {%endfor%}
                                 </select>
-                                <select name="Quantity 10" id="quantity" required>
+                                <select name="Quantity 9" id="quantity" required>
                                     <option value="1">1</option>
                                     {%for i in range(2, 5)%}
                                     <option value = "{{i}}">{{i}}</option> 
                                     {%endfor%}
                                 </select>
                                 </li>
-                            <H2>Week 2 Meals</H2>
                                 <li>
-                                    <label for="bread">Bread</label>
+                                    <label for="cereal">Cereal</label>
+                                    <select name="Meal 10" required>
+                                        <option value="null"></option>
+                                        {%for i in range(0, len_cereal_meals)%}
+                                        <option value = "{{cereal_meals[i]}}">{{cereal_meals[i]}}</option> 
+                                        {%endfor%}
+                                    </select>
+                                    <select name="Quantity 10" id="quantity" required>
+                                        <option value="1">1</option>
+                                        {%for i in range(2, 5)%}
+                                        <option value = "{{i}}">{{i}}</option> 
+                                        {%endfor%}
+                                    </select>
+                                </li>
+                            </ul>
+                            </div>
+                            <div>
+                            <H2>Week 2 Meals</H2>
+                            <ul>
+                                <li>
+                                    <label for="beans">Beans</label>
                                     <select name="Meal 11" required>
                                         <option value="null"></option>
-                                        {%for i in range(0, len_bread_meals)%}
-                                        <option value = "{{bread_meals[i]}}">{{bread_meals[i]}}</option> 
+                                        {%for i in range(0, len_bean_meals)%}
+                                        <option value = "{{bean_meals[i]}}">{{bean_meals[i]}}</option> 
                                         {%endfor%}
                                     </select>
                                     <select name="Quantity 11" id="quantity" required>
@@ -186,11 +192,11 @@
                                     </select>
                                 </li>
                                 <li>
-                                    <label for="cous cous">Cous Cous</label>
+                                    <label for="bread">Bread</label>
                                     <select name="Meal 12" required>
                                         <option value="null"></option>
-                                        {%for i in range(0, len_cous_cous_meals)%}
-                                        <option value = "{{cous_cous_meals[i]}}">{{cous_cous_meals[i]}}</option> 
+                                        {%for i in range(0, len_bread_meals)%}
+                                        <option value = "{{bread_meals[i]}}">{{bread_meals[i]}}</option> 
                                         {%endfor%}
                                     </select>
                                     <select name="Quantity 12" id="quantity" required>
@@ -201,11 +207,11 @@
                                     </select>
                                 </li>
                                 <li>
-                                    <label for="noodles">Noodles</label>
+                                    <label for="cous cous">Cous Cous</label>
                                     <select name="Meal 13" required>
                                         <option value="null"></option>
-                                        {%for i in range(0, len_noodle_meals)%}
-                                        <option value = "{{noodle_meals[i]}}">{{noodle_meals[i]}}</option> 
+                                        {%for i in range(0, len_cous_cous_meals)%}
+                                        <option value = "{{cous_cous_meals[i]}}">{{cous_cous_meals[i]}}</option> 
                                         {%endfor%}
                                     </select>
                                     <select name="Quantity 13" id="quantity" required>
@@ -216,11 +222,11 @@
                                     </select>
                                 </li>
                                 <li>
-                                    <label for="orzo">Orzo</label>
+                                    <label for="noodles">Noodles</label>
                                     <select name="Meal 14" required>
                                         <option value="null"></option>
-                                        {%for i in range(0, len_orzo_meals)%}
-                                        <option value = "{{orzo_meals[i]}}">{{orzo_meals[i]}}</option> 
+                                        {%for i in range(0, len_noodle_meals)%}
+                                        <option value = "{{noodle_meals[i]}}">{{noodle_meals[i]}}</option> 
                                         {%endfor%}
                                     </select>
                                     <select name="Quantity 14" id="quantity" required>
@@ -231,11 +237,11 @@
                                     </select>
                                 </li>
                                 <li>
-                                    <label for="pasta">Pasta</label>
+                                    <label for="orzo">Orzo</label>
                                     <select name="Meal 15" required>
                                         <option value="null"></option>
-                                        {%for i in range(0, len_pasta_meals)%}
-                                        <option value = "{{pasta_meals[i]}}">{{pasta_meals[i]}}</option> 
+                                        {%for i in range(0, len_orzo_meals)%}
+                                        <option value = "{{orzo_meals[i]}}">{{orzo_meals[i]}}</option> 
                                         {%endfor%}
                                     </select>
                                     <select name="Quantity 15" id="quantity" required>
@@ -246,11 +252,11 @@
                                     </select>
                                 </li>
                                 <li>
-                                    <label for="potato">Potato</label>
+                                    <label for="pasta">Pasta</label>
                                     <select name="Meal 16" required>
                                         <option value="null"></option>
-                                        {%for i in range(0, len_potato_meals)%}
-                                        <option value = "{{potato_meals[i]}}">{{potato_meals[i]}}</option> 
+                                        {%for i in range(0, len_pasta_meals)%}
+                                        <option value = "{{pasta_meals[i]}}">{{pasta_meals[i]}}</option> 
                                         {%endfor%}
                                     </select>
                                     <select name="Quantity 16" id="quantity" required>
@@ -261,11 +267,11 @@
                                     </select>
                                 </li>
                                 <li>
-                                    <label for="rice">Rice</label>
+                                    <label for="potato">Potato</label>
                                     <select name="Meal 17" required>
                                         <option value="null"></option>
-                                        {%for i in range(0, len_rice_meals)%}
-                                        <option value = "{{rice_meals[i]}}">{{rice_meals[i]}}</option> 
+                                        {%for i in range(0, len_potato_meals)%}
+                                        <option value = "{{potato_meals[i]}}">{{potato_meals[i]}}</option> 
                                         {%endfor%}
                                     </select>
                                     <select name="Quantity 17" id="quantity" required>
@@ -276,30 +282,14 @@
                                     </select>
                                 </li>
                                 <li>
-                                <label for="risotto">Risotto</label>
-                                <select name="Meal 18" required>
-                                    <option value="null"></option>
-                                    {%for i in range(0, len_risotto_meals)%}
-                                    <option value = "{{risotto_meals[i]}}">{{risotto_meals[i]}}</option> 
-                                    {%endfor%}
-                                </select>
-                                <select name="Quantity 18" id="quantity" required>
-                                    <option value="1">1</option>
-                                    {%for i in range(2, 5)%}
-                                    <option value = "{{i}}">{{i}}</option> 
-                                    {%endfor%}
-                                </select>
-                                </li>
-                            <H2>Week 3 Meals</H2>
-                                <li>
-                                    <label for="bread">Bread</label>
-                                    <select name="Meal 19" required>
+                                    <label for="rice">Rice</label>
+                                    <select name="Meal 18" required>
                                         <option value="null"></option>
-                                        {%for i in range(0, len_bread_meals)%}
-                                        <option value = "{{bread_meals[i]}}">{{bread_meals[i]}}</option> 
+                                        {%for i in range(0, len_rice_meals)%}
+                                        <option value = "{{rice_meals[i]}}">{{rice_meals[i]}}</option> 
                                         {%endfor%}
                                     </select>
-                                    <select name="Quantity 19" id="quantity" required>
+                                    <select name="Quantity 18" id="quantity" required>
                                         <option value="1">1</option>
                                         {%for i in range(2, 5)%}
                                         <option value = "{{i}}">{{i}}</option> 
@@ -307,11 +297,31 @@
                                     </select>
                                 </li>
                                 <li>
-                                    <label for="cous cous">Cous Cous</label>
+                                <label for="risotto">Risotto</label>
+                                <select name="Meal 19" required>
+                                    <option value="null"></option>
+                                    {%for i in range(0, len_risotto_meals)%}
+                                    <option value = "{{risotto_meals[i]}}">{{risotto_meals[i]}}</option> 
+                                    {%endfor%}
+                                </select>
+                                <select name="Quantity 19" id="quantity" required>
+                                    <option value="1">1</option>
+                                    {%for i in range(2, 5)%}
+                                    <option value = "{{i}}">{{i}}</option> 
+                                    {%endfor%}
+                                </select>
+                                </li>
+                            </ul>
+                            </div>
+                            <div>
+                            <H2>Week 3 Meals</H2>
+                            <ul>
+                                <li>
+                                    <label for="beans">Beans</label>
                                     <select name="Meal 20" required>
                                         <option value="null"></option>
-                                        {%for i in range(0, len_cous_cous_meals)%}
-                                        <option value = "{{cous_cous_meals[i]}}">{{cous_cous_meals[i]}}</option> 
+                                        {%for i in range(0, len_bean_meals)%}
+                                        <option value = "{{bean_meals[i]}}">{{bean_meals[i]}}</option> 
                                         {%endfor%}
                                     </select>
                                     <select name="Quantity 20" id="quantity" required>
@@ -322,11 +332,11 @@
                                     </select>
                                 </li>
                                 <li>
-                                    <label for="noodles">Noodles</label>
+                                    <label for="bread">Bread</label>
                                     <select name="Meal 21" required>
                                         <option value="null"></option>
-                                        {%for i in range(0, len_noodle_meals)%}
-                                        <option value = "{{noodle_meals[i]}}">{{noodle_meals[i]}}</option> 
+                                        {%for i in range(0, len_bread_meals)%}
+                                        <option value = "{{bread_meals[i]}}">{{bread_meals[i]}}</option> 
                                         {%endfor%}
                                     </select>
                                     <select name="Quantity 21" id="quantity" required>
@@ -337,11 +347,11 @@
                                     </select>
                                 </li>
                                 <li>
-                                    <label for="orzo">Orzo</label>
+                                    <label for="cous cous">Cous Cous</label>
                                     <select name="Meal 22" required>
                                         <option value="null"></option>
-                                        {%for i in range(0, len_orzo_meals)%}
-                                        <option value = "{{orzo_meals[i]}}">{{orzo_meals[i]}}</option> 
+                                        {%for i in range(0, len_cous_cous_meals)%}
+                                        <option value = "{{cous_cous_meals[i]}}">{{cous_cous_meals[i]}}</option> 
                                         {%endfor%}
                                     </select>
                                     <select name="Quantity 22" id="quantity" required>
@@ -352,11 +362,11 @@
                                     </select>
                                 </li>
                                 <li>
-                                    <label for="pasta">Pasta</label>
+                                    <label for="noodles">Noodles</label>
                                     <select name="Meal 23" required>
                                         <option value="null"></option>
-                                        {%for i in range(0, len_pasta_meals)%}
-                                        <option value = "{{pasta_meals[i]}}">{{pasta_meals[i]}}</option> 
+                                        {%for i in range(0, len_noodle_meals)%}
+                                        <option value = "{{noodle_meals[i]}}">{{noodle_meals[i]}}</option> 
                                         {%endfor%}
                                     </select>
                                     <select name="Quantity 23" id="quantity" required>
@@ -367,11 +377,11 @@
                                     </select>
                                 </li>
                                 <li>
-                                    <label for="potato">Potato</label>
+                                    <label for="orzo">Orzo</label>
                                     <select name="Meal 24" required>
                                         <option value="null"></option>
-                                        {%for i in range(0, len_potato_meals)%}
-                                        <option value = "{{potato_meals[i]}}">{{potato_meals[i]}}</option> 
+                                        {%for i in range(0, len_orzo_meals)%}
+                                        <option value = "{{orzo_meals[i]}}">{{orzo_meals[i]}}</option> 
                                         {%endfor%}
                                     </select>
                                     <select name="Quantity 24" id="quantity" required>
@@ -382,11 +392,11 @@
                                     </select>
                                 </li>
                                 <li>
-                                    <label for="rice">Rice</label>
+                                    <label for="pasta">Pasta</label>
                                     <select name="Meal 25" required>
                                         <option value="null"></option>
-                                        {%for i in range(0, len_rice_meals)%}
-                                        <option value = "{{rice_meals[i]}}">{{rice_meals[i]}}</option> 
+                                        {%for i in range(0, len_pasta_meals)%}
+                                        <option value = "{{pasta_meals[i]}}">{{pasta_meals[i]}}</option> 
                                         {%endfor%}
                                     </select>
                                     <select name="Quantity 25" id="quantity" required>
@@ -397,20 +407,54 @@
                                     </select>
                                 </li>
                                 <li>
+                                    <label for="potato">Potato</label>
+                                    <select name="Meal 26" required>
+                                        <option value="null"></option>
+                                        {%for i in range(0, len_potato_meals)%}
+                                        <option value = "{{potato_meals[i]}}">{{potato_meals[i]}}</option> 
+                                        {%endfor%}
+                                    </select>
+                                    <select name="Quantity 26" id="quantity" required>
+                                        <option value="1">1</option>
+                                        {%for i in range(2, 5)%}
+                                        <option value = "{{i}}">{{i}}</option> 
+                                        {%endfor%}
+                                    </select>
+                                </li>
+                                <li>
+                                    <label for="rice">Rice</label>
+                                    <select name="Meal 27" required>
+                                        <option value="null"></option>
+                                        {%for i in range(0, len_rice_meals)%}
+                                        <option value = "{{rice_meals[i]}}">{{rice_meals[i]}}</option> 
+                                        {%endfor%}
+                                    </select>
+                                    <select name="Quantity 27" id="quantity" required>
+                                        <option value="1">1</option>
+                                        {%for i in range(2, 5)%}
+                                        <option value = "{{i}}">{{i}}</option> 
+                                        {%endfor%}
+                                    </select>
+                                </li>
+                                <li>
                                 <label for="risotto">Risotto</label>
-                                <select name="Meal 26" required>
+                                <select name="Meal 28" required>
                                     <option value="null"></option>
                                     {%for i in range(0, len_risotto_meals)%}
                                     <option value = "{{risotto_meals[i]}}">{{risotto_meals[i]}}</option> 
                                     {%endfor%}
                                 </select>
-                                <select name="Quantity 26" id="quantity" required>
+                                <select name="Quantity 28" id="quantity" required>
                                     <option value="1">1</option>
                                     {%for i in range(2, 5)%}
                                     <option value = "{{i}}">{{i}}</option> 
                                     {%endfor%}
                                 </select>
                                 </li>
+                            </ul>
+                            </div>
+                            </div>
+                            <ul>
                                 <li>
                                     <H2>Remember!</H2>
                                         <table id="checkboxtable">

@@ -224,7 +224,8 @@ input[type=checkbox] {
 
 #quantity {
   position: relative;
-  left: 86%;
+  left: 38%;
+  bottom:-5px;
   width: 50px;
   box-sizing: border-box; /* To harmonize the look & feel of text field border */
   border: 1px solid #999;
@@ -262,4 +263,32 @@ input[type=checkbox] {
   background-color: rgb(175, 222, 250);
   color: black;
   border-radius: 0.4em;
+}
+
+.grid-container {
+  display: grid;
+  grid-template-columns: auto auto auto;
+  grid-gap: 5px;
+  /* background-color: #2196F3; */
+  padding: 1px;
+  border-radius: 1em;
+  height: 875px;
+}
+
+.grid-container > div {
+  background-color: rgba(255, 255, 255, 0.8);
+  border: 1px solid #ccc;
+  text-align: center;
+  border-radius: 1em;
+  /* font-size: 30px; */
+}
+
+.wideform {
+  /* Just to center the form on the page */
+  margin: 0 auto;
+  width: 1000px;
+  /* To see the outline of the form */
+  padding: 1em;
+  border: 1px solid #ccc;
+  border-radius: 1em;
 }
