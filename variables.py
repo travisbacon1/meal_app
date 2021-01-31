@@ -42,10 +42,12 @@ staples_list = sorted(
         'Bread',
         'Cereal',
         'Cous Cous',
+        'Noodles',
+        'Orzo',
         'Pasta',
-        'Pastry', 
         'Potato',
-        'Rice'
+        'Rice',
+        'Risotto'
     ]
 )
 
@@ -156,6 +158,7 @@ extras = sorted(
         'Apple Cider Vinegar',
         'Apples',
         'Balsamic Vinegar',
+        'Baked Beans',
         'Bananas',
         'Breadsticks',
         'Butter',
@@ -175,6 +178,7 @@ extras = sorted(
         'Frozen Peas',
         'Frozen Mixed Berries',
         'Frozen Blueberries',
+        'Golden Syrup',
         'Grapes',
         'Gravy Granules',
         'Herbs & Spices',
