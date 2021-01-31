@@ -4,24 +4,34 @@
             <meta charset="utf-8" />
             <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/styles.css') }}">
         </head>
-        	<body>
-		        <form method="post", action="">
-                    <H1>Choose meal plans to delete</H1>
-                    <ul>
-                        <li>
-                            <table id="checkboxtable">
-                                {%for i in range(0, len_meal_plans)%}
-                                    <tr>
-                                        <td id="checkboxtable_col1"><label for="{{meal_plans[i]}}">{{meal_plans[i]}}</label></td>
-                                        <td id="checkboxtable_col2"><input type="checkbox" id="{{meal_plans[i]}}" name="Meal Plan {{i}}" value="{{meal_plans[i]}}"></td>
-                                    </tr>
-                                {%endfor%}
-                            </table>
-                        </li>
-                        <li>
-                            <input class="button" type="submit">
-                        </li>
-                    </ul>
-                </form>
-            </html>
-                     
+            <div class="topnav">
+                <a class="active" href="/">Home</a>
+                <a href="add">Add Meal</a>
+                <a href="find">Get Meal Info</a>
+                <a href="search">Search Ingredients</a>
+                <a href="list">List Meals</a>
+                <a href="create">Create Meal Plan</a>
+                <a href="choose_meal_plan">Load Meal Plan</a>
+                <a href="delete_meal_plan">Delete Meal Plan</a>
+            </div>
+            <br></br>
+                <body>
+                    <form method="post", action="">
+                        <H1>Choose meal plans to delete</H1>
+                        <ul>
+                            <li>
+                                <table id="checkboxtable">
+                                    {%for i in range(0, len_meal_plans)%}
+                                        <tr>
+                                            <td id="checkboxtable_col1"><label for="{{meal_plans[i]}}">{{meal_plans[i]}}</label></td>
+                                            <td id="checkboxtable_col2"><input type="checkbox" id="{{meal_plans[i]}}" name="Meal Plan {{i}}" value="{{meal_plans[i]}}"></td>
+                                        </tr>
+                                    {%endfor%}
+                                </table>
+                            </li>
+                            <li>
+                                <input class="button" type="submit">
+                            </li>
+                        </ul>
+                    </form>
+                </html>

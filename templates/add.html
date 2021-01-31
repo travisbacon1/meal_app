@@ -3,71 +3,81 @@
 		<meta charset="utf-8" />
 		<link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/styles.css') }}">
 	</head>
-
-	<body>
-		<form method="post", action="", autocomplete="off">
-			<H1>Meal Updater</H1>
-			<ul>
-				<li>
-					<label for="name">Meal Name: </label>
-					<input type = "text" id="name" name= "Name" required />
-				</li>
-				<li>
-					<label for="staple">Staple:</label>
-					<select name="Staple">
-						{%for i in range(0, len_staples)%}
-							<option value = "{{staples[i]}}">{{staples[i]}}</option> 
+		<div class="topnav">
+			<a class="active" href="/">Home</a>
+			<a href="add">Add Meal</a>
+			<a href="find">Get Meal Info</a>
+			<a href="search">Search Ingredients</a>
+			<a href="list">List Meals</a>
+			<a href="create">Create Meal Plan</a>
+            <a href="choose_meal_plan">Load Meal Plan</a>
+            <a href="delete_meal_plan">Delete Meal Plan</a>
+		</div>
+		<br></br>
+		<body>
+			<form method="post", action="", autocomplete="off">
+				<H1>Meal Updater</H1>
+				<ul>
+					<li>
+						<label for="name">Meal Name: </label>
+						<input type = "text" id="name" name= "Name" required />
+					</li>
+					<li>
+						<label for="staple">Staple:</label>
+						<select name="Staple">
+							{%for i in range(0, len_staples)%}
+								<option value = "{{staples[i]}}">{{staples[i]}}</option> 
+							{%endfor%}
+						</select>
+					</li>
+					<li>
+						<label for="book">Book:</label>
+						<select name="Book">
+							{%for i in range(0, len_books)%}
+								<option value = "{{books[i]}}">{{books[i]}}</option> 
+							{%endfor%}
+						</select>
+					</li>
+					<li>
+						<label for="page">Page no: </label>
+						<input type = "text" name = "Page" />
+					</li>
+					<li>
+						<label for="website">Website: </label>
+						<input type = "text" name = "Website" />
+					</li>
+					<H2>Fresh Ingredients</H2>
+						{%for i in range(0, len_fresh_ingredients)%}
+							<li>
+								<label for={{fresh_ingredients[i]}}>{{fresh_ingredients[i]}} </label>
+								<input type = "text" name = "Fresh {{fresh_ingredients[i]}}" />
+							</li>
 						{%endfor%}
-					</select>
-				</li>
-				<li>
-					<label for="book">Book:</label>
-					<select name="Book">
-						{%for i in range(0, len_books)%}
-							<option value = "{{books[i]}}">{{books[i]}}</option> 
+					<H2>Tinned Ingredients</H2>
+						{%for i in range(0, len_tinned_ingredients)%}
+							<li>
+								<label for={{tinned_ingredients[i]}}>{{tinned_ingredients[i]}} </label>
+								<input type = "text" name = "Tinned {{tinned_ingredients[i]}}" />
+							</li>
 						{%endfor%}
-					</select>
-				</li>
-				<li>
-					<label for="page">Page no: </label>
-					<input type = "text" name = "Page" />
-				</li>
-				<li>
-					<label for="website">Website: </label>
-					<input type = "text" name = "Website" />
-				</li>
-				<H2>Fresh Ingredients</H2>
-					{%for i in range(0, len_fresh_ingredients)%}
-						<li>
-							<label for={{fresh_ingredients[i]}}>{{fresh_ingredients[i]}} </label>
-							<input type = "text" name = "Fresh {{fresh_ingredients[i]}}" />
-						</li>
-					{%endfor%}
-				<H2>Tinned Ingredients</H2>
-					{%for i in range(0, len_tinned_ingredients)%}
-						<li>
-							<label for={{tinned_ingredients[i]}}>{{tinned_ingredients[i]}} </label>
-							<input type = "text" name = "Tinned {{tinned_ingredients[i]}}" />
-						</li>
-					{%endfor%}
-				<H2>Dry Ingredients</H2>
-					{%for i in range(0, len_dry_ingredients)%}
-						<li>
-							<label for={{dry_ingredients[i]}}>{{dry_ingredients[i]}} </label>
-							<input type = "text" name = "Dry {{dry_ingredients[i]}}" />
-						</li>
-					{%endfor%}
-				<H2>Dairy Ingredients</H2>
-					{%for i in range(0, len_dairy_ingredients)%}
-						<li>
-							<label for={{dairy_ingredients[i]}}>{{dairy_ingredients[i]}} </label>
-							<input type = "text" name = "Dairy {{dairy_ingredients[i]}}" />
-						</li>
-					{%endfor%}
-				<li>
-					<input class="button" type="submit">
-				</li>
-			</ul>
-		</form>
-	</body>
-</html>
+					<H2>Dry Ingredients</H2>
+						{%for i in range(0, len_dry_ingredients)%}
+							<li>
+								<label for={{dry_ingredients[i]}}>{{dry_ingredients[i]}} </label>
+								<input type = "text" name = "Dry {{dry_ingredients[i]}}" />
+							</li>
+						{%endfor%}
+					<H2>Dairy Ingredients</H2>
+						{%for i in range(0, len_dairy_ingredients)%}
+							<li>
+								<label for={{dairy_ingredients[i]}}>{{dairy_ingredients[i]}} </label>
+								<input type = "text" name = "Dairy {{dairy_ingredients[i]}}" />
+							</li>
+						{%endfor%}
+					<li>
+						<input class="button" type="submit">
+					</li>
+				</ul>
+			</form>
+		</body>
+	</html>

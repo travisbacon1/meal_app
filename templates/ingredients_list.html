@@ -4,21 +4,30 @@
             <meta charset="utf-8" />
             <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/styles.css') }}">
         </head>
-        
-        <h1>Ingredients List</h1>
-        <table>
-            <tr>
-                <th>Fresh Ingredients</th>
-                <th>Quantity</th>
-            </tr>
-            <tr>
-                <td>Tomatoes</td>
-                <td>5</td>
-            </tr>
-            <tr>
-                <td>Courgettes</td>
-                <td>6</td>
-            </tr>
-        </table>
-    </html>
-        
+            <div class="topnav">
+                <a class="active" href="/">Home</a>
+                <a href="add">Add Meal</a>
+                <a href="find">Get Meal Info</a>
+                <a href="search">Search Ingredients</a>
+                <a href="list">List Meals</a>
+                <a href="create">Create Meal Plan</a>
+                <a href="choose_meal_plan">Load Meal Plan</a>
+                <a href="delete_meal_plan">Delete Meal Plan</a>
+            </div>
+            <br></br>
+            <h1>Ingredients List</h1>
+            <table>
+                <tr>
+                    <th>Fresh Ingredients</th>
+                    <th>Quantity</th>
+                </tr>
+                <tr>
+                    <td>Tomatoes</td>
+                    <td>5</td>
+                </tr>
+                <tr>
+                    <td>Courgettes</td>
+                    <td>6</td>
+                </tr>
+            </table>
+        </html>
