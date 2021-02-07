@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, request, redirect, url_for, session
-from .. import mysql, variables
+from .. import mysql
 import json
 
 create = Blueprint('create', __name__, template_folder='templates', static_folder='static')
