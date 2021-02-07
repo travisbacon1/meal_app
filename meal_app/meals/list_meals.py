@@ -2,7 +2,7 @@ from flask import Blueprint, render_template, request, redirect, url_for
 from .. import mysql
 import json
 
-list_meals = Blueprint('list_meals', __name__, template_folder='templates', static_folder='static')
+list_meals = Blueprint('list_meals', __name__, template_folder='templates', static_folder='../static')
 
 @list_meals.route('/list_meals', methods=['GET', 'POST'])
 def index():

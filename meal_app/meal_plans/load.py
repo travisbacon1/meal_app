@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, request, redirect, url_for, session
 import json
 
-load = Blueprint('load', __name__, template_folder='templates', static_folder='static')
+load = Blueprint('load', __name__, template_folder='templates', static_folder='../static')
 
 @load.route('/load', methods=['GET', 'POST'])
 def choose_meal_plan():

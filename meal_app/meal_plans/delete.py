@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, request
 import os
 
-delete = Blueprint('delete', __name__, template_folder='templates', static_folder='static')
+delete = Blueprint('delete', __name__, template_folder='templates', static_folder='../static')
 
 def delete_plans(meal_plan_list):
     """Deletes the selected meal plans from the local saved_meal_plans directory

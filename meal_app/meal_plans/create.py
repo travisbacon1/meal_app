@@ -2,7 +2,7 @@ from flask import Blueprint, render_template, request, redirect, url_for, sessio
 from .. import mysql
 import json
 
-create = Blueprint('create', __name__, template_folder='templates', static_folder='static')
+create = Blueprint('create', __name__, template_folder='templates', static_folder='../static')
 
 def parse_ingredients(ingredients_dict, filter_word):
     """Parses an ingredients dictionary to create a new dictionary based on the filter_word as the key

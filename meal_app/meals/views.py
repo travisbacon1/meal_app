@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, request, redirect, url_for
 import json
-# from app import mysql # Import from app here
-add = Blueprint('add', __name__, template_folder='templates', static_folder='static')
+
+add = Blueprint('add', __name__, template_folder='templates', static_folder='../static')
 
 
 def parse_ingredients(ingredients_dict, filter_word):

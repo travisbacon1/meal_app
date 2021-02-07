@@ -3,7 +3,7 @@ import os
 import json
 from datetime import datetime
 
-display = Blueprint('display', __name__, template_folder='templates', static_folder='static')
+display = Blueprint('display', __name__, template_folder='templates', static_folder='../static')
 
 def save_meal_plan(complete_ingredient_dict):
     """Saves created meal plan to the local saved_meal_plans directory

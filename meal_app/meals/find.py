@@ -2,7 +2,7 @@ from flask import Blueprint, render_template, request, redirect, url_for
 import json
 from .. import mysql
 
-find = Blueprint('find', __name__, template_folder='templates', static_folder='static')
+find = Blueprint('find', __name__, template_folder='templates', static_folder='../static')
 
 @find.route('/find', methods=['GET', 'POST'])
 def index():

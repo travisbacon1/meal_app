@@ -2,7 +2,7 @@ from flask import Blueprint, render_template, request, redirect, url_for, sessio
 from .. import mysql
 import json
 
-search = Blueprint('search', __name__, template_folder='templates', static_folder='static')
+search = Blueprint('search', __name__, template_folder='templates', static_folder='../static')
 
 @search.route('/search', methods=['GET', 'POST'])
 def index():
