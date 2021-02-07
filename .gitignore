@@ -2,6 +2,6 @@
 __pycache__
 env
 credentials.txt
-saved_meal_plans/*
+meal_app/meal_plans/saved_meal_plans/*
 notes.txt
 full_database_backup.json

@@ -1,0 +1,324 @@
+form {
+  /* Just to center the form on the page */
+  margin: 0 auto;
+  width: 500px;
+  /* To see the outline of the form */
+  padding: 1em;
+  border: 1px solid #ccc;
+  border-radius: 1em;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+ul li {
+  font-family:verdana;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+form li + li {
+  margin-top: 1em;
+}
+
+label {
+  /* To make sure that all labels have the same size and are properly aligned */
+  font-family:verdana;
+  display: inline-block;
+  width: 175px;
+  text-align: right;
+}
+
+.create_form_label {
+  /* To make sure that all labels have the same size and are properly aligned */
+  font-family:verdana;
+  display: inline-block;
+  width: 175px;
+  text-align: center;
+}
+
+h1 {
+  font-family:verdana;
+  text-align: center;
+}
+
+h1.display_meal_plan_header {
+  font-family:verdana;
+  text-align: left;
+}
+
+h2 {
+  font-family:verdana;
+  text-align: center;
+}
+
+h2.display_meal_plan_header {
+  font-family:verdana;
+  text-align: left;
+}
+
+p.ul {
+  font-family:verdana;
+}
+
+input, select{
+  /* To make sure that all text fields have the same font settings By default, textareas have a monospace font */
+  font: 1em sans-serif;
+  /* To give the same size to all text fields */
+  width: 300px;
+  box-sizing: border-box; /* To harmonize the look & feel of text field border */
+  border: 1px solid #999;
+  border-radius: 5px;
+}
+
+input:focus{
+  /* To give a little highlight on active elements */
+  border-color: #000;
+}
+
+input.button {
+  /* To position the buttons to the same position of the text fields */
+  /* padding-left: 90px; */
+  position: relative;
+  left: 78%;
+  width: 90px;
+  border-radius: 5px;
+  /* same size as the label elements */
+}
+
+input.button:hover {
+  /* background-color: #ddd; */
+  background-color: rgb(175, 222, 250);
+  color: black;
+}
+
+button {
+  /* This extra margin represent roughly the same space as the space between the labels and their text fields */
+  font-family:verdana;
+  margin-left: 0.5em;
+}
+
+button:hover {
+  /* background-color: #ddd; */
+  background-color: rgb(175, 222, 250);
+  color: black;
+}
+
+#homepagebutton {
+  border: 1px solid black;
+  position: relative;
+  left: 35%;
+  width: 150px;
+}
+
+#homepagebutton:hover {
+  /* background-color: #ddd; */
+  background-color: rgb(175, 222, 250);
+  color: black;
+}
+
+#returnform {
+  /* Just to center the form on the page */
+  margin: 0 auto;
+  width: 500px;
+  /* To see the outline of the form */
+  padding: 1em;
+  border: 0px solid #ccc;
+  border-radius: 1em;
+}
+
+#returnbutton {
+  border: 1px solid black;
+  position: relative;
+  left: 1%;
+  width: 100px;
+}
+
+#returnbutton:hover {
+  /* background-color: #ddd; */
+  background-color: rgb(175, 222, 250);
+  color: black;
+}
+
+#savebutton {
+  border: 1px solid black;
+  position: relative;
+  left: 1%;
+  width: 100px;
+}
+
+#savebutton:hover {
+  /* background-color: #ddd; */
+  background-color: rgb(175, 222, 250);
+  color: black;
+}
+
+#form1 {  /* Just to center the form on the page */
+  width: 0px;
+  border: 0px solid #ccc;
+  padding: 0px;
+  position: relative;
+  left: -100px;
+  /* To see the outline of the form */}
+
+#MealLink {
+  border: 1px solid black;
+  position: relative;
+  left: 1%;
+  width: 40px;
+  background-color:#f5f5f5;
+  color: #f5f5f5;
+}
+
+#MealLink:hover {
+  /* background-color: #ddd; */
+  background-color: rgb(175, 222, 250);
+  color: rgb(175, 222, 250);
+}
+
+table {
+    width: 22%;
+    text-align: left;
+    table-layout: fixed;
+    border-collapse: collapse;
+    cursor: default;
+}
+
+#checkboxtable {
+  position: relative;
+  left:12%;
+  text-align: left;
+  table-layout: fixed;
+  border-collapse: collapse;
+  cursor: default;
+}
+
+#checkboxtable_col1 {
+  width: 200px;
+}
+
+#checkboxtable_col2 {
+  width: 50px;
+}
+
+/* Sortable tables */
+table.sortable thead {
+  font-weight: bold;
+  cursor: default;
+}
+
+th.ingredients {
+  width: 200px;
+}
+
+th.quantity {
+  width: 100px; /* Not necessary, since only 70% width remains */
+}
+
+th {
+  padding: 8px;
+  border-bottom: 1px solid #ddd;
+}
+
+td {
+  padding: 4px;
+}
+
+th, td {
+  font-family:verdana;
+  empty-cells: show;
+  width: 200px;
+  overflow: hidden;
+}
+
+tr:hover {background-color: #f5f5f5;}
+
+input[type=checkbox] {
+  position: relative;
+  left: -150px;
+}
+
+#quantity {
+  position: relative;
+  left: 38%;
+  bottom:-5px;
+  width: 50px;
+  box-sizing: border-box; /* To harmonize the look & feel of text field border */
+  border: 1px solid #999;
+  border-radius: 5px;
+}
+
+/* Add a black background color to the top navigation */
+.topnav {
+  font-family:verdana;
+  background-color: #333;
+  overflow: hidden;
+  border-radius: 0.4em;
+}
+
+/* Style the links inside the navigation bar */
+.topnav a {
+  float: left;
+  color: #f2f2f2;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 17px;
+}
+
+/* Change the color of links on hover */
+.topnav a:hover {
+  background-color: rgb(175, 222, 250);
+  color: black;
+  border-radius: 0.4em;
+}
+
+/* Add a color to the active/current link */
+.topnav a.active {
+  /* background-color: #4CAF50; */
+  background-color: rgb(175, 222, 250);
+  color: black;
+  border-radius: 0.4em;
+}
+
+.grid-container {
+  display: grid;
+  grid-template-columns: auto auto auto;
+  grid-gap: 5px;
+  /* background-color: #2196F3; */
+  padding: 1px;
+  border-radius: 1em;
+  height: 875px;
+}
+
+.grid-container > div {
+  background-color: rgba(255, 255, 255, 0.8);
+  border: 1px solid #ccc;
+  text-align: center;
+  border-radius: 1em;
+  /* font-size: 30px; */
+}
+
+.wideform {
+  /* Just to center the form on the page */
+  margin: 0 auto;
+  width: 1000px;
+  /* To see the outline of the form */
+  padding: 1em;
+  border: 1px solid #ccc;
+  border-radius: 1em;
+}
+
+.extras_table {
+  position: relative;
+  left: 33.5%;
+  height: 500px;
+  overflow: scroll;
+  border: 1px solid #ccc;
+  border-radius: 1em;
+  width: 32.5%;
+}

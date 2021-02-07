@@ -22,6 +22,22 @@
 
 
 # staples_list = meals('',sorted(['', 'Bread', 'Cous Cous', 'Pasta', 'Pastry', 'Potato', 'Rice']),'')
+
+def variable_printer(variable_name, variable):
+    """Prints the name, type and contents of a variable to aid debugging
+    
+    Parameters
+    -------
+    variable_name: string\n
+    variable: any
+
+    Returns
+    ------
+    None
+    """
+    print(variable_name, "type:", type(variable), "content:")
+    print(variable)
+
 book_list = sorted(
     [
         '',
