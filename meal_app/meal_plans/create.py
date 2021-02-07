@@ -35,11 +35,10 @@ def get_meal_info(meal_list):
     ------
     result: tuple
     """
+    from ..utilities import execute_mysql_query
     meal_list = str(meal_list).strip("[]")
-    db_cursor = mysql.connection.cursor()
-    query = f"SELECT Fresh_Ingredients, Tinned_Ingredients, Dry_Ingredients, Dairy_Ingredients FROM MealsDatabase.MealsTable WHERE Name IN ({meal_list});"
-    db_cursor.execute(query)
-    results = db_cursor.fetchall()
+    query_string = f"SELECT Fresh_Ingredients, Tinned_Ingredients, Dry_Ingredients, Dairy_Ingredients FROM MealsDatabase.MealsTable WHERE Name IN ({meal_list});"
+    results = execute_mysql_query(query_string)
     return results
 
 
@@ -123,10 +122,9 @@ def collate_ingredients(meal_info_list, quantity_list):
 
 @create.route('/create', methods=['GET', 'POST'])
 def create_meal_plan():
-    db_cursor = mysql.connection.cursor()
-    query = f"SELECT GROUP_CONCAT(Name ORDER BY Name ASC) as Meals, Staple FROM MealsDatabase.MealsTable GROUP BY Staple;"
-    db_cursor.execute(query)
-    results = db_cursor.fetchall()
+    from ..utilities import execute_mysql_query
+    query_string = f"SELECT GROUP_CONCAT(Name ORDER BY Name ASC) as Meals, Staple FROM MealsDatabase.MealsTable GROUP BY Staple;"
+    results = execute_mysql_query(query_string)
     staples_dict = {str(item['Staple']): list(item['Meals'].split(',')) for item in results}
 
     if request.method == "POST":

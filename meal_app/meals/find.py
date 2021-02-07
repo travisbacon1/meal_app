@@ -1,23 +1,20 @@
 from flask import Blueprint, render_template, request, redirect, url_for
 import json
 from .. import mysql
+from ..utilities import execute_mysql_query
 
 find = Blueprint('find', __name__, template_folder='templates', static_folder='../static')
 
 @find.route('/find', methods=['GET', 'POST'])
 def index():
-    db_cursor = mysql.connection.cursor()
-    query = f"SELECT Name FROM MealsDatabase.MealsTable;"
-    db_cursor.execute(query)
-    results = db_cursor.fetchall()
+    query_string = f"SELECT Name FROM MealsDatabase.MealsTable;"
+    results = execute_mysql_query(query_string)
     meals = [result['Name'] for result in results]
     if request.method == "POST":
         details = request.form
-        db_cursor = mysql.connection.cursor()
-        query = f"SELECT * FROM MealsDatabase.MealsTable WHERE Name='{details['Meal']}';"
-        db_cursor.execute(query)
-        result = db_cursor.fetchall()
-        return redirect(url_for('find.some_meal_page', meal = result[0]['Name']))
+        query_string = f"SELECT * FROM MealsDatabase.MealsTable WHERE Name='{details['Meal']}';"
+        results = execute_mysql_query(query_string)
+        return redirect(url_for('find.some_meal_page', meal = results[0]['Name']))
     return render_template('find.html',
                             len_meals = len(meals), meals = meals)
 
