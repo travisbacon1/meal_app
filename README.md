@@ -13,17 +13,17 @@ This Python flask app is designed to aid meal planning by cataloging your most f
 * Activate the virtual environment with the pre-configured script: `. venvActivate`
 * Install the dependencies: `pip3 install -r requirements.txt`
 * Load the sample data into the database: `python3 import_sample_data.py`
-* Run the app: `python3 gui_app.py`
+* Run the app: `flask run`
 * Head to localhost:5000 in your browser (`0.0.0.0:5000`)
 * Have a play!
+
+## Troubleshooting
+* The venvActivate script should set the Flask environment to `development`, however if this fails you may have to run `export FLASK_ENV=development` from within the virtual environment before `flask run`
 
 ## TODOs
 * Update schema & app to support meal tags (i.e. type of meal, "special" meal etc. to aid searching)
 * Add delete meal functionality
-* Add functionality to choose serving size when creating meal plan
 * Add support for ingredient units
-* Refactor flask code to use blueprints
-* Move methods to separate file
 * Validate input to make sure it complies with MySQL database schema
 * Write unit tests
 * Improve CSS styling

@@ -9,10 +9,10 @@
             <a href="http://0.0.0.0:5000/add">Add Meal</a>
             <a href="http://0.0.0.0:5000/find">Get Meal Info</a>
             <a href="http://0.0.0.0:5000/search">Search Ingredients</a>
-            <a href="http://0.0.0.0:5000/list">List Meals</a>
+            <a href="http://0.0.0.0:5000/list_meals">List Meals</a>
             <a href="http://0.0.0.0:5000/create">Create Meal Plan</a>
-            <a href="http://0.0.0.0:5000/choose_meal_plan">Load Meal Plan</a>
-            <a href="http://0.0.0.0:5000/delete_meal_plan">Delete Meal Plan</a>
+            <a href="http://0.0.0.0:5000/load">Load Meal Plan</a>
+            <a href="http://0.0.0.0:5000/delete">Delete Meal Plan</a>
         </div>
         <br></br>
         	<body>
@@ -31,8 +31,8 @@
                                         {%endfor%}
                                     </select>
                                     <select name="Quantity 1" id="quantity" required>
-                                        <option value="1">1</option>
-                                        {%for i in range(2, 5)%}
+                                        <option value="null"></option>
+                                        {%for i in range(1, 5)%}
                                         <option value = "{{i}}">{{i}}</option> 
                                         {%endfor%}
                                     </select>
@@ -46,8 +46,8 @@
                                         {%endfor%}
                                     </select>
                                     <select name="Quantity 2" id="quantity" required>
-                                        <option value="1">1</option>
-                                        {%for i in range(2, 5)%}
+                                        <option value="null"></option>
+                                        {%for i in range(1, 5)%}
                                         <option value = "{{i}}">{{i}}</option> 
                                         {%endfor%}
                                     </select>
@@ -61,8 +61,8 @@
                                         {%endfor%}
                                     </select>
                                     <select name="Quantity 3" id="quantity" required>
-                                        <option value="1">1</option>
-                                        {%for i in range(2, 5)%}
+                                        <option value="null"></option>
+                                        {%for i in range(1, 5)%}
                                         <option value = "{{i}}">{{i}}</option> 
                                         {%endfor%}
                                     </select>
@@ -76,8 +76,8 @@
                                         {%endfor%}
                                     </select>
                                     <select name="Quantity 4" id="quantity" required>
-                                        <option value="1">1</option>
-                                        {%for i in range(2, 5)%}
+                                        <option value="null"></option>
+                                        {%for i in range(1, 5)%}
                                         <option value = "{{i}}">{{i}}</option> 
                                         {%endfor%}
                                     </select>
@@ -91,8 +91,8 @@
                                         {%endfor%}
                                     </select>
                                     <select name="Quantity 5" id="quantity" required>
-                                        <option value="1">1</option>
-                                        {%for i in range(2, 5)%}
+                                        <option value="null"></option>
+                                        {%for i in range(1, 5)%}
                                         <option value = "{{i}}">{{i}}</option> 
                                         {%endfor%}
                                     </select>
@@ -106,8 +106,8 @@
                                         {%endfor%}
                                     </select>
                                     <select name="Quantity 6" id="quantity" required>
-                                        <option value="1">1</option>
-                                        {%for i in range(2, 5)%}
+                                        <option value="null"></option>
+                                        {%for i in range(1, 5)%}
                                         <option value = "{{i}}">{{i}}</option> 
                                         {%endfor%}
                                     </select>
@@ -121,8 +121,8 @@
                                         {%endfor%}
                                     </select>
                                     <select name="Quantity 7" id="quantity" required>
-                                        <option value="1">1</option>
-                                        {%for i in range(2, 5)%}
+                                        <option value="null"></option>
+                                        {%for i in range(1, 5)%}
                                         <option value = "{{i}}">{{i}}</option> 
                                         {%endfor%}
                                     </select>
@@ -136,8 +136,8 @@
                                         {%endfor%}
                                     </select>
                                     <select name="Quantity 8" id="quantity" required>
-                                        <option value="1">1</option>
-                                        {%for i in range(2, 5)%}
+                                        <option value="null"></option>
+                                        {%for i in range(1, 5)%}
                                         <option value = "{{i}}">{{i}}</option> 
                                         {%endfor%}
                                     </select>
@@ -150,8 +150,8 @@
                                     {%endfor%}
                                 </select>
                                 <select name="Quantity 9" id="quantity" required>
-                                    <option value="1">1</option>
-                                    {%for i in range(2, 5)%}
+                                    <option value="null"></option>
+                                    {%for i in range(1, 5)%}
                                     <option value = "{{i}}">{{i}}</option> 
                                     {%endfor%}
                                 </select>
@@ -165,8 +165,8 @@
                                         {%endfor%}
                                     </select>
                                     <select name="Quantity 10" id="quantity" required>
-                                        <option value="1">1</option>
-                                        {%for i in range(2, 5)%}
+                                        <option value="null"></option>
+                                        {%for i in range(1, 5)%}
                                         <option value = "{{i}}">{{i}}</option> 
                                         {%endfor%}
                                     </select>
@@ -185,8 +185,8 @@
                                         {%endfor%}
                                     </select>
                                     <select name="Quantity 11" id="quantity" required>
-                                        <option value="1">1</option>
-                                        {%for i in range(2, 5)%}
+                                        <option value="null"></option>
+                                        {%for i in range(1, 5)%}
                                         <option value = "{{i}}">{{i}}</option> 
                                         {%endfor%}
                                     </select>
@@ -200,8 +200,8 @@
                                         {%endfor%}
                                     </select>
                                     <select name="Quantity 12" id="quantity" required>
-                                        <option value="1">1</option>
-                                        {%for i in range(2, 5)%}
+                                        <option value="null"></option>
+                                        {%for i in range(1, 5)%}
                                         <option value = "{{i}}">{{i}}</option> 
                                         {%endfor%}
                                     </select>
@@ -215,8 +215,8 @@
                                         {%endfor%}
                                     </select>
                                     <select name="Quantity 13" id="quantity" required>
-                                        <option value="1">1</option>
-                                        {%for i in range(2, 5)%}
+                                        <option value="null"></option>
+                                        {%for i in range(1, 5)%}
                                         <option value = "{{i}}">{{i}}</option> 
                                         {%endfor%}
                                     </select>
@@ -230,8 +230,8 @@
                                         {%endfor%}
                                     </select>
                                     <select name="Quantity 14" id="quantity" required>
-                                        <option value="1">1</option>
-                                        {%for i in range(2, 5)%}
+                                        <option value="null"></option>
+                                        {%for i in range(1, 5)%}
                                         <option value = "{{i}}">{{i}}</option> 
                                         {%endfor%}
                                     </select>
@@ -245,8 +245,8 @@
                                         {%endfor%}
                                     </select>
                                     <select name="Quantity 15" id="quantity" required>
-                                        <option value="1">1</option>
-                                        {%for i in range(2, 5)%}
+                                        <option value="null"></option>
+                                        {%for i in range(1, 5)%}
                                         <option value = "{{i}}">{{i}}</option> 
                                         {%endfor%}
                                     </select>
@@ -260,8 +260,8 @@
                                         {%endfor%}
                                     </select>
                                     <select name="Quantity 16" id="quantity" required>
-                                        <option value="1">1</option>
-                                        {%for i in range(2, 5)%}
+                                        <option value="null"></option>
+                                        {%for i in range(1, 5)%}
                                         <option value = "{{i}}">{{i}}</option> 
                                         {%endfor%}
                                     </select>
@@ -275,8 +275,8 @@
                                         {%endfor%}
                                     </select>
                                     <select name="Quantity 17" id="quantity" required>
-                                        <option value="1">1</option>
-                                        {%for i in range(2, 5)%}
+                                        <option value="null"></option>
+                                        {%for i in range(1, 5)%}
                                         <option value = "{{i}}">{{i}}</option> 
                                         {%endfor%}
                                     </select>
@@ -290,8 +290,8 @@
                                         {%endfor%}
                                     </select>
                                     <select name="Quantity 18" id="quantity" required>
-                                        <option value="1">1</option>
-                                        {%for i in range(2, 5)%}
+                                        <option value="null"></option>
+                                        {%for i in range(1, 5)%}
                                         <option value = "{{i}}">{{i}}</option> 
                                         {%endfor%}
                                     </select>
@@ -305,8 +305,8 @@
                                     {%endfor%}
                                 </select>
                                 <select name="Quantity 19" id="quantity" required>
-                                    <option value="1">1</option>
-                                    {%for i in range(2, 5)%}
+                                    <option value="null"></option>
+                                    {%for i in range(1, 5)%}
                                     <option value = "{{i}}">{{i}}</option> 
                                     {%endfor%}
                                 </select>
@@ -325,8 +325,8 @@
                                         {%endfor%}
                                     </select>
                                     <select name="Quantity 20" id="quantity" required>
-                                        <option value="1">1</option>
-                                        {%for i in range(2, 5)%}
+                                        <option value="null"></option>
+                                        {%for i in range(1, 5)%}
                                         <option value = "{{i}}">{{i}}</option> 
                                         {%endfor%}
                                     </select>
@@ -340,8 +340,8 @@
                                         {%endfor%}
                                     </select>
                                     <select name="Quantity 21" id="quantity" required>
-                                        <option value="1">1</option>
-                                        {%for i in range(2, 5)%}
+                                        <option value="null"></option>
+                                        {%for i in range(1, 5)%}
                                         <option value = "{{i}}">{{i}}</option> 
                                         {%endfor%}
                                     </select>
@@ -355,8 +355,8 @@
                                         {%endfor%}
                                     </select>
                                     <select name="Quantity 22" id="quantity" required>
-                                        <option value="1">1</option>
-                                        {%for i in range(2, 5)%}
+                                        <option value="null"></option>
+                                        {%for i in range(1, 5)%}
                                         <option value = "{{i}}">{{i}}</option> 
                                         {%endfor%}
                                     </select>
@@ -370,8 +370,8 @@
                                         {%endfor%}
                                     </select>
                                     <select name="Quantity 23" id="quantity" required>
-                                        <option value="1">1</option>
-                                        {%for i in range(2, 5)%}
+                                        <option value="null"></option>
+                                        {%for i in range(1, 5)%}
                                         <option value = "{{i}}">{{i}}</option> 
                                         {%endfor%}
                                     </select>
@@ -385,8 +385,8 @@
                                         {%endfor%}
                                     </select>
                                     <select name="Quantity 24" id="quantity" required>
-                                        <option value="1">1</option>
-                                        {%for i in range(2, 5)%}
+                                        <option value="null"></option>
+                                        {%for i in range(1, 5)%}
                                         <option value = "{{i}}">{{i}}</option> 
                                         {%endfor%}
                                     </select>
@@ -400,8 +400,8 @@
                                         {%endfor%}
                                     </select>
                                     <select name="Quantity 25" id="quantity" required>
-                                        <option value="1">1</option>
-                                        {%for i in range(2, 5)%}
+                                        <option value="null"></option>
+                                        {%for i in range(1, 5)%}
                                         <option value = "{{i}}">{{i}}</option> 
                                         {%endfor%}
                                     </select>
@@ -415,8 +415,8 @@
                                         {%endfor%}
                                     </select>
                                     <select name="Quantity 26" id="quantity" required>
-                                        <option value="1">1</option>
-                                        {%for i in range(2, 5)%}
+                                        <option value="null"></option>
+                                        {%for i in range(1, 5)%}
                                         <option value = "{{i}}">{{i}}</option> 
                                         {%endfor%}
                                     </select>
@@ -430,8 +430,8 @@
                                         {%endfor%}
                                     </select>
                                     <select name="Quantity 27" id="quantity" required>
-                                        <option value="1">1</option>
-                                        {%for i in range(2, 5)%}
+                                        <option value="null"></option>
+                                        {%for i in range(1, 5)%}
                                         <option value = "{{i}}">{{i}}</option> 
                                         {%endfor%}
                                     </select>
@@ -445,8 +445,8 @@
                                     {%endfor%}
                                 </select>
                                 <select name="Quantity 28" id="quantity" required>
-                                    <option value="1">1</option>
-                                    {%for i in range(2, 5)%}
+                                    <option value="null"></option>
+                                    {%for i in range(1, 5)%}
                                     <option value = "{{i}}">{{i}}</option> 
                                     {%endfor%}
                                 </select>
