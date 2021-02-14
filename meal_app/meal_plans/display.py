@@ -42,6 +42,31 @@ def create_meal_info_table(meal_info_tuple):
     return meal_info_list
 
 
+def append_ingredient_units(fresh_ingredients, tinned_ingredients, dry_ingredients, dairy_ingredients):
+    """Appends unit ingredients (i.e. g or ml) to ingredients
+    
+    Parameters
+    -------
+    fresh_ingredients: list\n
+    tinned_ingredients: list\n
+    dry_ingredients: list\n
+    dairy_ingredients: list\n
+
+    Returns
+    ------
+    fresh_ingredients: list\n
+    tinned_ingredients: list\n
+    dry_ingredients: list\n
+    dairy_ingredients: list\n
+    """
+    from ..variables import gram_list
+    fresh_ingredients[1] = [str(fresh_ingredients[1][idx]) + " g" if fresh_ingredients[0][idx] in gram_list else str(fresh_ingredients[1][idx]) for idx, _ in enumerate(fresh_ingredients[1])]
+    tinned_ingredients[1] = [str(tinned_ingredients[1][idx]) + " g" if tinned_ingredients[0][idx] in gram_list else str(tinned_ingredients[1][idx]) + " tin" if tinned_ingredients[1][idx] <= 1 else str(tinned_ingredients[1][idx]) + " tins" for idx, _ in enumerate(tinned_ingredients[1])]
+    dry_ingredients[1] = [str(dry_ingredients[1][idx]) + " g" if dry_ingredients[0][idx] in gram_list else str(dry_ingredients[1][idx]) for idx, _ in enumerate(dry_ingredients[1])]
+    dairy_ingredients[1] = [str(dairy_ingredients[1][idx]) + " g" if dairy_ingredients[0][idx] in gram_list else str(dairy_ingredients[1][idx]) + " ml" if str(dairy_ingredients[0][idx]) == 'Milk' else str(dairy_ingredients[1][idx]) for idx, _ in enumerate(dairy_ingredients[1])]
+    return fresh_ingredients, tinned_ingredients, dry_ingredients, dairy_ingredients
+
+
 @display.route('/display', methods=['GET', 'POST'])
 def display_meal_plan():
     if request.method == "GET":
@@ -56,6 +81,7 @@ def display_meal_plan():
         tinned_ingredients = [list(complete_ingredient_dict["Tinned_Ingredients"].keys()), list(complete_ingredient_dict["Tinned_Ingredients"].values())]
         dry_ingredients = [list(complete_ingredient_dict["Dry_Ingredients"].keys()), list(complete_ingredient_dict["Dry_Ingredients"].values())]
         dairy_ingredients = [list(complete_ingredient_dict["Dairy_Ingredients"].keys()), list(complete_ingredient_dict["Dairy_Ingredients"].values())]
+        fresh_ingredients, tinned_ingredients, dry_ingredients, dairy_ingredients = append_ingredient_units(fresh_ingredients, tinned_ingredients, dry_ingredients, dairy_ingredients)
         return render_template('display.html',
                             len_meal_info_list = len(info_meal_list), meal_info_list=info_meal_list,
                             len_fresh_ingredients = len(fresh_ingredients[0]), fresh_ingredients_keys=fresh_ingredients[0], fresh_ingredients_values=fresh_ingredients[1],

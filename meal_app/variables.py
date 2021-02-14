@@ -224,3 +224,43 @@ extras = sorted(
         'Vegetable Stock'
     ]
 )
+
+gram_list = sorted(
+    [
+        'Cheese (Cheddar)',
+        'Cheese (Mozzarella)',
+        'Cherry Tomatoes',
+        'Chestnuts',
+        'Coconut Flakes',
+        'Coconut Sugar',
+        'Cous Cous',
+        'Dried Apricots',
+        'Dried Cranberries',
+        'Flour (Chickpea)',
+        'Flour (Self-raising)',
+        'Green Beans',
+        'Kale',
+        'Mushrooms',
+        'Nuts (Brazil)',
+        'Nuts (Hazelnuts)',
+        'Nuts (Pecans)',
+        'Nuts (Flaked Almonds)',
+        'Nuts (Walnuts)',
+        'Nuts (Whole Almonds)',
+        'Oats',
+        'Orzo',
+        'Panko Breadcrumbs',
+        'Pasta (Lasagne)',
+        'Pasta (Penne)',
+        'Pasta (Spaghetti)',
+        'Potatoes (Maris Piper)',
+        'Potatoes (New)',
+        'Red Lentils',
+        'Rice (Arborio)',
+        'Rice (Brown)',
+        'Rice (Long Grain)',
+        'Swede',
+        'Suet',
+        'Sun-dried Tomatoes'
+    ]
+)
