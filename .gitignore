@@ -5,3 +5,4 @@ credentials.txt
 meal_app/meal_plans/saved_meal_plans/*
 notes.txt
 full_database_backup.json
+saved_meal_plans/*
