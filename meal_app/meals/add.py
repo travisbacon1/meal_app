@@ -40,7 +40,7 @@ def index():
     return render_template('add.html', 
         len_staples = len(staples_list), staples = staples_list,
         len_books = len(book_list), books = book_list,
-        len_fresh_ingredients = len(fresh_ingredients), fresh_ingredients = fresh_ingredients,
-        len_tinned_ingredients = len(tinned_ingredients), tinned_ingredients = tinned_ingredients,
-        len_dry_ingredients = len(dry_ingredients), dry_ingredients = dry_ingredients,
-        len_dairy_ingredients = len(dairy_ingredients), dairy_ingredients = dairy_ingredients)
+        len_fresh_ingredients = len(fresh_ingredients), fresh_ingredients = [ingredient[0] for ingredient in fresh_ingredients], fresh_ingredients_units = [ingredient[1] for ingredient in fresh_ingredients],
+        len_tinned_ingredients = len(tinned_ingredients), tinned_ingredients = [ingredient[0] for ingredient in tinned_ingredients], tinned_ingredients_units = [ingredient[1] for ingredient in tinned_ingredients],
+        len_dry_ingredients = len(dry_ingredients), dry_ingredients = [ingredient[0] for ingredient in dry_ingredients], dry_ingredients_units = [ingredient[1] for ingredient in dry_ingredients],
+        len_dairy_ingredients = len(dairy_ingredients), dairy_ingredients = [ingredient[0] for ingredient in dairy_ingredients], dairy_ingredients_units = [ingredient[1] for ingredient in dairy_ingredients])

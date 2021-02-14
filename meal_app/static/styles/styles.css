@@ -33,6 +33,14 @@ label {
   text-align: right;
 }
 
+label.units {
+  /* To make sure that all labels have the same size and are properly aligned */
+  font-family:verdana;
+  display: inline-block;
+  width: 10px;
+  text-align: left;
+}
+
 .create_form_label {
   /* To make sure that all labels have the same size and are properly aligned */
   font-family:verdana;
@@ -90,10 +98,30 @@ input.button {
   /* same size as the label elements */
 }
 
+input.add_meal, select.add_meal{
+  /* To make sure that all text fields have the same font settings By default, textareas have a monospace font */
+  font: 1em sans-serif;
+  /* To give the same size to all text fields */
+  width: 150px;
+  box-sizing: border-box; /* To harmonize the look & feel of text field border */
+  border: 1px solid #999;
+  border-radius: 5px;
+}
+
 input.button:hover {
   /* background-color: #ddd; */
   background-color: rgb(175, 222, 250);
   color: black;
+}
+
+input.add_meal {
+  /* To make sure that all text fields have the same font settings By default, textareas have a monospace font */
+  font: 1em sans-serif;
+  /* To give the same size to all text fields */
+  width: 150px;
+  box-sizing: border-box; /* To harmonize the look & feel of text field border */
+  border: 1px solid #999;
+  border-radius: 5px;
 }
 
 button {
