@@ -20,10 +20,12 @@
                 <table>
                     <tr>
                         <th class="Meal">Meal</th>
+                        <th class="Info">Info</th>
                     </tr>
-                    {%for i in range(0, len_meal_list)%}
+                    {%for i in range(0, len_meal_info_list)%}
                         <tr>
-                            <td>{{meal_list[i]}}</td>
+                            <td>{{meal_info_list[i][0]}}</td>
+                            <td>{{meal_info_list[i][1]}}</td>
                         </tr>
                     {%endfor%}
                 </table>

@@ -102,6 +102,7 @@ fresh_ingredients = sorted(
         'Spring Onions',
         'Swede',
         'Tomatoes',
+        'Vegetarian Mozzarella Burgers',
         'Vegetarian Chorizo',
         'Vegetarian Sausages'
     ]
