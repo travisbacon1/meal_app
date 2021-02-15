@@ -7,6 +7,8 @@ def index():
     if request.method == "POST":
         if request.form['submit'] == 'Add Meal':
             return redirect(url_for('add.index'))
+        elif request.form['submit'] == 'Edit Meal':
+            return redirect(url_for('edit.index'))
         elif request.form['submit'] == 'Get Meal Info':
             return redirect(url_for('find.index'))
         elif request.form['submit'] == 'Search Ingredients':

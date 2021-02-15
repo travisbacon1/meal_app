@@ -18,6 +18,7 @@ def create_app():
         # Include our Routes
         from .home.home import home
         from .meals.add import add
+        from .meals.edit import edit
         from .meals.list_meals import list_meals
         from .meals.find import find
         from .meals.search import search
@@ -29,6 +30,7 @@ def create_app():
         # Register Blueprints
         app.register_blueprint(home)
         app.register_blueprint(add)
+        app.register_blueprint(edit)
         app.register_blueprint(list_meals)
         app.register_blueprint(find)
         app.register_blueprint(search)

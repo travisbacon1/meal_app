@@ -264,6 +264,3 @@ gram_list = sorted(
         'Sun-dried Tomatoes'
     ]
 )
-
-ing = [ingredient[0] for ingredient in dry_ingredients]
-print(ing)
