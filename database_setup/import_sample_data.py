@@ -2,8 +2,8 @@ import os
 import mysql.connector
 import json
 
-if os.path.isfile('credentials.txt'):
-    with open("credentials.txt", "r") as reader:
+if os.path.isfile('../credentials.txt'):
+    with open("../credentials.txt", "r") as reader:
         credentials = reader.readlines()
         credentials = [credential.strip("\n") for credential in credentials]
         reader.close()
@@ -37,10 +37,10 @@ query_string = """set global local_infile=true;"""
 db_cursor = database.cursor()
 db_cursor.execute(query_string)
 
-with open(f"sample_database_data.json","r") as f:
+with open(f"../sample_database_data.json","r") as f:
     for line in f:
         line = json.loads(line.replace(',\n','').replace(']','').replace('[',''))
-        query_string = f"INSERT IGNORE INTO MealsDatabase.MealsTable(Name, Staple, Book, Page, Website, Fresh_Ingredients, Tinned_Ingredients, Dry_Ingredients, Dairy_Ingredients) VALUES (\"{line['Name']}\", \"{line['Staple']}\", \"{line['Book']}\", \"{line['Page']}\", \"{line['Website']}\", \'{json.dumps(line['Fresh_Ingredients'])}\', \'{json.dumps(line['Tinned_Ingredients'])}\', \'{json.dumps(line['Dry_Ingredients'])}\', \'{json.dumps(line['Dairy_Ingredients'])}\')"
+        query_string = f"INSERT IGNORE INTO MealsDatabase.MealsTable2(Name, Staple, Book, Page, Website, Fresh_Ingredients, Tinned_Ingredients, Dry_Ingredients, Dairy_Ingredients) VALUES (\"{line['Name']}\", \"{line['Staple']}\", \"{line['Book']}\", \"{line['Page']}\", \"{line['Website']}\", \'{json.dumps(line['Fresh_Ingredients'])}\', \'{json.dumps(line['Tinned_Ingredients'])}\', \'{json.dumps(line['Dry_Ingredients'])}\', \'{json.dumps(line['Dairy_Ingredients'])}\')"
         db_cursor = database.cursor()
         db_cursor.execute(query_string)
         database.commit()
