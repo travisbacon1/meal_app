@@ -16,17 +16,21 @@
 		<br></br>
 		<body>
 			<form method="post", action="", autocomplete="off">
-				<H1>Add Meal</H1>
+				<H1>Edit Meal</H1>
 				<ul>
 					<li>
 						<label for="name">Meal Name: </label>
-						<input class = "add_meal" type = "text" id="name" name= "Name" required />
+						<input class = "add_meal" type = "text" id="name" name="Name" value="{{meal_name}}" required></input>
 					</li>
 					<li>
 						<label for="staple">Staple:</label>
-						<select class = "add_meal" name="Staple">
+						<select class = "add_meal" name="Staple" selected="Risotto">
 							{%for i in range(0, len_staples)%}
-								<option value = "{{staples[i]}}">{{staples[i]}}</option> 
+								{%if staples[i] == staple%}
+									<option selected = "{{staple}}" value = "{{staples[i]}}">{{staples[i]}}</option>
+								{% else %}
+									<option value = "{{staples[i]}}">{{staples[i]}}</option>
+								{%endif%}
 							{%endfor%}
 						</select>
 					</li>
@@ -34,23 +38,31 @@
 						<label for="book">Book:</label>
 						<select class = "add_meal" name="Book">
 							{%for i in range(0, len_books)%}
-								<option value = "{{books[i]}}">{{books[i]}}</option> 
+								{%if books[i] == book%}
+									<option selected = "{{book}}" value = "{{books[i]}}">{{books[i]}}</option> 
+								{% else %}
+									<option value = "{{books[i]}}">{{staples[i]}}</option>
+								{%endif%}
 							{%endfor%}
 						</select>
 					</li>
 					<li>
 						<label for="page">Page no: </label>
-						<input class = "add_meal" type = "text" name = "Page" />
+						<input class = "add_meal" type = "text" name = "Page"  value="{{page}}" />
 					</li>
 					<li>
 						<label for="website">Website: </label>
-						<input class = "add_meal" type = "text" name = "Website" />
+						<input class = "add_meal" type = "text" name = "Website"  value="{{website}}" />
 					</li>
 					<H2>Fresh Ingredients</H2>
 						{%for i in range(0, len_fresh_ingredients)%}
 							<li>
 								<label for={{fresh_ingredients[i]}}>{{fresh_ingredients[i]}} </label>
-								<input class = "add_meal" type = "text" name = "Fresh {{fresh_ingredients[i]}}" />
+									{%if fresh_ingredients[i] in current_fresh_ingredients_keys%}
+										<input class = "add_meal" type = "text" name = "Fresh {{fresh_ingredients[i]}}" value = "{{current_fresh_ingredients[fresh_ingredients[i]]}}"/>
+									{%else%}
+										<input class = "add_meal" type = "text" name = "Fresh {{fresh_ingredients[i]}}"/>
+									{%endif%}
 								<label class="units" for={{fresh_ingredients_units[i]}}>{{fresh_ingredients_units[i]}}</label>
 							</li>
 						{%endfor%}
@@ -58,7 +70,11 @@
 						{%for i in range(0, len_tinned_ingredients)%}
 							<li>
 								<label for={{tinned_ingredients[i]}}>{{tinned_ingredients[i]}} </label>
-								<input class = "add_meal" type = "text" name = "Tinned {{tinned_ingredients[i]}}" />
+									{%if tinned_ingredients[i] in current_tinned_ingredients_keys%}
+									<input class = "add_meal" type = "text" name = "Tinned {{tinned_ingredients[i]}}" value = "{{current_tinned_ingredients[tinned_ingredients[i]]}}"/>
+									{%else%}
+									<input class = "add_meal" type = "text" name = "Tinned {{tinned_ingredients[i]}}"/>
+									{%endif%}
 								<label class="units" for={{tinned_ingredients_units[i]}}>{{tinned_ingredients_units[i]}}</label>
 							</li>
 						{%endfor%}
@@ -66,7 +82,11 @@
 						{%for i in range(0, len_dry_ingredients)%}
 							<li>
 								<label for={{dry_ingredients[i]}}>{{dry_ingredients[i]}} </label>
-								<input class = "add_meal" type = "text" name = "Dry {{dry_ingredients[i]}}" />
+									{%if dry_ingredients[i] in current_dry_ingredients_keys%}
+									<input class = "add_meal" type = "text" name = "Dry {{dry_ingredients[i]}}" value = "{{current_dry_ingredients[dry_ingredients[i]]}}"/>
+									{%else%}
+									<input class = "add_meal" type = "text" name = "Dry {{dry_ingredients[i]}}"/>
+									{%endif%}
 								<label class="units" for={{dry_ingredients_units[i]}}>{{dry_ingredients_units[i]}}</label>
 							</li>
 						{%endfor%}
@@ -74,7 +94,11 @@
 						{%for i in range(0, len_dairy_ingredients)%}
 							<li>
 								<label for={{dairy_ingredients[i]}}>{{dairy_ingredients[i]}} </label>
-								<input class = "add_meal" type = "text" name = "Dairy {{dairy_ingredients[i]}}" />
+									{%if dairy_ingredients[i] in current_dairy_ingredients_keys%}
+									<input class = "add_meal" type = "text" name = "Dairy {{dairy_ingredients[i]}}" value = "{{current_dairy_ingredients[dairy_ingredients[i]]}}"/>
+									{%else%}
+									<input class = "add_meal" type = "text" name = "Dairy {{dairy_ingredients[i]}}"/>
+									{%endif%}
 								<label class="units" for={{dairy_ingredients_units[i]}}>{{dairy_ingredients_units[i]}}</label>
 							</li>
 						{%endfor%}

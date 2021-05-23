@@ -110,6 +110,7 @@ fresh_ingredients = sorted(
 
 tinned_ingredients = sorted(
     [
+        ['Baked Beans', 'tins'],
         ['Black Beans', 'tins'],
         ['Black Eyed Beans', 'tins'],
         ['Butter Beans', 'tins'],
@@ -122,7 +123,7 @@ tinned_ingredients = sorted(
         ['Pesto (Green)', 'jars'],
         ['Plum Tomatoes', 'tins'],
         ['Sun-dried Tomatoes', 'jars'],
-        ['Thai Red Curry Paste', 'jars']
+        ['Thai Red Curry Paste', 'g']
     ]
 )
 
@@ -185,7 +186,11 @@ extras = sorted(
         'Coconut Oil',
         'Coffee Beans',
         'Cornflakes',
-        'Crackers',
+        'Crackers (Cream)',
+        'Crackers (Flatbreads)',
+        'Crackers (Multi-grain)',
+        'Crackers (Poppy Seed)',
+        'Crackers (Rosemary)',
         'Flour (Pasta)',
         'Flour (Plain)',
         'Flour (Self-raising)',
@@ -193,8 +198,9 @@ extras = sorted(
         'Flour (Wholemeal Bread)',
         'Flour (Wholemeal)',
         'Frozen Peas',
-        'Frozen Mixed Berries',
         'Frozen Blueberries',
+        'Frozen Raspberries',
+        'Frozen Strawberries',
         'Golden Syrup',
         'Grapes',
         'Gravy Granules',
@@ -264,6 +270,3 @@ gram_list = sorted(
         'Sun-dried Tomatoes'
     ]
 )
-
-ing = [ingredient[0] for ingredient in dry_ingredients]
-print(ing)
