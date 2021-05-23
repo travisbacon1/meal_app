@@ -270,3 +270,10 @@ gram_list = sorted(
         'Sun-dried Tomatoes'
     ]
 )
+
+tag_list = [
+        'Spring/Summer',
+        'Autumn/Winter',
+        'Quick/Easy',
+        'Special'
+    ]

@@ -21,6 +21,7 @@ def create_app():
         from .meals.edit import edit
         from .meals.list_meals import list_meals
         from .meals.find import find
+        from .meals.inspire import inspire
         from .meals.search import search
         from .meal_plans.create import create
         from .meal_plans.display import display
@@ -33,6 +34,7 @@ def create_app():
         app.register_blueprint(edit)
         app.register_blueprint(list_meals)
         app.register_blueprint(find)
+        app.register_blueprint(inspire)
         app.register_blueprint(search)
         app.register_blueprint(create)
         app.register_blueprint(display)

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+    <html>
+        <head>
+            <meta charset="utf-8" />
+            <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/styles.css') }}">
+        </head>
+            <div class="topnav">
+                <a class="active" href="/">Home</a>
+                <a href="http://0.0.0.0:5000/add">Add Meal</a>
+                <a href="http://0.0.0.0:5000/find">Get Meal Info</a>
+                <a href="http://0.0.0.0:5000/search">Search Ingredients</a>
+                <a href="http://0.0.0.0:5000/list_meals">List Meals</a>
+                <a href="http://0.0.0.0:5000/create">Create Meal Plan</a>
+                <a href="http://0.0.0.0:5000/load">Load Meal Plan</a>
+                <a href="http://0.0.0.0:5000/delete">Delete Meal Plan</a>
+            </div>
+            <br></br>
+        	<body>
+                <H1>{{tag}} Meals</H1>
+                    <script src="{{ url_for('static', filename='/js/sorttable.js') }}"></script>
+                        <table class="sortable">
+                                <tr class="item">
+                                    <th>Meal</th>
+                                    <th>Staple</th>
+                                    <th>Date Last Made</th>
+                                </tr>
+                            {%for i in range(0, len_meals)%}
+                                <tr class="item">
+                                    <td>{{meal_names[i]}}</td>
+                                    <td>{{staples[i]}}</td>
+                                    <td>{{last_date[i]}}</td>
+                                    <td>
+                                        <form method="post" value="{{meal_names[i]}}" id="form1">
+                                            <input type="submit" name="submit" value="{{meal_names[i]}}" id="MealLink"></input>
+                                        </form>
+                                    </td>
+                                </tr>
+                            {%endfor%}
+                        </table>
+                    </body>
+                </html>

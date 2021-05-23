@@ -172,11 +172,24 @@ button:hover {
   color: black;
 }
 
+#datebutton {
+  border: 1px solid black;
+  position: relative;
+  left: 1%;
+  width: 150px;
+}
+
+#datebutton:hover {
+  /* background-color: #ddd; */
+  background-color: rgb(175, 222, 250);
+  color: black;
+}
+
 #savebutton {
   border: 1px solid black;
   position: relative;
   left: 1%;
-  width: 100px;
+  width: 150px;
 }
 
 #savebutton:hover {
