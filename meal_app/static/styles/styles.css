@@ -252,6 +252,27 @@ table.sortable thead {
   cursor: default;
 }
 
+table.sortable thead {
+  font-weight: bold;
+  cursor: default;
+}
+
+th.th_meal {
+  width: 300px;
+}
+
+th.th_book {
+  width: 125px;
+}
+
+th.th_page {
+  width: 75px;
+}
+
+th.th_staple {
+  width: 100px;
+}
+
 th.ingredients {
   width: 200px;
 }

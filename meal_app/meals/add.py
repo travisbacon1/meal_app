@@ -23,6 +23,7 @@ def parse_ingredients(ingredients_dict, filter_word):
             parsed_ingredient_dict[new_key] = ingredients_dict[key]
     return json.dumps(parsed_ingredient_dict)
 
+
 @add.route('/add', methods=['GET', 'POST'])
 def index():
     from .. import mysql

@@ -26,6 +26,7 @@ def save_meal_plan(complete_ingredient_dict):
     file_path = str(os.getcwd()) + f"/saved_meal_plans/{dt_string}.json"
     return file_path
 
+
 def create_meal_info_table(meal_info_tuple):
     """Creates a nested list of meal information for rendering in display.html 
     

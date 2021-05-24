@@ -37,11 +37,12 @@
                     <script src="{{ url_for('static', filename='/js/sorttable.js') }}"></script>
                         <table class="sortable">
                                 <tr class="item">
-                                    <th>Meal</th>
-                                    <th>Staple</th>
-                                    <th>Book</th>
-                                    <th>Page</th>
+                                    <th class="th_meal">Meal</th>
+                                    <th class="th_staple">Staple</th>
+                                    <th class="th_book">Book</th>
+                                    <th class="th_page">Page</th>
                                     <th>Website</th>
+                                    <th>Last Made</th>
                                     <th>Link</th>
                                 </tr>
                             {%for i in range(0, len_meals)%}
@@ -51,6 +52,7 @@
                                     <td>{{books[i]}}</td>
                                     <td>{{page[i]}}</td>
                                     <td>{{website[i]}}</td>
+                                    <td>{{last_date[i]}}</td>
                                     <td>
                                         <form method="post" value="{{meal_names[i]}}" id="form1">
                                             <input type="submit" name="submit" value="{{meal_names[i]}}" id="MealLink"></input>
