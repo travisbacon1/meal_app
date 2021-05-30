@@ -277,3 +277,10 @@ tag_list = [
         'Quick/Easy',
         'Special'
     ]
+
+tag_list_backend = [
+        'Spring_Summer',
+        'Autumn_Winter',
+        'Quick_Easy',
+        'Special'
+    ]
