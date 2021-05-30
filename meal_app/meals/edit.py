@@ -74,6 +74,7 @@ def edit_meal(meal):
         current_dairy_ingredients = json.loads(results[0]['Dairy_Ingredients'])
         current_dairy_ingredients_keys = list(current_dairy_ingredients.keys())
         current_tags = [results[0]['Spring_Summer'], results[0]['Autumn_Winter'], results[0]['Quick_Easy'], results[0]['Special']]
+        print(book_list)
 
         return render_template('edit_meal.html', meal_name = results[0]['Name'], staple = results[0]['Staple'], book = results[0]['Book'], page = results[0]['Page'], website = results[0]['Website'],
             current_fresh_ingredients = current_fresh_ingredients, current_fresh_ingredients_keys = current_fresh_ingredients_keys, 
