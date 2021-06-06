@@ -19,7 +19,7 @@ def parse_ingredients(ingredients_dict, filter_word):
     parsed_ingredient_dict = {}
     for key in list(ingredients_dict.keys()):
         if filter_word in key and ingredients_dict[key] != '':
-            new_key = key.strip(filter_word)
+            new_key = key.replace(filter_word, '')
             parsed_ingredient_dict[new_key] = ingredients_dict[key]
     return json.dumps(parsed_ingredient_dict)
 
