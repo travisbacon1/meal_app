@@ -1,47 +1,8 @@
 from flask import Blueprint, render_template, request, redirect, url_for
 import json
-from ..utilities import execute_mysql_query
+from ..utilities import execute_mysql_query, parse_ingredients, get_tag_keys, get_tags
 
 edit = Blueprint('edit', __name__, template_folder='templates', static_folder='../static')
-
-def parse_ingredients(ingredients_dict, filter_word):
-    """Parses an ingredients dictionary to create a new dictionary based on the filter_word as the key
-    
-    Parameters
-    -------
-    ingredients_dict: dict\n
-    filter_word: string
-
-    Returns
-    ------
-    parsed_ingredient_dict: dict
-    """
-    parsed_ingredient_dict = {}
-    for key in list(ingredients_dict.keys()):
-        if filter_word in key and ingredients_dict[key] != '':
-            new_key = key.replace(filter_word, '')
-            parsed_ingredient_dict[new_key] = ingredients_dict[key]
-    return json.dumps(parsed_ingredient_dict)
-
-
-def get_tag_keys(tags):
-    tag_list = []
-    for tag_dict in tags:
-        if list(tag_dict.values())[0] == 1:
-            tag_list.append(list(tag_dict.keys())[0])
-    return tag_list
-
-
-def get_tags(tags):
-    from ..variables import tag_list, tag_list_backend
-    parsed_tags = {}
-    for tag in tag_list:
-        if tag in tags:
-            parsed_tags[tag.replace('/', '_')] = "1"
-        else:
-            parsed_tags[tag.replace('/', '_')] = "0"
-    return parsed_tags
-
 
 @edit.route('/edit', methods=['GET', 'POST'])
 def index():

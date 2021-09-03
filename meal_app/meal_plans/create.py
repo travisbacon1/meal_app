@@ -4,25 +4,6 @@ import json
 
 create = Blueprint('create', __name__, template_folder='templates', static_folder='static')
 
-def parse_ingredients(ingredients_dict, filter_word):
-    """Parses an ingredients dictionary to create a new dictionary based on the filter_word as the key
-    
-    Parameters
-    -------
-    ingredients_dict: dict\n
-    filter_word: string
-
-    Returns
-    ------
-    parsed_ingredient_dict: dict
-    """
-    parsed_ingredient_dict = {}
-    for key in list(ingredients_dict.keys()):
-        if filter_word in key and ingredients_dict[key] != '':
-            new_key = key.removeprefix(filter_word)
-            parsed_ingredient_dict[new_key] = ingredients_dict[key]
-    return json.dumps(parsed_ingredient_dict)
-
 
 def get_meal_info(meal_list):
     """Converts a list of meals into a string and uses this in an SQL query to get the information on these meals (ingredients not yet de-duped)

@@ -1,28 +1,8 @@
 from flask import Blueprint, render_template, request, redirect, url_for
 import json
+from ..utilities import parse_ingredients
 
 add = Blueprint('add', __name__, template_folder='templates', static_folder='../static')
-
-
-def parse_ingredients(ingredients_dict, filter_word):
-    """Parses an ingredients dictionary to create a new dictionary based on the filter_word as the key
-    
-    Parameters
-    -------
-    ingredients_dict: dict\n
-    filter_word: string
-
-    Returns
-    ------
-    parsed_ingredient_dict: dict
-    """
-    parsed_ingredient_dict = {}
-    for key in list(ingredients_dict.keys()):
-        if filter_word in key and ingredients_dict[key] != '':
-            new_key = key.removeprefix(filter_word)
-            parsed_ingredient_dict[new_key] = ingredients_dict[key]
-    return json.dumps(parsed_ingredient_dict)
-
 
 @add.route('/add', methods=['GET', 'POST'])
 def index():
@@ -34,7 +14,7 @@ def index():
         cur = mysql.connection.cursor()
         cur.execute(
             "INSERT INTO MealsTable(Name, Staple, Book, Page, Website, Fresh_Ingredients, Tinned_Ingredients, Dry_Ingredients, Dairy_Ingredients) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)",
-            (details['Name'], details['Staple'], details['Book'], details['Page'], details['Website'], parse_ingredients(details_dict, "Fresh "), parse_ingredients(details_dict, "Tinned "), parse_ingredients(details_dict, "Dry "), parse_ingredients(details_dict, "Dairy "))
+            (details['Name'], details['Staple'], details['Book'], details['Page'], details['Website'], parse_ingredients(details_dict, "Fresh ", remove_prefix=True), parse_ingredients(details_dict, "Tinned ", remove_prefix=True), parse_ingredients(details_dict, "Dry ", remove_prefix=True), parse_ingredients(details_dict, "Dairy ", remove_prefix=True))
             )
         mysql.connection.commit()
         cur.close()
