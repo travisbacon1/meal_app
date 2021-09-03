@@ -3,16 +3,32 @@
 		<meta charset="utf-8" />
 		<link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/styles.css') }}">
 	</head>
-		<div class="topnav">
-			<a class="active" href="/">Home</a>
-			<a href="http://0.0.0.0:5000/add">Add Meal</a>
-			<a href="http://0.0.0.0:5000/find">Get Meal Info</a>
-			<a href="http://0.0.0.0:5000/search">Search Ingredients</a>
-			<a href="http://0.0.0.0:5000/list_meals">List Meals</a>
-			<a href="http://0.0.0.0:5000/create">Create Meal Plan</a>
-            <a href="http://0.0.0.0:5000/load">Load Meal Plan</a>
-            <a href="http://0.0.0.0:5000/delete">Delete Meal Plan</a>
+	<div class="topnav">
+		<a class="active" href="/">Home</a>
+		<div class="dropdown">
+			<button class="dropbtn">Meals
+			<i class="fa fa-caret-down"></i>
+			</button>
+			<div class="dropdown-content">
+				<a href="/add">Add Meal</a>
+				<a href="/edit">Edit Meal</a>
+				<a href="/list_meals">List Meals</a>
+				<a href="find">Get Meal Info</a>
+				<a href="/search">Search Ingredients</a>
+				<a href="/inspire">Inspire Me</a>
+			</div>
 		</div>
+		<div class="dropdown">
+			<button class="dropbtn">Meal Plans
+			<i class="fa fa-caret-down"></i>
+			</button>
+			<div class="dropdown-content">
+				<a href="/create">Create Meal Plan</a>
+				<a href="/load">Load Meal Plan</a>
+				<a href="/delete">Delete Meal Plan</a>
+			</div>
+		</div>
+	</div>
 		<br></br>
 		<body>
 			<form method="post", action="", autocomplete="off">
@@ -41,7 +57,7 @@
 								{%if books[i] == book%}
 									<option selected = "{{book}}" value = "{{books[i]}}">{{books[i]}}</option> 
 								{% else %}
-									<option value = "{{books[i]}}">{{staples[i]}}</option>
+									<option value = "{{books[i]}}">{{books[i]}}</option>
 								{%endif%}
 							{%endfor%}
 						</select>
@@ -102,6 +118,21 @@
 								<label class="units" for={{dairy_ingredients_units[i]}}>{{dairy_ingredients_units[i]}}</label>
 							</li>
 						{%endfor%}
+					<H2>Tags</H2>
+						<table id="checkboxtable">
+							{%for i in range(0, len_tags)%}
+								<tr>
+									<td id="checkboxtable_col1"><label for="{{tags[i]}}">{{tags[i]}}</label></td>
+									<td id="checkboxtable_col2">
+										{%if current_tags[i] == 1%}
+										<input type="checkbox" id="{{tags[i]}}" name="Tag {{tags[i]}}" value="{{tags[i]}}" checked="True">
+										{%else%}
+										<input type="checkbox" id="{{tags[i]}}" name="Tag {{tags[i]}}" value="{{tags[i]}}">
+										{%endif%}
+									</td>
+								</tr>
+							{%endfor%}
+						</table>
 					<li>
 						<input class="button" type="submit">
 					</li>

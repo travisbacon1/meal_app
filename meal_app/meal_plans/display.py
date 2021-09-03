@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request, session
+from flask import Blueprint, redirect, url_for, render_template, request, session
 import os
 import json
 from datetime import datetime
@@ -25,6 +25,7 @@ def save_meal_plan(complete_ingredient_dict):
         f.close()
     file_path = str(os.getcwd()) + f"/saved_meal_plans/{dt_string}.json"
     return file_path
+
 
 def create_meal_info_table(meal_info_tuple):
     """Creates a nested list of meal information for rendering in display.html 
@@ -90,7 +91,21 @@ def display_meal_plan():
                             len_dairy_ingredients = len(dairy_ingredients[0]), dairy_ingredients_keys=dairy_ingredients[0], dairy_ingredients_values=dairy_ingredients[1],
                             len_extra_ingredients = len(complete_ingredient_dict['Extra_Ingredients']), extra_ingredients=complete_ingredient_dict['Extra_Ingredients'])
 
-    if request.method == "POST" and request.form['submit'] == 'Save':
+    if request.method == "POST":
         complete_ingredient_dict = session.pop('complete_ingredient_dict')
-        file_path = save_meal_plan(complete_ingredient_dict)
-        return render_template('save_complete.html', file_path = file_path)
+        session['complete_ingredient_dict'] = complete_ingredient_dict
+        if request.form['submit'] == 'Save':
+            file_path = save_meal_plan(complete_ingredient_dict)
+            return render_template('save_complete.html', file_path = file_path)
+        if request.form['submit'] == 'Update Dates':
+            from .. import mysql
+            from datetime import datetime
+            date_now = datetime.now().strftime("%Y-%-m-%d")
+            meals = complete_ingredient_dict['Meal_List']
+            for meal in meals:
+                query_string = f"""UPDATE `MealsDatabase`.`MealsTable` SET `Last_Made` = '{date_now}' WHERE (`Name` = '{meal}');"""
+                cur = mysql.connection.cursor()
+                cur.execute(query_string)
+                mysql.connection.commit()
+                cur.close()
+            return redirect(url_for('display.display_meal_plan'))

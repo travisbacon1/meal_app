@@ -31,23 +31,27 @@
                 </div>
             </div>
             <br></br>
-                <body>
-                    <form method="post", action="">
-                        <H1>Choose meal plans to delete</H1>
-                        <ul>
-                            <li>
-                                <table id="checkboxtable">
-                                    {%for i in range(0, len_meal_plans)%}
-                                        <tr>
-                                            <td id="checkboxtable_col1"><label for="{{meal_plans[i]}}">{{meal_plans[i]}}</label></td>
-                                            <td id="checkboxtable_col2"><input type="checkbox" id="{{meal_plans[i]}}" name="Meal Plan {{i}}" value="{{meal_plans[i]}}"></td>
-                                        </tr>
-                                    {%endfor%}
-                                </table>
-                            </li>
-                            <li>
-                                <input class="button" type="submit">
-                            </li>
-                        </ul>
-                    </form>
+        	<body>
+                <H1>{{tag}} Meals</H1>
+                    <script src="{{ url_for('static', filename='/js/sorttable.js') }}"></script>
+                        <table class="sortable">
+                                <tr class="item">
+                                    <th>Meal</th>
+                                    <th>Staple</th>
+                                    <th>Date Last Made</th>
+                                </tr>
+                            {%for i in range(0, len_meals)%}
+                                <tr class="item">
+                                    <td>{{meal_names[i]}}</td>
+                                    <td>{{staples[i]}}</td>
+                                    <td>{{last_date[i]}}</td>
+                                    <td>
+                                        <form method="post" value="{{meal_names[i]}}" id="form1">
+                                            <input type="submit" name="submit" value="{{meal_names[i]}}" id="MealLink"></input>
+                                        </form>
+                                    </td>
+                                </tr>
+                            {%endfor%}
+                        </table>
+                    </body>
                 </html>
