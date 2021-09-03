@@ -13,5 +13,5 @@ jobs:
       - run: echo "The ${{ github.repository }} repository has been cloned to the runner."
       - name: Run tests
         run: |
-          python3 meal_app/meal_app/test_file.py
+          python3 meal_app/test_file.py
       - run: echo "Job status - ${{ job.status }}."
