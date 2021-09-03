@@ -79,6 +79,7 @@ fresh_ingredients = sorted(
         ['Chestnuts', 'g'],
         ['Chilli Peppers', ''],
         ['Clementines', ''],
+        ['Cod', 'g'],
         ['Courgettes', ''],
         ['Garlic', 'cloves'],
         ['Green Beans', 'g'],
@@ -91,6 +92,7 @@ fresh_ingredients = sorted(
         ['Onions (Red)', ''],
         ['Parsnips', ''],
         ['Pastry', 'sheets'],
+        ['Peas (Frozen)', 'g'],
         ['Peppers (Green)', ''],
         ['Peppers (Red)', ''],
         ['Pepper (Yellow)', ''],
@@ -98,6 +100,7 @@ fresh_ingredients = sorted(
         ['Potatoes (Maris Piper)', 'g'],
         ['Potatoes (New)', 'g'],
         ['Potatoes (Sweet)', ''],
+        ['Salmon', 'g'],
         ['Spinach', 'balls'],
         ['Spring Onions', ''],
         ['Swede', 'g'],
@@ -166,6 +169,7 @@ dairy_ingredients = sorted(
     [
         ['Cheese (Cheddar)', 'g'],
         ['Cheese (Mozzarella)', 'g'],
+        ['Cheese (Halloumi)', 'g'],
         ['Eggs', ''],
         ['Milk', 'ml']
     ]

@@ -100,9 +100,10 @@ def edit_meal(meal):
             if 'Tag' in key:
                 tag_list.append(details_dict[key])
         tags = get_tags(tag_list)
+        query_string = f"UPDATE MealsDatabase.MealsTable SET Name = '{details['Name']}', Staple = '{details['Staple']}', Book = '{details['Book']}', Page = '{details['Page']}', Website = '{details['Website']}', Fresh_Ingredients = '{fresh_ing}', Tinned_Ingredients = '{tinned_ing}', Dry_Ingredients = '{dry_ing}', Dairy_Ingredients = '{dairy_ing}', Spring_Summer = {tags['Spring_Summer']}, Autumn_Winter = {tags['Autumn_Winter']}, Quick_Easy = {tags['Quick_Easy']}, Special = {tags['Special']} WHERE (Name = '{details['Name']}');"
+        print(query_string)
         cur = mysql.connection.cursor()
-        cur.execute(
-            f"UPDATE MealsDatabase.MealsTable SET Name = '{details['Name']}', Staple = '{details['Staple']}', Book = '{details['Book']}', Page = '{details['Page']}', Website = '{details['Website']}', Fresh_Ingredients = '{fresh_ing}', Tinned_Ingredients = '{tinned_ing}', Dry_Ingredients = '{dry_ing}', Dairy_Ingredients = '{dairy_ing}', Spring_Summer = {tags['Spring_Summer']}, Autumn_Winter = {tags['Autumn_Winter']}, Quick_Easy = {tags['Quick_Easy']}, Special = {tags['Special']} WHERE (Name = '{details['Name']}');")
+        cur.execute(query_string)
         mysql.connection.commit()
         cur.close()
         return redirect(url_for('edit.confirmation', meal = meal))
