@@ -49,7 +49,7 @@ def get_tag_keys(tags):
 
 
 def get_tags(tags):
-    from variables import tag_list, tag_list_backend
+    from .variables import tag_list, tag_list_backend
     parsed_tags = {}
     for tag in tag_list:
         if tag in tags:
