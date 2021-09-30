@@ -44,6 +44,7 @@ book_list = sorted(
         'Bosh 1',
         'Bosh 2',
         'Jamie Oliver',
+        'Jamie Oliver (30 mins)',
         "Nigel Slater AW",
         'Ultimate Pasta',
         'Riverford SS',
