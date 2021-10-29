@@ -3,13 +3,16 @@ from . import mysql
 
 def execute_mysql_query(query_string):
     """Executes a MySQL query
+
     Parameters
-    -------
-    query_string: string\n
+    ----------
+    query_string : str
+        MySQL query to execute
 
     Returns
-    ------
-    result: tuple
+    -------
+    tuple
+        MySQL query results
     """
     db_cursor = mysql.connection.cursor()
     db_cursor.execute(query_string)
