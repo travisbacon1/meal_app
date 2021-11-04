@@ -17,13 +17,17 @@ def get_meal_info(meal_list):
     result: tuple
     """
     from ..utilities import execute_mysql_query
-    meal_list = str(meal_list).strip("[]")
-    query_string = f"SELECT Fresh_Ingredients, Tinned_Ingredients, Dry_Ingredients, Dairy_Ingredients FROM MealsDatabase.MealsTable WHERE Name IN ({meal_list});"
-    results = execute_mysql_query(query_string)
+    # meal_list = str(meal_list).strip("[]")
+    results = []
+    for meal in meal_list:
+        query_string = f"SELECT Fresh_Ingredients, Tinned_Ingredients, Dry_Ingredients, Dairy_Ingredients FROM MealsDatabase.MealsTable WHERE Name = '{meal}';"
+        ingredients = execute_mysql_query(query_string)
+        results.append(ingredients[0])
     return results
 
 
 def quantity_adjustment(meal_list_dict, quantity_list):
+    # print(meal_list_dict)
     meal_list_dict_converted = []
     for meal in meal_list_dict:
         meal['Fresh_Ingredients'] = json.loads(meal['Fresh_Ingredients'])
@@ -31,6 +35,7 @@ def quantity_adjustment(meal_list_dict, quantity_list):
         meal['Dry_Ingredients'] = json.loads(meal['Dry_Ingredients'])
         meal['Dairy_Ingredients'] = json.loads(meal['Dairy_Ingredients'])
         meal_list_dict_converted.append(meal)
+    # print(meal_list_dict_converted)
     for idx, meal in enumerate(meal_list_dict_converted):
         meal['Fresh_Ingredients'].update((k, float(v) * quantity_list[idx]) for k,v in meal['Fresh_Ingredients'].items())
         meal['Tinned_Ingredients'].update((k, float(v) * quantity_list[idx]) for k,v in meal['Tinned_Ingredients'].items())
@@ -91,9 +96,6 @@ def collate_ingredients(meal_info_list, quantity_list):
 
         if meal["Dairy_Ingredients"] != None:
             build_ingredient_dictionary(meal["Dairy_Ingredients"], dairy_ingredient_dict)
-
-        if meal["Dairy_Ingredients"] != None:
-            build_ingredient_dictionary(meal["Dairy_Ingredients"], dairy_ingredient_dict)
     complete_deduped_ingredient_dict["Fresh_Ingredients"] = fresh_ingredient_dict
     complete_deduped_ingredient_dict["Tinned_Ingredients"] = tinned_ingredient_dict
     complete_deduped_ingredient_dict["Dry_Ingredients"] = dry_ingredient_dict
@@ -112,10 +114,17 @@ def create_meal_plan():
         details = request.form
         details_dict = details.to_dict()
         meal_list = [value for key, value in details_dict.items() if 'Meal' in key]
+        meal_list = [meal for meal in meal_list if meal != 'null']
+        # print(meal_list)
         quantity_list = [int(value) for key, value in details_dict.items() if 'Quantity' in key and value != 'null']
+        # print(quantity_list)
         meal_tuple = get_meal_info(meal_list)
+        # print(meal_tuple)
         meal_list_dicts = [meal for meal in meal_tuple]
+        # print(meal_list_dicts)
+        # print("After adjustment")
         meal_list_dicts = quantity_adjustment(meal_list_dicts, quantity_list)
+        # print(meal_list_dicts)
         complete_ingredient_dict = collate_ingredients(meal_list_dicts, quantity_list)
         complete_ingredient_dict['Extra_Ingredients'] = [value for key, value in details_dict.items() if 'Extra' in key]
         complete_ingredient_dict['Meal_List'] = [meal for meal in meal_list if meal != 'null']
