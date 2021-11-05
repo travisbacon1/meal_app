@@ -14,10 +14,9 @@ def get_meal_info(meal_list):
 
     Returns
     ------
-    result: tuple
+    results: list[dict]
     """
     from ..utilities import execute_mysql_query
-    # meal_list = str(meal_list).strip("[]")
     results = []
     for meal in meal_list:
         query_string = f"SELECT Fresh_Ingredients, Tinned_Ingredients, Dry_Ingredients, Dairy_Ingredients FROM MealsDatabase.MealsTable WHERE Name = '{meal}';"
@@ -115,14 +114,8 @@ def create_meal_plan():
         details_dict = details.to_dict()
         meal_list = [value for key, value in details_dict.items() if 'Meal' in key]
         meal_list = [meal for meal in meal_list if meal != 'null']
-        # print(meal_list)
         quantity_list = [int(value) for key, value in details_dict.items() if 'Quantity' in key and value != 'null']
-        # print(quantity_list)
-        meal_tuple = get_meal_info(meal_list)
-        # print(meal_tuple)
-        meal_list_dicts = [meal for meal in meal_tuple]
-        # print(meal_list_dicts)
-        # print("After adjustment")
+        meal_list_dicts = get_meal_info(meal_list)
         meal_list_dicts = quantity_adjustment(meal_list_dicts, quantity_list)
         # print(meal_list_dicts)
         complete_ingredient_dict = collate_ingredients(meal_list_dicts, quantity_list)
