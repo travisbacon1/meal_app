@@ -37,7 +37,7 @@
                         <ul>
                             <li>
                                 <table id="checkboxtable">
-                                    {%for i in range(0, len_meal_plans)%}
+                                    {%for i in range(0, meal_plans|length)%}
                                         <tr>
                                             <td id="checkboxtable_col1"><label for="{{meal_plans[i]}}">{{meal_plans[i]}}</label></td>
                                             <td id="checkboxtable_col2"><input type="checkbox" id="{{meal_plans[i]}}" name="Meal Plan {{i}}" value="{{meal_plans[i]}}"></td>
