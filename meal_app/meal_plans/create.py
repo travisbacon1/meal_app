@@ -1,138 +1,111 @@
 from flask import Blueprint, render_template, request, redirect, url_for, session
-from .. import mysql
+from ..utilities import execute_mysql_query
+from ..variables import extras
 import json
 
 create = Blueprint('create', __name__, template_folder='templates', static_folder='static')
 
-
-def get_meal_info(meal_list):
+def get_meal_info(meal_list, quantity_list) -> list[dict]:
     """Converts a list of meals into a string and uses this in an SQL query to get the information on these meals (ingredients not yet de-duped)
-    
+
     Parameters
-    -------
-    meal_list: list\n
+    ----------
+    meal_list : list[dict]
+    quantity_list : list[int]
 
     Returns
-    ------
-    results: list[dict]
+    -------
+    list[dict]
+        MySQL results
     """
-    from ..utilities import execute_mysql_query
     results = []
-    for meal in meal_list:
+    for idx, meal in enumerate(meal_list):
         query_string = f"SELECT Fresh_Ingredients, Tinned_Ingredients, Dry_Ingredients, Dairy_Ingredients FROM MealsDatabase.MealsTable WHERE Name = '{meal}';"
         ingredients = execute_mysql_query(query_string)
+        for ingredient_type in ingredients[0].keys():
+            ingredients[0][ingredient_type] = json.loads(ingredients[0][ingredient_type])
+        ingredients[0]['quantity'] = quantity_list[idx]
         results.append(ingredients[0])
     return results
 
 
-def quantity_adjustment(meal_list_dict, quantity_list):
-    # print(meal_list_dict)
-    meal_list_dict_converted = []
-    for meal in meal_list_dict:
-        meal['Fresh_Ingredients'] = json.loads(meal['Fresh_Ingredients'])
-        meal['Tinned_Ingredients'] = json.loads(meal['Tinned_Ingredients'])
-        meal['Dry_Ingredients'] = json.loads(meal['Dry_Ingredients'])
-        meal['Dairy_Ingredients'] = json.loads(meal['Dairy_Ingredients'])
-        meal_list_dict_converted.append(meal)
-    # print(meal_list_dict_converted)
-    for idx, meal in enumerate(meal_list_dict_converted):
-        meal['Fresh_Ingredients'].update((k, float(v) * quantity_list[idx]) for k,v in meal['Fresh_Ingredients'].items())
-        meal['Tinned_Ingredients'].update((k, float(v) * quantity_list[idx]) for k,v in meal['Tinned_Ingredients'].items())
-        meal['Dry_Ingredients'].update((k, float(v) * quantity_list[idx]) for k,v in meal['Dry_Ingredients'].items())
-        meal['Dairy_Ingredients'].update((k, float(v) * quantity_list[idx]) for k,v in meal['Dairy_Ingredients'].items())
-    return meal_list_dict_converted
+def quantity_adjustment(meal_list_dict) -> list[dict]:
+    """Adjusts each meal's ingredients by the associated quantities
+
+    Parameters
+    ----------
+    meal_list_dict : list[dict]
+
+    Returns
+    -------
+    list[dict]
+        List of each meal's ingredients with the adjusted quantities
+    """
+    for idx, meal in enumerate(meal_list_dict):
+        meal['Fresh_Ingredients'].update((k, float(v) * meal['quantity']) for k,v in meal['Fresh_Ingredients'].items())
+        meal['Tinned_Ingredients'].update((k, float(v) * meal['quantity']) for k,v in meal['Tinned_Ingredients'].items())
+        meal['Dry_Ingredients'].update((k, float(v) * meal['quantity']) for k,v in meal['Dry_Ingredients'].items())
+        meal['Dairy_Ingredients'].update((k, float(v) * meal['quantity']) for k,v in meal['Dairy_Ingredients'].items())
+        del meal['quantity']
+    return meal_list_dict
 
 
-def build_ingredient_dictionary(meal_ingredient_dict, deduped_ingredient_dict):
+def build_ingredient_dictionary(meal_ingredient_dict, complete_ingredient_dict, ingredient_type) -> dict:
     """Adds together the quantities of all ingredients in a given deduped_ingredient_dict
-    
+
     Parameters
-    -------
-    meal_ingredient_dict: dict\n
-    deduped_ingredient_dict: dict\n
+    ----------
+    meal_ingredient_dict : dict
+    complete_ingredient_dict : dict
+    ingredient_type : str
 
     Returns
-    ------
-    deduped_ingredient_dict: dict
+    -------
+    dict
+        Single dictionary containing all ingredients for meal plan
     """
-    for ingredient in list(meal_ingredient_dict.keys()):
-        if ingredient in deduped_ingredient_dict:
-            deduped_ingredient_dict[ingredient] += float(meal_ingredient_dict[ingredient])
-            deduped_ingredient_dict[ingredient] = round(deduped_ingredient_dict[ingredient], 2)
-            deduped_ingredient_dict[ingredient] = int(deduped_ingredient_dict[ingredient]) if deduped_ingredient_dict[ingredient].is_integer() else deduped_ingredient_dict[ingredient]
+    for ingredient in meal_ingredient_dict:
+        if ingredient in complete_ingredient_dict[ingredient_type]:
+            complete_ingredient_dict[ingredient_type][ingredient] += float(meal_ingredient_dict[ingredient])
         else:
-            deduped_ingredient_dict[ingredient] = float(meal_ingredient_dict[ingredient])
-            deduped_ingredient_dict[ingredient] = round(deduped_ingredient_dict[ingredient], 2)
-            deduped_ingredient_dict[ingredient] = int(deduped_ingredient_dict[ingredient]) if deduped_ingredient_dict[ingredient].is_integer() else deduped_ingredient_dict[ingredient]
-    return deduped_ingredient_dict
+            complete_ingredient_dict[ingredient_type][ingredient] = float(meal_ingredient_dict[ingredient])
+        complete_ingredient_dict[ingredient_type][ingredient] = round(complete_ingredient_dict[ingredient_type][ingredient], 2)
+        complete_ingredient_dict[ingredient_type][ingredient] = int(complete_ingredient_dict[ingredient_type][ingredient]) if complete_ingredient_dict[ingredient_type][ingredient].is_integer() else complete_ingredient_dict[ingredient_type][ingredient]
+    return complete_ingredient_dict
 
 
-def collate_ingredients(meal_info_list, quantity_list):
+def collate_ingredients(meal_info_list) -> dict:
     """Collates all ingredients from all meals into a dictionary of required ingredients
-    
+
     Parameters
-    -------
-    meal_info_list: list
+    ----------
+    meal_info_list : list[dict]
 
     Returns
-    ------
-    complete_deduped_ingredient_dict: dict
+    -------
+    dict
+        Single dictionary containing all ingredients for meal plan
     """
-    complete_deduped_ingredient_dict = {}
-    fresh_ingredient_dict = {}
-    tinned_ingredient_dict = {}
-    dry_ingredient_dict = {}
-    dairy_ingredient_dict = {}
-    for idx, meal in enumerate(meal_info_list):
-        if meal["Fresh_Ingredients"] != None:
-            build_ingredient_dictionary(meal["Fresh_Ingredients"], fresh_ingredient_dict)
-    
-        if meal["Tinned_Ingredients"] != None:
-            build_ingredient_dictionary(meal["Tinned_Ingredients"], tinned_ingredient_dict)
-
-        if meal["Dry_Ingredients"] != None:
-            build_ingredient_dictionary(meal["Dry_Ingredients"], dry_ingredient_dict)
-
-        if meal["Dairy_Ingredients"] != None:
-            build_ingredient_dictionary(meal["Dairy_Ingredients"], dairy_ingredient_dict)
-    complete_deduped_ingredient_dict["Fresh_Ingredients"] = fresh_ingredient_dict
-    complete_deduped_ingredient_dict["Tinned_Ingredients"] = tinned_ingredient_dict
-    complete_deduped_ingredient_dict["Dry_Ingredients"] = dry_ingredient_dict
-    complete_deduped_ingredient_dict["Dairy_Ingredients"] = dairy_ingredient_dict
-    return complete_deduped_ingredient_dict
+    complete_ingredient_dict = {ingredient_type: {} for ingredient_type in meal_info_list[0].keys()}
+    for meal in meal_info_list:
+        for ingredient_type in meal.keys():
+            if meal[ingredient_type] != None:
+                build_ingredient_dictionary(meal[ingredient_type], complete_ingredient_dict, ingredient_type)
+    return complete_ingredient_dict
 
 
 @create.route('/create', methods=['GET', 'POST'])
 def create_meal_plan():
-    from ..utilities import execute_mysql_query
     query_string = f"SELECT GROUP_CONCAT(Name ORDER BY Name ASC) as Meals, Staple FROM MealsDatabase.MealsTable GROUP BY Staple;"
     results = execute_mysql_query(query_string)
     staples_dict = {str(item['Staple']): list(item['Meals'].split(',')) for item in results}
-
     if request.method == "POST":
-        details = request.form
-        details_dict = details.to_dict()
-        meal_list = [value for key, value in details_dict.items() if 'Meal' in key]
-        meal_list = [meal for meal in meal_list if meal != 'null']
+        details_dict = request.form.to_dict()
+        meal_list = [value for key, value in details_dict.items() if 'Meal' in key and value != 'null']
         quantity_list = [int(value) for key, value in details_dict.items() if 'Quantity' in key and value != 'null']
-        meal_list_dicts = get_meal_info(meal_list)
-        meal_list_dicts = quantity_adjustment(meal_list_dicts, quantity_list)
-        # print(meal_list_dicts)
-        complete_ingredient_dict = collate_ingredients(meal_list_dicts, quantity_list)
+        complete_ingredient_dict = collate_ingredients(quantity_adjustment(get_meal_info(meal_list, quantity_list)))
         complete_ingredient_dict['Extra_Ingredients'] = [value for key, value in details_dict.items() if 'Extra' in key]
         complete_ingredient_dict['Meal_List'] = [meal for meal in meal_list if meal != 'null']
         session['complete_ingredient_dict'] = complete_ingredient_dict
         return redirect(url_for('display.display_meal_plan'))
-    from ..variables import extras
-    return render_template('create.html',
-                            len_bean_meals=len(staples_dict['Beans']), bean_meals=staples_dict['Beans'],
-                            len_bread_meals=len(staples_dict['Bread']), bread_meals=staples_dict['Bread'],
-                            len_cereal_meals=len(staples_dict['Cereal']), cereal_meals=staples_dict['Cereal'],
-                            len_cous_cous_meals=len(staples_dict['Cous Cous']), cous_cous_meals=staples_dict['Cous Cous'],
-                            len_noodle_meals=len(staples_dict['Noodles']), noodle_meals=staples_dict['Noodles'],
-                            len_orzo_meals=len(staples_dict['Orzo']), orzo_meals=staples_dict['Orzo'],
-                            len_pasta_meals=len(staples_dict['Pasta']), pasta_meals=staples_dict['Pasta'],
-                            len_potato_meals=len(staples_dict['Potato']), potato_meals=staples_dict['Potato'],
-                            len_rice_meals=len(staples_dict['Rice']), rice_meals=staples_dict['Rice'],
-                            len_risotto_meals=len(staples_dict['Risotto']), risotto_meals=staples_dict['Risotto'],
-                            len_extras = len(extras), extras = extras)
+    return render_template('create.html', staples_dict=staples_dict, extras = extras)

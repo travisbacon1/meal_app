@@ -42,8 +42,8 @@
                                     <label for="beans" class=create_form_label>Beans</label>
                                     <select name="Meal 1" required>
                                         <option value="null"></option>
-                                        {%for i in range(0, len_bean_meals)%}
-                                        <option value = "{{bean_meals[i]}}">{{bean_meals[i]}}</option> 
+                                        {%for i in range(0, staples_dict['Beans']|length)%}
+                                        <option value = "{{staples_dict['Beans'][i]}}">{{staples_dict['Beans'][i]}}</option> 
                                         {%endfor%}
                                     </select>
                                     <select name="Quantity 1" id="quantity" required>
@@ -57,8 +57,8 @@
                                     <label for="bread" class=create_form_label>Bread</label>
                                     <select name="Meal 2" required>
                                         <option value="null"></option>
-                                        {%for i in range(0, len_bread_meals)%}
-                                        <option value = "{{bread_meals[i]}}">{{bread_meals[i]}}</option> 
+                                        {%for i in range(0, staples_dict['Bread']|length)%}
+                                        <option value = "{{staples_dict['Bread'][i]}}">{{staples_dict['Bread'][i]}}</option> 
                                         {%endfor%}
                                     </select>
                                     <select name="Quantity 2" id="quantity" required>
@@ -72,8 +72,8 @@
                                     <label for="cous cous" class=create_form_label>Cous Cous</label>
                                     <select name="Meal 3" required>
                                         <option value="null"></option>
-                                        {%for i in range(0, len_cous_cous_meals)%}
-                                        <option value = "{{cous_cous_meals[i]}}">{{cous_cous_meals[i]}}</option> 
+                                        {%for i in range(0, staples_dict['Cous Cous']|length)%}
+                                        <option value = "{{staples_dict['Cous Cous'][i]}}">{{staples_dict['Cous Cous'][i]}}</option> 
                                         {%endfor%}
                                     </select>
                                     <select name="Quantity 3" id="quantity" required>
@@ -87,8 +87,8 @@
                                     <label for="noodles" class=create_form_label>Noodles</label>
                                     <select name="Meal 4" required>
                                         <option value="null"></option>
-                                        {%for i in range(0, len_noodle_meals)%}
-                                        <option value = "{{noodle_meals[i]}}">{{noodle_meals[i]}}</option> 
+                                        {%for i in range(0, staples_dict['Noodles']|length)%}
+                                        <option value = "{{staples_dict['Noodles'][i]}}">{{staples_dict['Noodles'][i]}}</option> 
                                         {%endfor%}
                                     </select>
                                     <select name="Quantity 4" id="quantity" required>
@@ -102,8 +102,8 @@
                                     <label for="orzo" class=create_form_label>Orzo</label>
                                     <select name="Meal 5" required>
                                         <option value="null"></option>
-                                        {%for i in range(0, len_orzo_meals)%}
-                                        <option value = "{{orzo_meals[i]}}">{{orzo_meals[i]}}</option> 
+                                        {%for i in range(0, staples_dict['Orzo']|length)%}
+                                        <option value = "{{staples_dict['Orzo'][i]}}">{{staples_dict['Orzo'][i]}}</option> 
                                         {%endfor%}
                                     </select>
                                     <select name="Quantity 5" id="quantity" required>
@@ -117,8 +117,8 @@
                                     <label for="pasta" class=create_form_label>Pasta</label>
                                     <select name="Meal 6" required>
                                         <option value="null"></option>
-                                        {%for i in range(0, len_pasta_meals)%}
-                                        <option value = "{{pasta_meals[i]}}">{{pasta_meals[i]}}</option> 
+                                        {%for i in range(0, staples_dict['Pasta']|length)%}
+                                        <option value = "{{staples_dict['Pasta'][i]}}">{{staples_dict['Pasta'][i]}}</option> 
                                         {%endfor%}
                                     </select>
                                     <select name="Quantity 6" id="quantity" required>
@@ -132,8 +132,8 @@
                                     <label for="potato" class=create_form_label>Potato</label>
                                     <select name="Meal 7" required>
                                         <option value="null"></option>
-                                        {%for i in range(0, len_potato_meals)%}
-                                        <option value = "{{potato_meals[i]}}">{{potato_meals[i]}}</option> 
+                                        {%for i in range(0, staples_dict['Potato']|length)%}
+                                        <option value = "{{staples_dict['Potato'][i]}}">{{staples_dict['Potato'][i]}}</option> 
                                         {%endfor%}
                                     </select>
                                     <select name="Quantity 7" id="quantity" required>
@@ -147,8 +147,8 @@
                                     <label for="rice" class=create_form_label>Rice</label>
                                     <select name="Meal 8" required>
                                         <option value="null"></option>
-                                        {%for i in range(0, len_rice_meals)%}
-                                        <option value = "{{rice_meals[i]}}">{{rice_meals[i]}}</option> 
+                                        {%for i in range(0, staples_dict['Rice']|length)%}
+                                        <option value = "{{staples_dict['Rice'][i]}}">{{staples_dict['Rice'][i]}}</option> 
                                         {%endfor%}
                                     </select>
                                     <select name="Quantity 8" id="quantity" required>
@@ -161,8 +161,8 @@
                                 <label for="risotto" class=create_form_label>Risotto</label>
                                 <select name="Meal 9" required>
                                     <option value="null"></option>
-                                    {%for i in range(0, len_risotto_meals)%}
-                                    <option value = "{{risotto_meals[i]}}">{{risotto_meals[i]}}</option> 
+                                    {%for i in range(0, staples_dict['Risotto']|length)%}
+                                    <option value = "{{staples_dict['Risotto'][i]}}">{{staples_dict['Risotto'][i]}}</option> 
                                     {%endfor%}
                                 </select>
                                 <select name="Quantity 9" id="quantity" required>
@@ -176,8 +176,8 @@
                                     <label for="cereal" class=create_form_label>Cereal</label>
                                     <select name="Meal 10" required>
                                         <option value="null"></option>
-                                        {%for i in range(0, len_cereal_meals)%}
-                                        <option value = "{{cereal_meals[i]}}">{{cereal_meals[i]}}</option> 
+                                        {%for i in range(0, staples_dict['Cereal']|length)%}
+                                        <option value = "{{staples_dict['Cereal'][i]}}">{{staples_dict['Cereal'][i]}}</option> 
                                         {%endfor%}
                                     </select>
                                     <select name="Quantity 10" id="quantity" required>
@@ -196,8 +196,8 @@
                                     <label for="beans" class=create_form_label>Beans</label>
                                     <select name="Meal 11" required>
                                         <option value="null"></option>
-                                        {%for i in range(0, len_bean_meals)%}
-                                        <option value = "{{bean_meals[i]}}">{{bean_meals[i]}}</option> 
+                                        {%for i in range(0, staples_dict['Beans']|length)%}
+                                        <option value = "{{staples_dict['Beans'][i]}}">{{staples_dict['Beans'][i]}}</option> 
                                         {%endfor%}
                                     </select>
                                     <select name="Quantity 11" id="quantity" required>
@@ -211,8 +211,8 @@
                                     <label for="bread" class=create_form_label>Bread</label>
                                     <select name="Meal 12" required>
                                         <option value="null"></option>
-                                        {%for i in range(0, len_bread_meals)%}
-                                        <option value = "{{bread_meals[i]}}">{{bread_meals[i]}}</option> 
+                                        {%for i in range(0, staples_dict['Bread']|length)%}
+                                        <option value = "{{staples_dict['Bread'][i]}}">{{staples_dict['Bread'][i]}}</option> 
                                         {%endfor%}
                                     </select>
                                     <select name="Quantity 12" id="quantity" required>
@@ -226,8 +226,8 @@
                                     <label for="cous cous" class=create_form_label>Cous Cous</label>
                                     <select name="Meal 13" required>
                                         <option value="null"></option>
-                                        {%for i in range(0, len_cous_cous_meals)%}
-                                        <option value = "{{cous_cous_meals[i]}}">{{cous_cous_meals[i]}}</option> 
+                                        {%for i in range(0, staples_dict['Cous Cous']|length)%}
+                                        <option value = "{{staples_dict['Cous Cous'][i]}}">{{staples_dict['Cous Cous'][i]}}</option> 
                                         {%endfor%}
                                     </select>
                                     <select name="Quantity 13" id="quantity" required>
@@ -241,8 +241,8 @@
                                     <label for="noodles" class=create_form_label>Noodles</label>
                                     <select name="Meal 14" required>
                                         <option value="null"></option>
-                                        {%for i in range(0, len_noodle_meals)%}
-                                        <option value = "{{noodle_meals[i]}}">{{noodle_meals[i]}}</option> 
+                                        {%for i in range(0, staples_dict['Noodles']|length)%}
+                                        <option value = "{{staples_dict['Noodles'][i]}}">{{staples_dict['Noodles'][i]}}</option> 
                                         {%endfor%}
                                     </select>
                                     <select name="Quantity 14" id="quantity" required>
@@ -256,8 +256,8 @@
                                     <label for="orzo" class=create_form_label>Orzo</label>
                                     <select name="Meal 15" required>
                                         <option value="null"></option>
-                                        {%for i in range(0, len_orzo_meals)%}
-                                        <option value = "{{orzo_meals[i]}}">{{orzo_meals[i]}}</option> 
+                                        {%for i in range(0, staples_dict['Orzo']|length)%}
+                                        <option value = "{{staples_dict['Orzo'][i]}}">{{staples_dict['Orzo'][i]}}</option> 
                                         {%endfor%}
                                     </select>
                                     <select name="Quantity 15" id="quantity" required>
@@ -271,8 +271,8 @@
                                     <label for="pasta" class=create_form_label>Pasta</label>
                                     <select name="Meal 16" required>
                                         <option value="null"></option>
-                                        {%for i in range(0, len_pasta_meals)%}
-                                        <option value = "{{pasta_meals[i]}}">{{pasta_meals[i]}}</option> 
+                                        {%for i in range(0, staples_dict['Pasta']|length)%}
+                                        <option value = "{{staples_dict['Pasta'][i]}}">{{staples_dict['Pasta'][i]}}</option>
                                         {%endfor%}
                                     </select>
                                     <select name="Quantity 16" id="quantity" required>
@@ -286,8 +286,8 @@
                                     <label for="potato" class=create_form_label>Potato</label>
                                     <select name="Meal 17" required>
                                         <option value="null"></option>
-                                        {%for i in range(0, len_potato_meals)%}
-                                        <option value = "{{potato_meals[i]}}">{{potato_meals[i]}}</option> 
+                                        {%for i in range(0, staples_dict['Potato']|length)%}
+                                        <option value = "{{staples_dict['Potato'][i]}}">{{staples_dict['Potato'][i]}}</option> 
                                         {%endfor%}
                                     </select>
                                     <select name="Quantity 17" id="quantity" required>
@@ -301,8 +301,8 @@
                                     <label for="rice" class=create_form_label>Rice</label>
                                     <select name="Meal 18" required>
                                         <option value="null"></option>
-                                        {%for i in range(0, len_rice_meals)%}
-                                        <option value = "{{rice_meals[i]}}">{{rice_meals[i]}}</option> 
+                                        {%for i in range(0, staples_dict['Rice']|length)%}
+                                        <option value = "{{staples_dict['Rice'][i]}}">{{staples_dict['Rice'][i]}}</option> 
                                         {%endfor%}
                                     </select>
                                     <select name="Quantity 18" id="quantity" required>
@@ -316,8 +316,8 @@
                                 <label for="risotto" class=create_form_label>Risotto</label>
                                 <select name="Meal 19" required>
                                     <option value="null"></option>
-                                    {%for i in range(0, len_risotto_meals)%}
-                                    <option value = "{{risotto_meals[i]}}">{{risotto_meals[i]}}</option> 
+                                    {%for i in range(0, staples_dict['Risotto']|length)%}
+                                    <option value = "{{staples_dict['Risotto'][i]}}">{{staples_dict['Risotto'][i]}}</option> 
                                     {%endfor%}
                                 </select>
                                 <select name="Quantity 19" id="quantity" required>
@@ -336,8 +336,8 @@
                                     <label for="beans" class=create_form_label>Beans</label>
                                     <select name="Meal 20" required>
                                         <option value="null"></option>
-                                        {%for i in range(0, len_bean_meals)%}
-                                        <option value = "{{bean_meals[i]}}">{{bean_meals[i]}}</option> 
+                                        {%for i in range(0, staples_dict['Beans']|length)%}
+                                        <option value = "{{staples_dict['Beans'][i]}}">{{staples_dict['Beans'][i]}}</option> 
                                         {%endfor%}
                                     </select>
                                     <select name="Quantity 20" id="quantity" required>
@@ -351,8 +351,8 @@
                                     <label for="bread" class=create_form_label>Bread</label>
                                     <select name="Meal 21" required>
                                         <option value="null"></option>
-                                        {%for i in range(0, len_bread_meals)%}
-                                        <option value = "{{bread_meals[i]}}">{{bread_meals[i]}}</option> 
+                                        {%for i in range(0, staples_dict['Bread']|length)%}
+                                        <option value = "{{staples_dict['Bread'][i]}}">{{staples_dict['Bread'][i]}}</option> 
                                         {%endfor%}
                                     </select>
                                     <select name="Quantity 21" id="quantity" required>
@@ -366,8 +366,8 @@
                                     <label for="cous cous" class=create_form_label>Cous Cous</label>
                                     <select name="Meal 22" required>
                                         <option value="null"></option>
-                                        {%for i in range(0, len_cous_cous_meals)%}
-                                        <option value = "{{cous_cous_meals[i]}}">{{cous_cous_meals[i]}}</option> 
+                                        {%for i in range(0, staples_dict['Cous Cous']|length)%}
+                                        <option value = "{{staples_dict['Cous Cous'][i]}}">{{staples_dict['Cous Cous'][i]}}</option> 
                                         {%endfor%}
                                     </select>
                                     <select name="Quantity 22" id="quantity" required>
@@ -381,8 +381,8 @@
                                     <label for="noodles" class=create_form_label>Noodles</label>
                                     <select name="Meal 23" required>
                                         <option value="null"></option>
-                                        {%for i in range(0, len_noodle_meals)%}
-                                        <option value = "{{noodle_meals[i]}}">{{noodle_meals[i]}}</option> 
+                                        {%for i in range(0, staples_dict['Noodles']|length)%}
+                                        <option value = "{{staples_dict['Noodles'][i]}}">{{staples_dict['Noodles'][i]}}</option> 
                                         {%endfor%}
                                     </select>
                                     <select name="Quantity 23" id="quantity" required>
@@ -396,8 +396,8 @@
                                     <label for="orzo" class=create_form_label>Orzo</label>
                                     <select name="Meal 24" required>
                                         <option value="null"></option>
-                                        {%for i in range(0, len_orzo_meals)%}
-                                        <option value = "{{orzo_meals[i]}}">{{orzo_meals[i]}}</option> 
+                                        {%for i in range(0, staples_dict['Orzo']|length)%}
+                                        <option value = "{{staples_dict['Orzo'][i]}}">{{staples_dict['Orzo'][i]}}</option> 
                                         {%endfor%}
                                     </select>
                                     <select name="Quantity 24" id="quantity" required>
@@ -411,8 +411,8 @@
                                     <label for="pasta" class=create_form_label>Pasta</label>
                                     <select name="Meal 25" required>
                                         <option value="null"></option>
-                                        {%for i in range(0, len_pasta_meals)%}
-                                        <option value = "{{pasta_meals[i]}}">{{pasta_meals[i]}}</option> 
+                                        {%for i in range(0, staples_dict['Pasta']|length)%}
+                                        <option value = "{{staples_dict['Pasta'][i]}}">{{staples_dict['Pasta'][i]}}</option>
                                         {%endfor%}
                                     </select>
                                     <select name="Quantity 25" id="quantity" required>
@@ -426,8 +426,8 @@
                                     <label for="potato" class=create_form_label>Potato</label>
                                     <select name="Meal 26" required>
                                         <option value="null"></option>
-                                        {%for i in range(0, len_potato_meals)%}
-                                        <option value = "{{potato_meals[i]}}">{{potato_meals[i]}}</option> 
+                                        {%for i in range(0, staples_dict['Potato']|length)%}
+                                        <option value = "{{staples_dict['Potato'][i]}}">{{staples_dict['Potato'][i]}}</option> 
                                         {%endfor%}
                                     </select>
                                     <select name="Quantity 26" id="quantity" required>
@@ -441,8 +441,8 @@
                                     <label for="rice" class=create_form_label>Rice</label>
                                     <select name="Meal 27" required>
                                         <option value="null"></option>
-                                        {%for i in range(0, len_rice_meals)%}
-                                        <option value = "{{rice_meals[i]}}">{{rice_meals[i]}}</option> 
+                                        {%for i in range(0, staples_dict['Rice']|length)%}
+                                        <option value = "{{staples_dict['Rice'][i]}}">{{staples_dict['Rice'][i]}}</option> 
                                         {%endfor%}
                                     </select>
                                     <select name="Quantity 27" id="quantity" required>
@@ -456,8 +456,8 @@
                                 <label for="risotto" class=create_form_label>Risotto</label>
                                 <select name="Meal 28" required>
                                     <option value="null"></option>
-                                    {%for i in range(0, len_risotto_meals)%}
-                                    <option value = "{{risotto_meals[i]}}">{{risotto_meals[i]}}</option> 
+                                    {%for i in range(0, staples_dict['Risotto']|length)%}
+                                    <option value = "{{staples_dict['Risotto'][i]}}">{{staples_dict['Risotto'][i]}}</option> 
                                     {%endfor%}
                                 </select>
                                 <select name="Quantity 28" id="quantity" required>
@@ -475,7 +475,7 @@
                                     <H2>Remember!</H2>
                                         <div class=extras_table>
                                         <table id="checkboxtable">
-                                            {%for i in range(0, len_extras)%}
+                                            {%for i in range(0, extras|length)%}
                                                 <tr>
                                                     <td id="checkboxtable_col1"><label for="{{extras[i]}}">{{extras[i]}}</label></td>
                                                     <td id="checkboxtable_col2"><input type="checkbox" id="{{extras[i]}}" name="Extra {{i}}" value="{{extras[i]}}"></td>
