@@ -112,6 +112,48 @@ fresh_ingredients = sorted(
     ]
 )
 
+fresh_ingredients_dict = {
+        'Asparagus': 'spears',
+        'Aubergine': '',
+        'Broccoli': '',
+        'Butternut Squash': '',
+        'Carrots': '',
+        'Celery': '',
+        'Cherry Tomatoes': 'g',
+        'Chestnuts': 'g',
+        'Chilli Peppers': '',
+        'Clementines': '',
+        'Cod': 'g',
+        'Courgettes': '',
+        'Garlic': 'cloves',
+        'Green Beans': 'g',
+        'Kale': 'g',
+        'Leek': '',
+        'Lemon': '',
+        'Lime': '',
+        'Mushrooms': 'g',
+        'Onions (White)': '',
+        'Onions (Red)': '',
+        'Parsnips': '',
+        'Pastry': 'sheets',
+        'Peas (Frozen)': 'g',
+        'Peppers (Green)': '',
+        'Peppers (Red)': '',
+        'Pepper (Yellow)': '',
+        'Potatoes (Baking)': '',
+        'Potatoes (Maris Piper)': 'g',
+        'Potatoes (New)': 'g',
+        'Potatoes (Sweet)': '',
+        'Salmon': 'g',
+        'Spinach': 'balls',
+        'Spring Onions': '',
+        'Swede': 'g',
+        'Tomatoes': '',
+        'Vegetarian Mozzarella Burgers': '',
+        'Vegetarian Chorizo': '',
+        'Vegetarian Sausages': ''
+    }
+
 tinned_ingredients = sorted(
     [
         ['Baked Beans', 'tins'],
@@ -130,6 +172,23 @@ tinned_ingredients = sorted(
         ['Thai Red Curry Paste', 'g']
     ]
 )
+
+tinned_ingredients_dict = {
+        'Baked Beans': 'tins',
+        'Black Beans': 'tins',
+        'Black Eyed Beans': 'tins',
+        'Butter Beans': 'tins',
+        'Cannellini Beans': 'tins',
+        'Green Lentils': 'tins',
+        'Harissa Paste': 'jars',
+        'Kidney Beans': 'tins',
+        'Mixed Beans': 'tins',
+        'Pesto (Red)': 'jars',
+        'Pesto (Green)': 'jars',
+        'Plum Tomatoes': 'tins',
+        'Sun-dried Tomatoes': 'jars',
+        'Thai Red Curry Paste': 'g'
+    }
 
 dry_ingredients = sorted(
     [
@@ -166,6 +225,39 @@ dry_ingredients = sorted(
     ]
 )
 
+dry_ingredients_dict = {
+        'Bread': 'slices',
+        'Bread Rolls': '',
+        'Coconut Flakes': 'g',
+        'Coconut Sugar': 'g',
+        'Cous Cous': 'g',
+        'Dried Apricots': 'g',
+        'Dried Cranberries': 'g',
+        'Flour (Chickpea)': 'g',
+        'Flour (Self-raising)': 'g',
+        'Naan Bread': '',
+        'Noodles': 'nests',
+        'Nuts (Brazil)': 'g',
+        'Nuts (Hazelnuts)': 'g',
+        'Nuts (Pecans)': 'g',
+        'Nuts (Flaked Almonds)': 'g',
+        'Nuts (Walnuts)': 'g',
+        'Nuts (Whole Almonds)': 'g',
+        'Oats': 'g',
+        'Orzo': 'g',
+        'Panko Breadcrumbs': 'g',
+        'Pasta (Lasagne)': 'sheets',
+        'Pasta (Penne)': 'g',
+        'Pasta (Spaghetti)': 'g',
+        'Pitta Bread': '',
+        'Red Lentils': 'g',
+        'Rice (Arborio)': 'g',
+        'Rice (Brown)': 'g',
+        'Rice (Long Grain)': 'g',
+        'Suet': 'g',
+        'Tortilla Wraps': '',
+    }
+
 dairy_ingredients = sorted(
     [
         ['Cheese (Cheddar)', 'g'],
@@ -176,9 +268,17 @@ dairy_ingredients = sorted(
     ]
 )
 
+dairy_ingredients_dict = {
+        'Cheese (Cheddar)': 'g',
+        'Cheese (Mozzarella)': 'g',
+        'Cheese (Halloumi)': 'g',
+        'Eggs': '',
+        'Milk': 'ml'
+    }
+
 extras = sorted(
     [
-        'Apple Cider Vinegar',
+        'Apple Cider Vinegar'
         'Apples',
         'Balsamic Vinegar',
         'Baked Beans',

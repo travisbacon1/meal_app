@@ -106,6 +106,7 @@ def create_meal_plan():
         complete_ingredient_dict = collate_ingredients(quantity_adjustment(get_meal_info(meal_list, quantity_list)))
         complete_ingredient_dict['Extra_Ingredients'] = [value for key, value in details_dict.items() if 'Extra' in key]
         complete_ingredient_dict['Meal_List'] = [meal for meal in meal_list if meal != 'null']
+        print(complete_ingredient_dict)
         session['complete_ingredient_dict'] = complete_ingredient_dict
         return redirect(url_for('display.display_meal_plan'))
     return render_template('create.html', staples_dict=staples_dict, extras = extras)

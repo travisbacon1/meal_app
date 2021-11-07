@@ -2,19 +2,24 @@ from flask import Blueprint, redirect, url_for, render_template, request, sessio
 import os
 import json
 from datetime import datetime
+from ..variables import fresh_ingredients_dict, tinned_ingredients_dict, dry_ingredients_dict, dairy_ingredients_dict
+from .. import mysql
+from ..utilities import execute_mysql_query
+from datetime import datetime
 
 display = Blueprint('display', __name__, template_folder='templates', static_folder='../static')
 
-def save_meal_plan(complete_ingredient_dict):
+def save_meal_plan(complete_ingredient_dict) -> str:
     """Saves created meal plan to the local saved_meal_plans directory
-    
+
     Parameters
-    -------
-    complete_ingredient_dict: dict
+    ----------
+    complete_ingredient_dict : dict
 
     Returns
-    ------
-    file_path: string
+    -------
+    str
+        File path to saved meal plan
     """
     if not os.path.exists('saved_meal_plans'):
         os.makedirs('saved_meal_plans')
@@ -22,73 +27,63 @@ def save_meal_plan(complete_ingredient_dict):
     json_file = json.dumps(complete_ingredient_dict, indent=4)
     with open(f"saved_meal_plans/{dt_string}.json","w") as f:
         f.write(json_file)
-        f.close()
     file_path = str(os.getcwd()) + f"/saved_meal_plans/{dt_string}.json"
     return file_path
 
 
-def create_meal_info_table(meal_info_tuple):
-    """Creates a nested list of meal information for rendering in display.html 
-    
+def create_meal_info_table(meal_info_tuple) -> list[dict]:
+    """Creates a list of meal info dictionaries
+
     Parameters
-    -------
-    meal_info_tuple: tuple
+    ----------
+    meal_info_tuple : list[tuple]
 
     Returns
-    ------
-    meal_list_dicts: list
+    -------
+    list[dict]
+        List of meal dictionaries
     """
     meal_list_dicts = [meal for meal in meal_info_tuple]
-    meal_info_list = [[meal['Name'], f"{meal['Book']}, page {meal['Page']}"] if meal['Website'] == "" else [meal['Name'], meal['Website']] for meal in meal_list_dicts]
-    return meal_info_list
+    meal_info_dicts = [{'Name': meal['Name'], 'Info': f"{meal['Book']}, page {meal['Page']}"} if meal['Website'] == "" else {'Name': meal['Name'], 'Info': meal['Website']} for meal in meal_list_dicts]
+    return meal_info_dicts
 
 
-def append_ingredient_units(fresh_ingredients, tinned_ingredients, dry_ingredients, dairy_ingredients):
-    """Appends unit ingredients (i.e. g or ml) to ingredients
-    
+def append_ingredient_units(ingredients_dict, ingredients_units_list) -> dict:
+    """Appends unit ingredients (i.e. g or ml) to ingredient dictionary
+
     Parameters
-    -------
-    fresh_ingredients: list\n
-    tinned_ingredients: list\n
-    dry_ingredients: list\n
-    dairy_ingredients: list\n
+    ----------
+    ingredients_dict : dict
+    ingredients_units_list : list[dict]
 
     Returns
-    ------
-    fresh_ingredients: list\n
-    tinned_ingredients: list\n
-    dry_ingredients: list\n
-    dairy_ingredients: list\n
+    -------
+    dict
+        Ingredient dictionary containing units
     """
-    from ..variables import gram_list
-    fresh_ingredients[1] = [str(fresh_ingredients[1][idx]) + " g" if fresh_ingredients[0][idx] in gram_list else str(fresh_ingredients[1][idx]) for idx, _ in enumerate(fresh_ingredients[1])]
-    tinned_ingredients[1] = [str(tinned_ingredients[1][idx]) + " g" if tinned_ingredients[0][idx] in gram_list else str(tinned_ingredients[1][idx]) + " tin" if tinned_ingredients[1][idx] <= 1 else str(tinned_ingredients[1][idx]) + " tins" for idx, _ in enumerate(tinned_ingredients[1])]
-    dry_ingredients[1] = [str(dry_ingredients[1][idx]) + " g" if dry_ingredients[0][idx] in gram_list else str(dry_ingredients[1][idx]) for idx, _ in enumerate(dry_ingredients[1])]
-    dairy_ingredients[1] = [str(dairy_ingredients[1][idx]) + " g" if dairy_ingredients[0][idx] in gram_list else str(dairy_ingredients[1][idx]) + " ml" if str(dairy_ingredients[0][idx]) == 'Milk' else str(dairy_ingredients[1][idx]) for idx, _ in enumerate(dairy_ingredients[1])]
-    return fresh_ingredients, tinned_ingredients, dry_ingredients, dairy_ingredients
+    ingredients_with_units = {key: f"{str(value)} {str(ingredients_units_list[key])}" if key in list(ingredients_units_list.keys()) else '' for key, value in ingredients_dict.items()}
+    return ingredients_with_units
 
 
 @display.route('/display', methods=['GET', 'POST'])
 def display_meal_plan():
     if request.method == "GET":
-        from ..utilities import execute_mysql_query
         complete_ingredient_dict = session.pop('complete_ingredient_dict')
         session['complete_ingredient_dict'] = complete_ingredient_dict
         meal_list_string = str(complete_ingredient_dict['Meal_List']).strip("[]")
         query_string = f"SELECT Name, Book, Page, Website FROM MealsDatabase.MealsTable WHERE Name IN ({meal_list_string});"
         results = execute_mysql_query(query_string)
-        info_meal_list = create_meal_info_table(results)
-        fresh_ingredients = [list(complete_ingredient_dict["Fresh_Ingredients"].keys()), list(complete_ingredient_dict["Fresh_Ingredients"].values())]
-        tinned_ingredients = [list(complete_ingredient_dict["Tinned_Ingredients"].keys()), list(complete_ingredient_dict["Tinned_Ingredients"].values())]
-        dry_ingredients = [list(complete_ingredient_dict["Dry_Ingredients"].keys()), list(complete_ingredient_dict["Dry_Ingredients"].values())]
-        dairy_ingredients = [list(complete_ingredient_dict["Dairy_Ingredients"].keys()), list(complete_ingredient_dict["Dairy_Ingredients"].values())]
-        fresh_ingredients, tinned_ingredients, dry_ingredients, dairy_ingredients = append_ingredient_units(fresh_ingredients, tinned_ingredients, dry_ingredients, dairy_ingredients)
+        info_meal_dict = create_meal_info_table(results)
+        fresh_ingredients = append_ingredient_units(complete_ingredient_dict['Fresh_Ingredients'], fresh_ingredients_dict)
+        tinned_ingredients = append_ingredient_units(complete_ingredient_dict['Tinned_Ingredients'], tinned_ingredients_dict)
+        dry_ingredients = append_ingredient_units(complete_ingredient_dict['Dry_Ingredients'], dry_ingredients_dict)
+        dairy_ingredients = append_ingredient_units(complete_ingredient_dict["Dairy_Ingredients"], dairy_ingredients_dict)
         return render_template('display.html',
-                            len_meal_info_list = len(info_meal_list), meal_info_list=info_meal_list,
-                            len_fresh_ingredients = len(fresh_ingredients[0]), fresh_ingredients_keys=fresh_ingredients[0], fresh_ingredients_values=fresh_ingredients[1],
-                            len_tinned_ingredients = len(tinned_ingredients[0]), tinned_ingredients_keys=tinned_ingredients[0], tinned_ingredients_values=tinned_ingredients[1],
-                            len_dry_ingredients = len(dry_ingredients[0]), dry_ingredients_keys=dry_ingredients[0], dry_ingredients_values=dry_ingredients[1],
-                            len_dairy_ingredients = len(dairy_ingredients[0]), dairy_ingredients_keys=dairy_ingredients[0], dairy_ingredients_values=dairy_ingredients[1],
+                            len_meal_info_list = len(info_meal_dict), meal_info_list=info_meal_dict,
+                            len_fresh_ingredients = len(list(fresh_ingredients.keys())), fresh_ingredients_keys=list(fresh_ingredients.keys()), fresh_ingredients_values=list(fresh_ingredients.values()),
+                            len_tinned_ingredients = len(list(tinned_ingredients.keys())), tinned_ingredients_keys=list(tinned_ingredients.keys()), tinned_ingredients_values=list(tinned_ingredients.values()),
+                            len_dry_ingredients = len(list(dry_ingredients.keys())), dry_ingredients_keys=list(dry_ingredients.keys()), dry_ingredients_values=list(dry_ingredients.values()),
+                            len_dairy_ingredients = len(list(dairy_ingredients.keys())), dairy_ingredients_keys=list(dairy_ingredients.keys()), dairy_ingredients_values=list(dairy_ingredients.values()),
                             len_extra_ingredients = len(complete_ingredient_dict['Extra_Ingredients']), extra_ingredients=complete_ingredient_dict['Extra_Ingredients'])
 
     if request.method == "POST":
@@ -98,8 +93,6 @@ def display_meal_plan():
             file_path = save_meal_plan(complete_ingredient_dict)
             return render_template('save_complete.html', file_path = file_path)
         if request.form['submit'] == 'Update Dates':
-            from .. import mysql
-            from datetime import datetime
             date_now = datetime.now().strftime("%Y-%-m-%d")
             meals = complete_ingredient_dict['Meal_List']
             for meal in meals:

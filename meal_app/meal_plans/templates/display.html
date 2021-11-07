@@ -40,8 +40,8 @@
                     </tr>
                     {%for i in range(0, len_meal_info_list)%}
                         <tr>
-                            <td>{{meal_info_list[i][0]}}</td>
-                            <td>{{meal_info_list[i][1]}}</td>
+                            <td>{{meal_info_list[i]["Name"]}}</td>
+                            <td>{{meal_info_list[i]["Info"]}}</td>
                         </tr>
                     {%endfor%}
                 </table>
