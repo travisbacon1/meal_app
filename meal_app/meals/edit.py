@@ -6,7 +6,6 @@ edit = Blueprint('edit', __name__, template_folder='templates', static_folder='.
 
 @edit.route('/edit', methods=['GET', 'POST'])
 def index():
-    from .. import mysql
     query_string = f"SELECT Name FROM MealsDatabase.MealsTable;"
     results = execute_mysql_query(query_string)
     meals = [result['Name'] for result in results]
@@ -14,9 +13,8 @@ def index():
         details = request.form
         query_string = f"SELECT * FROM MealsDatabase.MealsTable WHERE Name='{details['Meal']}';"
         results = execute_mysql_query(query_string)
-        return redirect(url_for('edit.edit_meal', meal = results[0]['Name']))
-    return render_template('edit_list.html',
-                            len_meals = len(meals), meals = meals)
+        return redirect(url_for('edit.edit_meal', meal=results[0]['Name']))
+    return render_template('edit_list.html', meals=meals)
 
 
 @edit.route('/edit/<meal>', methods=['GET', 'POST'])
@@ -63,11 +61,8 @@ def edit_meal(meal):
         tags = get_tags(tag_list)
         query_string = f"UPDATE MealsDatabase.MealsTable SET Name = '{details['Name']}', Staple = '{details['Staple']}', Book = '{details['Book']}', Page = '{details['Page']}', Website = '{details['Website']}', Fresh_Ingredients = '{fresh_ing}', Tinned_Ingredients = '{tinned_ing}', Dry_Ingredients = '{dry_ing}', Dairy_Ingredients = '{dairy_ing}', Spring_Summer = {tags['Spring_Summer']}, Autumn_Winter = {tags['Autumn_Winter']}, Quick_Easy = {tags['Quick_Easy']}, Special = {tags['Special']} WHERE (Name = '{details['Name']}');"
         print(query_string)
-        cur = mysql.connection.cursor()
-        cur.execute(query_string)
-        mysql.connection.commit()
-        cur.close()
-        return redirect(url_for('edit.confirmation', meal = meal))
+        execute_mysql_query(query_string, commit=True)
+        return redirect(url_for('edit.confirmation', meal=meal))
 
 
 @edit.route('/edit_confirmation/<meal>', methods=['GET', 'POST'])
@@ -88,10 +83,10 @@ def confirmation(meal):
         tags = [{"Spring/Summer": result[0]['Spring_Summer']}, {"Autumn/Winter": result[0]['Autumn_Winter']}, {"Quick/Easy": result[0]['Quick_Easy']}, {"Special": result[0]['Special']}]
         tags = get_tag_keys(tags)
         return render_template('edit_confirmation.html', meal_name=meal,
-                                location_details = location_details, location_keys = location_details.keys(),
-                                staple = result[0]['Staple'],
-                                len_fresh_ingredients = len(fresh_ingredients[0]), fresh_ingredients_keys=fresh_ingredients[0], fresh_ingredients_values=fresh_ingredients[1],
-                                len_tinned_ingredients = len(tinned_ingredients[0]), tinned_ingredients_keys=tinned_ingredients[0], tinned_ingredients_values=tinned_ingredients[1],
-                                len_dry_ingredients = len(dry_ingredients[0]), dry_ingredients_keys=dry_ingredients[0], dry_ingredients_values=dry_ingredients[1],
-                                len_dairy_ingredients = len(dairy_ingredients[0]), dairy_ingredients_keys=dairy_ingredients[0], dairy_ingredients_values=dairy_ingredients[1],
-                                len_tags = len(tags), tags = tags)
+                                location_details=location_details, location_keys=location_details.keys(),
+                                staple=result[0]['Staple'],
+                                len_fresh_ingredients=len(fresh_ingredients[0]), fresh_ingredients_keys=fresh_ingredients[0], fresh_ingredients_values=fresh_ingredients[1],
+                                len_tinned_ingredients=len(tinned_ingredients[0]), tinned_ingredients_keys=tinned_ingredients[0], tinned_ingredients_values=tinned_ingredients[1],
+                                len_dry_ingredients=len(dry_ingredients[0]), dry_ingredients_keys=dry_ingredients[0], dry_ingredients_values=dry_ingredients[1],
+                                len_dairy_ingredients=len(dairy_ingredients[0]), dairy_ingredients_keys=dairy_ingredients[0], dairy_ingredients_values=dairy_ingredients[1],
+                                len_tags=len(tags), tags=tags)

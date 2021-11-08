@@ -6,14 +6,11 @@ delete = Blueprint('delete', __name__, template_folder='templates', static_folde
 
 def delete_plans(meal_plan_list) -> None:
     """Deletes the selected meal plans from the local saved_meal_plans directory
-    
-    Parameters
-    -------
-    meal_plan_list: list
 
-    Returns
-    ------
-    None
+    Parameters
+    ----------
+    meal_plan_list : list
+        List of meal plans to delete
     """
     for meal_plan in meal_plan_list:
         os.remove(f"saved_meal_plans/{meal_plan}.json")

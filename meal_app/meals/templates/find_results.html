@@ -33,11 +33,7 @@
             <br></br>
             <body>
                 <h1 class="display_meal_plan_header">Meal info for {{meal_name}}!</h1>
-                    {% if 'Book' in location_keys %}
-                        <h2 class="display_meal_plan_header">{{location_details['Book']}}, page {{location_details['Page']}}</h2>
-                    {% else %}
-                        <h2 class="display_meal_plan_header">{{location_details['Website']}}</h2>
-                    {% endif %}
+                        <h2 class="display_meal_plan_header">{{location_details}}</h2>
                     <table>
                         <tr>
                             <th class="ingredients">Fresh Ingredients</th>

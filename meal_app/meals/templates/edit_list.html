@@ -39,7 +39,7 @@
                             <label for="meal">Meal:</label>
                             <select name="Meal" required>
                                 <option value="null"></option>
-                                {%for i in range(0, len_meals)%}
+                                {%for i in range(0, meals|length)%}
                                 <option value = "{{meals[i]}}">{{meals[i]}}</option> 
                                 {%endfor%}
                             </select>

@@ -1,7 +1,7 @@
 import json
 from . import mysql
 
-def execute_mysql_query(query_string):
+def execute_mysql_query(query_string, fetch_results=True, commit=False):
     """Executes a MySQL query
     Parameters
     -------
@@ -13,8 +13,12 @@ def execute_mysql_query(query_string):
     """
     db_cursor = mysql.connection.cursor()
     db_cursor.execute(query_string)
-    results = db_cursor.fetchall()
-    return results
+    if fetch_results:
+        results = db_cursor.fetchall()
+        return results
+    elif commit == True:
+        db_cursor.connection.commit()
+        return
 
 
 def parse_ingredients(ingredients_dict, filter_word, remove_prefix=False):
@@ -49,7 +53,7 @@ def get_tag_keys(tags):
 
 
 def get_tags(tags):
-    from .variables import tag_list, tag_list_backend
+    from .variables import tag_list
     parsed_tags = {}
     for tag in tag_list:
         if tag in tags:

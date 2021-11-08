@@ -11,9 +11,8 @@ def choose_meal_plan():
         return render_template('no_meal_plans.html')
     if request.method == "POST":
         details = request.form
-        return redirect(url_for('load.load_meal_plan', meal_plan = details['Meal Plan']))
-    return render_template('load.html',
-                            len_meal_plans = len(meal_plans), meal_plans = meal_plans)
+        return redirect(url_for('load.load_meal_plan', meal_plan=details['Meal Plan']))
+    return render_template('load.html',len_meal_plans=len(meal_plans), meal_plans=meal_plans)
 
 
 @load.route('/load/<meal_plan>', methods=['GET'])

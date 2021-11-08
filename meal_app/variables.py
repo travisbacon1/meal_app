@@ -260,6 +260,7 @@ dry_ingredients_dict = {
 
 dairy_ingredients = sorted(
     [
+        ['Butter', 'g'],
         ['Cheese (Cheddar)', 'g'],
         ['Cheese (Mozzarella)', 'g'],
         ['Cheese (Halloumi)', 'g'],
@@ -269,6 +270,7 @@ dairy_ingredients = sorted(
 )
 
 dairy_ingredients_dict = {
+        'Butter': 'g',
         'Cheese (Cheddar)': 'g',
         'Cheese (Mozzarella)': 'g',
         'Cheese (Halloumi)': 'g',
@@ -278,7 +280,7 @@ dairy_ingredients_dict = {
 
 extras = sorted(
     [
-        'Apple Cider Vinegar'
+        'Apple Cider Vinegar',
         'Apples',
         'Balsamic Vinegar',
         'Baked Beans',

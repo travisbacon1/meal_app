@@ -32,13 +32,13 @@
         </div>
         <br></br>
             <body>
-                <h1 class="display_meal_plan_header">{{len_meal_info_list}} Planned Meals</h1>
+                <h1 class="display_meal_plan_header">{{meal_info_list|length}} Planned Meals</h1>
                 <table>
                     <tr>
                         <th class="Meal">Meal</th>
                         <th class="Info">Info</th>
                     </tr>
-                    {%for i in range(0, len_meal_info_list)%}
+                    {%for i in range(0, meal_info_list|length)%}
                         <tr>
                             <td>{{meal_info_list[i]["Name"]}}</td>
                             <td>{{meal_info_list[i]["Info"]}}</td>
@@ -51,10 +51,10 @@
                             <th class="ingredients">Fresh Ingredients</th>
                             <th class="quantity">Quantity</th>
                         </tr>
-                        {%for i in range(0, len_fresh_ingredients)%}
+                        {%for key, value in complete_ingredient_dict["Fresh_Ingredients"].items()%}
                             <tr>
-                                <td>{{fresh_ingredients_keys[i]}}</td>
-                                <td>{{fresh_ingredients_values[i]}}</td>
+                                <td>{{key}}</td>
+                                <td>{{value}}</td>
                             </tr>
                         {%endfor%}
                     </table>
@@ -63,10 +63,10 @@
                             <th class="ingredients">Tinned Ingredients</th>
                             <th class="quantity"> </th>
                         </tr>
-                        {%for i in range(0, len_tinned_ingredients)%}
+                        {%for key, value in complete_ingredient_dict["Tinned_Ingredients"].items()%}
                             <tr>
-                                <td>{{tinned_ingredients_keys[i]}}</td>
-                                <td>{{tinned_ingredients_values[i]}}</td>
+                                <td>{{key}}</td>
+                                <td>{{value}}</td>
                             </tr>
                         {%endfor%}
                     </table>
@@ -75,10 +75,10 @@
                             <th class="ingredients">Dry Ingredients</th>
                             <th class="quantity"> </th>
                         </tr>
-                        {%for i in range(0, len_dry_ingredients)%}
+                        {%for key, value in complete_ingredient_dict["Dry_Ingredients"].items()%}
                             <tr>
-                                <td>{{dry_ingredients_keys[i]}}</td>
-                                <td>{{dry_ingredients_values[i]}}</td>
+                                <td>{{key}}</td>
+                                <td>{{value}}</td>
                             </tr>
                         {%endfor%}
                     </table>
@@ -87,10 +87,10 @@
                             <th class="ingredients">Dairy Ingredients</th>
                             <th class="quantity"> </th>
                         </tr>
-                        {%for i in range(0, len_dairy_ingredients)%}
+                        {%for key, value in complete_ingredient_dict["Dairy_Ingredients"].items()%}
                         <tr>
-                            <td>{{dairy_ingredients_keys[i]}}</td>
-                            <td>{{dairy_ingredients_values[i]}}</td>
+                            <td>{{key}}</td>
+                            <td>{{value}}</td>
                         </tr>
                         {%endfor%}
                     </table>
@@ -99,9 +99,9 @@
                             <th class="ingredients">Don't forget!</th>
                             <th class="quantity"> </th>
                         </tr>
-                        {%for i in range(0, len_extra_ingredients)%}
+                        {%for i in range(0, complete_ingredient_dict['Extra_Ingredients']|length)%}
                         <tr>
-                            <td>{{extra_ingredients[i]}}</td>
+                            <td>{{complete_ingredient_dict['Extra_Ingredients'][i]}}</td>
                             <td></td>
                         </tr>
                         {%endfor%}
