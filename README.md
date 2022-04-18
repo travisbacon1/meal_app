@@ -23,7 +23,6 @@ This Python flask app is designed to aid meal planning by cataloging your most f
 ## TODOs
 * Update schema & app to support meal tags (i.e. type of meal, "special" meal etc. to aid searching)
 * Add delete meal functionality
-* Add support for ingredient units
 * Validate input to make sure it complies with MySQL database schema
 * Write unit tests
 * Improve CSS styling

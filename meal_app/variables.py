@@ -38,6 +38,13 @@ def variable_printer(variable_name, variable):
     print(variable_name, "type:", type(variable), "content:")
     print(variable)
 
+ingredient_types = [
+    'Dairy_Ingredients',
+    'Dry_Ingredients',
+    'Fresh_Ingredients',
+    'Tinned_Ingredients'
+]
+
 book_list = sorted(
     [
         '',
@@ -72,12 +79,16 @@ fresh_ingredients = sorted(
     [
         ['Asparagus', 'spears'],
         ['Aubergine', ''],
+        ['Beef (Minced)', 'g'],
+        ['Beef (Diced)', 'g'],
         ['Broccoli', ''],
         ['Butternut Squash', ''],
         ['Carrots', ''],
         ['Celery', ''],
         ['Cherry Tomatoes', 'g'],
         ['Chestnuts', 'g'],
+        ['Chicken (Mini Fillets)', 'g'],
+        ['Chicken (Breasts)', 'g'],
         ['Chilli Peppers', ''],
         ['Clementines', ''],
         ['Cod', 'g'],
@@ -97,6 +108,7 @@ fresh_ingredients = sorted(
         ['Peppers (Green)', ''],
         ['Peppers (Red)', ''],
         ['Pepper (Yellow)', ''],
+        ['Pork Sausages', ''],
         ['Potatoes (Baking)', ''],
         ['Potatoes (Maris Piper)', 'g'],
         ['Potatoes (New)', 'g'],
@@ -140,6 +152,7 @@ fresh_ingredients_dict = {
         'Peppers (Green)': '',
         'Peppers (Red)': '',
         'Pepper (Yellow)': '',
+        'Pork Sausages': '',
         'Potatoes (Baking)': '',
         'Potatoes (Maris Piper)': 'g',
         'Potatoes (New)': 'g',
@@ -165,6 +178,7 @@ tinned_ingredients = sorted(
         ['Harissa Paste', 'jars'],
         ['Kidney Beans', 'tins'],
         ['Mixed Beans', 'tins'],
+        ['Pasta Sauce', 'jars'],
         ['Pesto (Red)', 'jars'],
         ['Pesto (Green)', 'jars'],
         ['Plum Tomatoes', 'tins'],
@@ -183,6 +197,7 @@ tinned_ingredients_dict = {
         'Harissa Paste': 'jars',
         'Kidney Beans': 'tins',
         'Mixed Beans': 'tins',
+        'Pasta Sauce': 'jars',
         'Pesto (Red)': 'jars',
         'Pesto (Green)': 'jars',
         'Plum Tomatoes': 'tins',
@@ -212,6 +227,7 @@ dry_ingredients = sorted(
         ['Oats', 'g'],
         ['Orzo', 'g'],
         ['Panko Breadcrumbs', 'g'],
+        ['Parsley Sauce', 'packets'],
         ['Pasta (Lasagne)', 'sheets'],
         ['Pasta (Penne)', 'g'],
         ['Pasta (Spaghetti)', 'g'],
@@ -246,6 +262,7 @@ dry_ingredients_dict = {
         'Oats': 'g',
         'Orzo': 'g',
         'Panko Breadcrumbs': 'g',
+        'Parsley Sauce': 'packets',
         'Pasta (Lasagne)': 'sheets',
         'Pasta (Penne)': 'g',
         'Pasta (Spaghetti)': 'g',
@@ -262,8 +279,10 @@ dairy_ingredients = sorted(
     [
         ['Butter', 'g'],
         ['Cheese (Cheddar)', 'g'],
-        ['Cheese (Mozzarella)', 'g'],
+        ['Cheese (Feta)', 'g'],
         ['Cheese (Halloumi)', 'g'],
+        ['Cheese (Mozzarella)', 'g'],
+        ['Cheese (Ricotta)', 'g'],
         ['Eggs', ''],
         ['Milk', 'ml']
     ]
@@ -272,8 +291,10 @@ dairy_ingredients = sorted(
 dairy_ingredients_dict = {
         'Butter': 'g',
         'Cheese (Cheddar)': 'g',
-        'Cheese (Mozzarella)': 'g',
+        'Cheese (Feta)': 'g',
         'Cheese (Halloumi)': 'g',
+        'Cheese (Mozzarella)': 'g',
+        'Cheese (Ricotta)': 'g',
         'Eggs': '',
         'Milk': 'ml'
     }
@@ -298,12 +319,16 @@ extras = sorted(
         'Crackers (Multi-grain)',
         'Crackers (Poppy Seed)',
         'Crackers (Rosemary)',
+        'Flour (Malthouse)',
         'Flour (Pasta)',
         'Flour (Plain)',
+        'Flour (Rye)',
         'Flour (Self-raising)',
         'Flour (Strong White Bread)',
-        'Flour (Wholemeal Bread)',
+        'Flour (White Spelt)',
         'Flour (Wholemeal)',
+        'Flour (Wholemeal Bread)',
+        'Flour (Wholemeal Spelt)',
         'Frozen Peas',
         'Frozen Blueberries',
         'Frozen Raspberries',

@@ -61,7 +61,7 @@ def edit_meal(meal):
         tags = get_tags(tag_list)
         query_string = f"UPDATE MealsDatabase.MealsTable SET Name = '{details['Name']}', Staple = '{details['Staple']}', Book = '{details['Book']}', Page = '{details['Page']}', Website = '{details['Website']}', Fresh_Ingredients = '{fresh_ing}', Tinned_Ingredients = '{tinned_ing}', Dry_Ingredients = '{dry_ing}', Dairy_Ingredients = '{dairy_ing}', Spring_Summer = {tags['Spring_Summer']}, Autumn_Winter = {tags['Autumn_Winter']}, Quick_Easy = {tags['Quick_Easy']}, Special = {tags['Special']} WHERE (Name = '{details['Name']}');"
         print(query_string)
-        execute_mysql_query(query_string, commit=True)
+        execute_mysql_query(query_string, fetch_results=False, commit=True)
         return redirect(url_for('edit.confirmation', meal=meal))
 
 

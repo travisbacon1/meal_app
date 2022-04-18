@@ -18,7 +18,6 @@ def execute_mysql_query(query_string, fetch_results=True, commit=False):
         return results
     elif commit == True:
         db_cursor.connection.commit()
-        return
 
 
 def parse_ingredients(ingredients_dict, filter_word, remove_prefix=False):

@@ -22,7 +22,7 @@ def get_meal_info(meal_list, quantity_list) -> list[dict]:
     for idx, meal in enumerate(meal_list):
         query_string = f"SELECT Fresh_Ingredients, Tinned_Ingredients, Dry_Ingredients, Dairy_Ingredients FROM MealsDatabase.MealsTable WHERE Name = '{meal}';"
         ingredients = execute_mysql_query(query_string)
-        for ingredient_type in ingredients[0].keys():
+        for ingredient_type in list(ingredients[0].keys()):
             ingredients[0][ingredient_type] = json.loads(ingredients[0][ingredient_type])
         ingredients[0]['quantity'] = quantity_list[idx]
         results.append(ingredients[0])
@@ -41,11 +41,10 @@ def quantity_adjustment(meal_list_dict) -> list[dict]:
     list[dict]
         List of each meal's ingredients with the adjusted quantities
     """
-    for idx, meal in enumerate(meal_list_dict):
-        meal['Fresh_Ingredients'].update((k, float(v) * meal['quantity']) for k,v in meal['Fresh_Ingredients'].items())
-        meal['Tinned_Ingredients'].update((k, float(v) * meal['quantity']) for k,v in meal['Tinned_Ingredients'].items())
-        meal['Dry_Ingredients'].update((k, float(v) * meal['quantity']) for k,v in meal['Dry_Ingredients'].items())
-        meal['Dairy_Ingredients'].update((k, float(v) * meal['quantity']) for k,v in meal['Dairy_Ingredients'].items())
+    for meal in meal_list_dict:
+        for ingredient_type in list(meal.keys()):
+            if ingredient_type != 'quantity':
+                meal[ingredient_type].update((k, float(v) * meal['quantity']) for k,v in meal[ingredient_type].items())
         del meal['quantity']
     return meal_list_dict
 
@@ -69,7 +68,6 @@ def build_ingredient_dictionary(meal_ingredient_dict, complete_ingredient_dict, 
             complete_ingredient_dict[ingredient_type][ingredient] += float(meal_ingredient_dict[ingredient])
         else:
             complete_ingredient_dict[ingredient_type][ingredient] = float(meal_ingredient_dict[ingredient])
-        complete_ingredient_dict[ingredient_type][ingredient] = round(complete_ingredient_dict[ingredient_type][ingredient], 2)
         complete_ingredient_dict[ingredient_type][ingredient] = int(complete_ingredient_dict[ingredient_type][ingredient]) if complete_ingredient_dict[ingredient_type][ingredient].is_integer() else complete_ingredient_dict[ingredient_type][ingredient]
     return complete_ingredient_dict
 
@@ -89,7 +87,7 @@ def collate_ingredients(meal_info_list) -> dict:
     complete_ingredient_dict = {ingredient_type: {} for ingredient_type in meal_info_list[0].keys()}
     for meal in meal_info_list:
         for ingredient_type in meal.keys():
-            if meal[ingredient_type] != None:
+            if meal[ingredient_type]:
                 build_ingredient_dictionary(meal[ingredient_type], complete_ingredient_dict, ingredient_type)
     return complete_ingredient_dict
 

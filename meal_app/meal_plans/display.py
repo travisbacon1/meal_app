@@ -4,7 +4,6 @@ import json
 from datetime import datetime
 from ..variables import fresh_ingredients_dict, tinned_ingredients_dict, dry_ingredients_dict, dairy_ingredients_dict
 from ..utilities import execute_mysql_query
-from datetime import datetime
 
 display = Blueprint('display', __name__, template_folder='templates', static_folder='../static')
 
@@ -66,7 +65,7 @@ def append_ingredient_units(ingredients_dict, ingredients_units_list) -> dict:
 
 @display.route('/display', methods=['GET', 'POST'])
 def display_meal_plan():
-    complete_ingredient_dict = session.pop('complete_ingredient_dict')
+    complete_ingredient_dict = session['complete_ingredient_dict']
     if request.method == "GET":
         meal_list_string = str(complete_ingredient_dict['Meal_List']).strip("[]")
         query_string = f"SELECT Name, Book, Page, Website FROM MealsDatabase.MealsTable WHERE Name IN ({meal_list_string});"
@@ -80,11 +79,13 @@ def display_meal_plan():
     if request.method == "POST":
         if request.form['submit'] == 'Save':
             file_path = save_meal_plan(complete_ingredient_dict)
+            session['complete_ingredient_dict'] = complete_ingredient_dict
             return render_template('save_complete.html', file_path=file_path)
         if request.form['submit'] == 'Update Dates':
             date_now = datetime.now().strftime("%Y-%-m-%d")
             meals = complete_ingredient_dict['Meal_List']
             for meal in meals:
                 query_string = f"""UPDATE `MealsDatabase`.`MealsTable` SET `Last_Made` = '{date_now}' WHERE (`Name` = '{meal}');"""
-                execute_mysql_query(query_string, commit=True)
+                execute_mysql_query(query_string, fetch_results=False, commit=True)
+            session['complete_ingredient_dict'] = complete_ingredient_dict
             return redirect(url_for('display.display_meal_plan'))
