@@ -136,14 +136,14 @@ button:hover {
   color: black;
 }
 
-#homepagebutton {
+.homepagebutton {
   border: 1px solid black;
   position: relative;
   left: 35%;
   width: 150px;
 }
 
-#homepagebutton:hover {
+.homepagebutton:hover {
   /* background-color: #ddd; */
   background-color: rgb(175, 222, 250);
   color: black;
