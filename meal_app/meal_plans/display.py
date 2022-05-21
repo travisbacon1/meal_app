@@ -68,7 +68,7 @@ def display_meal_plan():
     complete_ingredient_dict = session['complete_ingredient_dict']
     if request.method == "GET":
         meal_list_string = str(complete_ingredient_dict['Meal_List']).strip("[]")
-        query_string = f"SELECT Name, Book, Page, Website FROM MealsDatabase.MealsTable WHERE Name IN ({meal_list_string});"
+        query_string = f"SELECT Name, Book, Page, Website FROM {os.environ['MYSQL_DATABASE']}.{os.environ['MYSQL_TABLE']} WHERE Name IN ({meal_list_string});"
         info_meal_dict = create_meal_info_table(execute_mysql_query(query_string))
         complete_ingredient_dict['Fresh_Ingredients'] = append_ingredient_units(complete_ingredient_dict['Fresh_Ingredients'], fresh_ingredients_dict)
         complete_ingredient_dict['Tinned_Ingredients'] = append_ingredient_units(complete_ingredient_dict['Tinned_Ingredients'], tinned_ingredients_dict)
@@ -85,7 +85,7 @@ def display_meal_plan():
             date_now = datetime.now().strftime("%Y-%-m-%d")
             meals = complete_ingredient_dict['Meal_List']
             for meal in meals:
-                query_string = f"""UPDATE `MealsDatabase`.`MealsTable` SET `Last_Made` = '{date_now}' WHERE (`Name` = '{meal}');"""
+                query_string = f"""UPDATE `{os.environ['MYSQL_DATABASE']}`.`{os.environ['MYSQL_TABLE']}` SET `Last_Made` = '{date_now}' WHERE (`Name` = '{meal}');"""
                 execute_mysql_query(query_string, fetch_results=False, commit=True)
             session['complete_ingredient_dict'] = complete_ingredient_dict
             return redirect(url_for('display.display_meal_plan'))

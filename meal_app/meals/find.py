@@ -1,17 +1,18 @@
 from flask import Blueprint, render_template, request, redirect, url_for
 import json
 from ..utilities import execute_mysql_query
+import os
 
 find = Blueprint('find', __name__, template_folder='templates', static_folder='../static')
 
 @find.route('/find', methods=['GET', 'POST'])
 def index():
-    query_string = f"SELECT Name FROM MealsDatabase.MealsTable;"
+    query_string = f"SELECT Name FROM {os.environ['MYSQL_DATABASE']}.{os.environ['MYSQL_TABLE']};"
     results = execute_mysql_query(query_string)
     meals = [result['Name'] for result in results]
     if request.method == "POST":
         details = request.form
-        query_string = f"SELECT * FROM MealsDatabase.MealsTable WHERE Name='{details['Meal']}';"
+        query_string = f"SELECT * FROM {os.environ['MYSQL_DATABASE']}.{os.environ['MYSQL_TABLE']} WHERE Name='{details['Meal']}';"
         results = execute_mysql_query(query_string)
         return redirect(url_for('find.some_meal_page', meal=results[0]['Name']))
     return render_template('find.html', meals=meals)
@@ -20,7 +21,7 @@ def index():
 @find.route('/find/<meal>', methods=['GET', 'POST'])
 def some_meal_page(meal):
     if request.method == "GET":
-        query_string = f"SELECT * FROM MealsDatabase.MealsTable WHERE Name='{meal}';"
+        query_string = f"SELECT * FROM {os.environ['MYSQL_DATABASE']}.{os.environ['MYSQL_TABLE']} WHERE Name='{meal}';"
         result = execute_mysql_query(query_string)
         location_details = f"{result[0].get('Book')}, page {result[0].get('Page')}" if result[0].get('Website') == None or result[0].get('Website') == "" else result[0].get('Website')
         fresh_ingredients = [list(json.loads(result[0]['Fresh_Ingredients']).keys()), list(json.loads(result[0]['Fresh_Ingredients']).values())]

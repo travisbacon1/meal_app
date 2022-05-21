@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, request, redirect, url_for
-import json
 from ..utilities import parse_ingredients
+import os
 
 add = Blueprint('add', __name__, template_folder='templates', static_folder='../static')
 
@@ -13,7 +13,7 @@ def index():
         details_dict = details.to_dict()
         cur = mysql.connection.cursor()
         cur.execute(
-            "INSERT INTO MealsTable(Name, Staple, Book, Page, Website, Fresh_Ingredients, Tinned_Ingredients, Dry_Ingredients, Dairy_Ingredients) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)",
+            f"INSERT INTO {os.environ['MYSQL_TABLE']}(Name, Staple, Book, Page, Website, Fresh_Ingredients, Tinned_Ingredients, Dry_Ingredients, Dairy_Ingredients) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)",
             (details['Name'], details['Staple'], details['Book'], details['Page'], details['Website'], parse_ingredients(details_dict, "Fresh ", remove_prefix=True), parse_ingredients(details_dict, "Tinned ", remove_prefix=True), parse_ingredients(details_dict, "Dry ", remove_prefix=True), parse_ingredients(details_dict, "Dairy ", remove_prefix=True))
             )
         mysql.connection.commit()

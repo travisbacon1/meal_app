@@ -1,6 +1,7 @@
 from flask import Blueprint, render_template, request, redirect, url_for
 import json
 from ..utilities import execute_mysql_query, parse_ingredients, get_tag_keys, get_tags
+import os
 
 add = Blueprint('add', __name__, template_folder='templates', static_folder='../static')
 
@@ -18,7 +19,7 @@ def index():
         print(details['Name'].replace("'", "\'"))
         tags = get_tags(tag_list)
         cur = mysql.connection.cursor()
-        query = f"""INSERT INTO MealsTable (Name, Staple, Book, Page, Website, Fresh_Ingredients, Tinned_Ingredients, Dry_Ingredients, Dairy_Ingredients, Last_Made, Spring_Summer, Autumn_Winter, Quick_Easy, Special) VALUES ('{details["Name"]}', '{details["Staple"]}', '{details["Book"]}', '{details["Page"]}', '{details["Website"]}', '{parse_ingredients(details_dict, "Fresh ")}', '{parse_ingredients(details_dict, "Tinned ")}', '{parse_ingredients(details_dict, "Dry ")}', '{parse_ingredients(details_dict, "Dairy ")}', '{"2021-01-01"}', '{tags["Spring_Summer"]}', '{tags["Autumn_Winter"]}', '{tags["Quick_Easy"]}', '{tags["Special"]}');"""
+        query = f"""INSERT INTO {os.environ['MYSQL_TABLE']} (Name, Staple, Book, Page, Website, Fresh_Ingredients, Tinned_Ingredients, Dry_Ingredients, Dairy_Ingredients, Last_Made, Spring_Summer, Autumn_Winter, Quick_Easy, Special) VALUES ('{details["Name"]}', '{details["Staple"]}', '{details["Book"]}', '{details["Page"]}', '{details["Website"]}', '{parse_ingredients(details_dict, "Fresh ")}', '{parse_ingredients(details_dict, "Tinned ")}', '{parse_ingredients(details_dict, "Dry ")}', '{parse_ingredients(details_dict, "Dairy ")}', '{"2021-01-01"}', '{tags["Spring_Summer"]}', '{tags["Autumn_Winter"]}', '{tags["Quick_Easy"]}', '{tags["Special"]}');"""
         print(query)
         cur.execute(query)
         mysql.connection.commit()
@@ -37,7 +38,7 @@ def index():
 @add.route('/add_confirmation/<meal>', methods=['GET', 'POST'])
 def confirmation(meal):
     if request.method == "GET":
-        query_string = f"SELECT * FROM MealsDatabase.MealsTable WHERE Name='{meal}';"
+        query_string = f"SELECT * FROM {os.environ['MYSQL_DATABASE']}.{os.environ['MYSQL_TABLE']} WHERE Name='{meal}';"
         result = execute_mysql_query(query_string)
         location_details = {}
         if result[0]['Website'] == None or result[0]['Website'] == '':

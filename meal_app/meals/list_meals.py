@@ -2,6 +2,7 @@ from flask import Blueprint, render_template, request, redirect, url_for
 from .. import mysql
 import json
 from ..utilities import execute_mysql_query
+import os
 
 list_meals = Blueprint('list_meals', __name__, template_folder='templates', static_folder='../static')
 
@@ -9,7 +10,7 @@ list_meals = Blueprint('list_meals', __name__, template_folder='templates', stat
 def index():
     if request.method == "GET":
         from datetime import datetime
-        query_string = "SELECT *, CAST(Page AS SIGNED) AS Page FROM MealsDatabase.MealsTable ORDER BY Book, Page;"
+        query_string = f"SELECT *, CAST(Page AS SIGNED) AS Page FROM {os.environ['MYSQL_DATABASE']}.{os.environ['MYSQL_TABLE']} ORDER BY Book, Page;"
         results = execute_mysql_query(query_string)
         results = [result for result in results]
         meal_names = [meal['Name'] for meal in results]

@@ -2,6 +2,7 @@ from flask import Blueprint, render_template, request, redirect, url_for
 from .. import mysql
 import json
 from ..utilities import execute_mysql_query
+import os
 
 inspire = Blueprint('inspire', __name__, template_folder='templates', static_folder='../static')
 
@@ -12,7 +13,7 @@ def index():
     if request.method == "POST":
         details = request.form
         tag = details['Tag'].replace('/', '_')
-        query_string = f"SELECT Name, Staple, Last_Made FROM MealsDatabase.MealsTable WHERE {tag}=1 ORDER BY Name;"
+        query_string = f"SELECT Name, Staple, Last_Made FROM {os.environ['MYSQL_DATABASE']}.{os.environ['MYSQL_TABLE']} WHERE {tag}=1 ORDER BY Name;"
         results = execute_mysql_query(query_string)
         meal_names = [meal['Name'] for meal in results]
         staples = [meal['Staple'] for meal in results]

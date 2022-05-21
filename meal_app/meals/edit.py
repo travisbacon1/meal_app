@@ -1,17 +1,18 @@
 from flask import Blueprint, render_template, request, redirect, url_for
 import json
 from ..utilities import execute_mysql_query, parse_ingredients, get_tag_keys, get_tags
+import os
 
 edit = Blueprint('edit', __name__, template_folder='templates', static_folder='../static')
 
 @edit.route('/edit', methods=['GET', 'POST'])
 def index():
-    query_string = f"SELECT Name FROM MealsDatabase.MealsTable;"
+    query_string = f"SELECT Name FROM {os.environ['MYSQL_DATABASE']}.{os.environ['MYSQL_TABLE']};"
     results = execute_mysql_query(query_string)
     meals = [result['Name'] for result in results]
     if request.method == "POST":
         details = request.form
-        query_string = f"SELECT * FROM MealsDatabase.MealsTable WHERE Name='{details['Meal']}';"
+        query_string = f"SELECT * FROM {os.environ['MYSQL_DATABASE']}.{os.environ['MYSQL_TABLE']} WHERE Name='{details['Meal']}';"
         results = execute_mysql_query(query_string)
         return redirect(url_for('edit.edit_meal', meal=results[0]['Name']))
     return render_template('edit_list.html', meals=meals)
@@ -22,7 +23,7 @@ def edit_meal(meal):
     from .. import mysql
     from ..variables import staples_list, book_list, fresh_ingredients, tinned_ingredients, dry_ingredients, dairy_ingredients, tag_list
     if request.method == "GET":
-        query_string = f"SELECT * FROM MealsDatabase.MealsTable WHERE Name = '{meal}';"
+        query_string = f"SELECT * FROM {os.environ['MYSQL_DATABASE']}.{os.environ['MYSQL_TABLE']} WHERE Name = '{meal}';"
         results = execute_mysql_query(query_string)
         current_fresh_ingredients = json.loads(results[0]['Fresh_Ingredients'])
         current_fresh_ingredients_keys = list(current_fresh_ingredients.keys())
@@ -59,7 +60,7 @@ def edit_meal(meal):
             if 'Tag' in key:
                 tag_list.append(details_dict[key])
         tags = get_tags(tag_list)
-        query_string = f"UPDATE MealsDatabase.MealsTable SET Name = '{details['Name']}', Staple = '{details['Staple']}', Book = '{details['Book']}', Page = '{details['Page']}', Website = '{details['Website']}', Fresh_Ingredients = '{fresh_ing}', Tinned_Ingredients = '{tinned_ing}', Dry_Ingredients = '{dry_ing}', Dairy_Ingredients = '{dairy_ing}', Spring_Summer = {tags['Spring_Summer']}, Autumn_Winter = {tags['Autumn_Winter']}, Quick_Easy = {tags['Quick_Easy']}, Special = {tags['Special']} WHERE (Name = '{details['Name']}');"
+        query_string = f"UPDATE {os.environ['MYSQL_DATABASE']}.{os.environ['MYSQL_TABLE']} SET Name = '{details['Name']}', Staple = '{details['Staple']}', Book = '{details['Book']}', Page = '{details['Page']}', Website = '{details['Website']}', Fresh_Ingredients = '{fresh_ing}', Tinned_Ingredients = '{tinned_ing}', Dry_Ingredients = '{dry_ing}', Dairy_Ingredients = '{dairy_ing}', Spring_Summer = {tags['Spring_Summer']}, Autumn_Winter = {tags['Autumn_Winter']}, Quick_Easy = {tags['Quick_Easy']}, Special = {tags['Special']} WHERE (Name = '{details['Name']}');"
         print(query_string)
         execute_mysql_query(query_string, fetch_results=False, commit=True)
         return redirect(url_for('edit.confirmation', meal=meal))
@@ -68,7 +69,7 @@ def edit_meal(meal):
 @edit.route('/edit_confirmation/<meal>', methods=['GET', 'POST'])
 def confirmation(meal):
     if request.method == "GET":
-        query_string = f"SELECT * FROM MealsDatabase.MealsTable WHERE Name='{meal}';"
+        query_string = f"SELECT * FROM {os.environ['MYSQL_DATABASE']}.{os.environ['MYSQL_TABLE']} WHERE Name='{meal}';"
         result = execute_mysql_query(query_string)
         location_details = {}
         if result[0]['Website'] == None or result[0]['Website'] == '':

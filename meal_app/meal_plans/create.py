@@ -2,6 +2,7 @@ from flask import Blueprint, render_template, request, redirect, url_for, sessio
 from ..utilities import execute_mysql_query
 from ..variables import extras
 import json
+import os
 
 create = Blueprint('create', __name__, template_folder='templates', static_folder='static')
 
@@ -20,7 +21,7 @@ def get_meal_info(meal_list, quantity_list) -> list[dict]:
     """
     results = []
     for idx, meal in enumerate(meal_list):
-        query_string = f"SELECT Fresh_Ingredients, Tinned_Ingredients, Dry_Ingredients, Dairy_Ingredients FROM MealsDatabase.MealsTable WHERE Name = '{meal}';"
+        query_string = f"SELECT Fresh_Ingredients, Tinned_Ingredients, Dry_Ingredients, Dairy_Ingredients FROM {os.environ['MYSQL_DATABASE']}.{os.environ['MYSQL_TABLE']} WHERE Name = '{meal}';"
         ingredients = execute_mysql_query(query_string)
         for ingredient_type in list(ingredients[0].keys()):
             ingredients[0][ingredient_type] = json.loads(ingredients[0][ingredient_type])
@@ -94,7 +95,7 @@ def collate_ingredients(meal_info_list) -> dict:
 
 @create.route('/create', methods=['GET', 'POST'])
 def create_meal_plan():
-    query_string = f"SELECT GROUP_CONCAT(Name ORDER BY Name ASC) as Meals, Staple FROM MealsDatabase.MealsTable GROUP BY Staple;"
+    query_string = f"SELECT GROUP_CONCAT(Name ORDER BY Name ASC) as Meals, Staple FROM {os.environ['MYSQL_DATABASE']}.{os.environ['MYSQL_TABLE']} GROUP BY Staple;"
     results = execute_mysql_query(query_string)
     staples_dict = {str(item['Staple']): list(item['Meals'].split(',')) for item in results}
     if request.method == "POST":

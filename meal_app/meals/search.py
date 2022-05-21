@@ -2,12 +2,13 @@ from flask import Blueprint, render_template, request, redirect, url_for, sessio
 from .. import mysql
 from ..utilities import execute_mysql_query
 import json
+import os
 
 search = Blueprint('search', __name__, template_folder='templates', static_folder='../static')
 
 @search.route('/search', methods=['GET', 'POST'])
 def index():
-    query_string = f"SELECT Fresh_Ingredients, Tinned_Ingredients, Dry_Ingredients, Dairy_Ingredients FROM MealsDatabase.MealsTable WHERE json_length(Fresh_Ingredients) > 0;"
+    query_string = f"SELECT Fresh_Ingredients, Tinned_Ingredients, Dry_Ingredients, Dairy_Ingredients FROM {os.environ['MYSQL_DATABASE']}.{os.environ['MYSQL_TABLE']} WHERE json_length(Fresh_Ingredients) > 0;"
     results = execute_mysql_query(query_string)
     json_results = [json.loads(result['Fresh_Ingredients']) for result in results]
     fresh_ingredients = sorted(list(set(key for i in json_results for key in i.keys())))
@@ -34,7 +35,7 @@ def index():
             json_key = "Dairy_Ingredients"
             ingredient = details_dict[json_key]
         db_cursor = mysql.connection.cursor()
-        query = f"""SELECT * FROM MealsDatabase.MealsTable
+        query = f"""SELECT * FROM {os.environ['MYSQL_DATABASE']}.{os.environ['MYSQL_TABLE']}
                 WHERE JSON_EXTRACT({json_key}, '$."{ingredient}"');"""
         db_cursor.execute(query)
         results = db_cursor.fetchall()
