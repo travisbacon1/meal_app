@@ -29,9 +29,9 @@ class Config(object):
     FLASK_ENV = 'development'
     SECRET_KEY = token_urlsafe(16)
 
-    MYSQL_HOST = '127.0.0.1'
-    MYSQL_PORT = 3306
-    MYSQL_USER, MYSQL_PASSWORD = get_database_credentials()
-    MYSQL_DB = 'MealsDatabase'
+    # MYSQL_HOST = '127.0.0.1'
+    # MYSQL_PORT = 3306
+    # MYSQL_USER, MYSQL_PASSWORD = get_database_credentials()
+    # MYSQL_DB = 'MealsDatabase'
     MYSQL_CURSORCLASS = 'DictCursor'
     SQLALCHEMY_TRACK_MODIFICATIONS = False
