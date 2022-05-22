@@ -1,22 +1,25 @@
 import os
 from secrets import token_urlsafe
+# from dotenv import load_dotenv
+
+# load_dotenv()
 
 # basedir = path.abspath(path.dirname(__file__))
 # load_dotenv(path.join(basedir, '.env'))
 
-def get_database_credentials():
-    if os.path.isfile('credentials.txt'):
-        with open("credentials.txt", "r") as reader:
-            credentials = reader.readlines()
-            credentials = [credential.strip("\n") for credential in credentials]
-            reader.close()
-        username = credentials[0]
-        password = credentials[1]
+# def get_database_credentials():
+#     if os.path.isfile('credentials.txt'):
+#         with open("credentials.txt", "r") as reader:
+#             credentials = reader.readlines()
+#             credentials = [credential.strip("\n") for credential in credentials]
+#             reader.close()
+#         username = credentials[0]
+#         password = credentials[1]
 
-    else:
-        username = input("Enter database user: ")
-        password = input("Enter database password: ")
-    return username, password
+#     else:
+#         username = input("Enter database user: ")
+#         password = input("Enter database password: ")
+#     return username, password
 
 """Flask configuration."""
 
