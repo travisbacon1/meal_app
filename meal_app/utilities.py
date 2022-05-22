@@ -1,5 +1,7 @@
 import json
 from . import mysql
+import MySQLdb
+import os
 
 def execute_mysql_query(query_string, fetch_results=True, commit=False):
     """Executes a MySQL query
@@ -11,12 +13,21 @@ def execute_mysql_query(query_string, fetch_results=True, commit=False):
     ------
     result: tuple
     """
-    db_cursor = mysql.connection.cursor()
+    database = MySQLdb.connect(
+        host=os.environ['MYSQL_HOSTNAME'],
+        user=os.environ['MYSQL_USER'],
+        password=os.environ['MYSQL_PASSWORD'],
+        database=os.environ['MYSQL_DATABASE'],
+        cursorclass=MySQLdb.cursors.DictCursor
+    )
+#    db_cursor = mysql.connection.cursor()
+    db_cursor = database.cursor()
     db_cursor.execute(query_string)
     if fetch_results:
         results = db_cursor.fetchall()
         return results
     elif commit == True:
+
         db_cursor.connection.commit()
 
 

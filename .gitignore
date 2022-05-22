@@ -8,3 +8,4 @@ full_database_backup*
 saved_meal_plans/*
 chromedriver
 .ENV
+.env
