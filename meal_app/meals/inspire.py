@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, request, redirect, url_for
-from .. import mysql
+# from .. import mysql
 import json
 from ..utilities import execute_mysql_query
 import os

@@ -5,15 +5,6 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-# if os.path.isfile('../credentials.txt'):
-#     with open("../credentials.txt", "r") as reader:
-#         credentials = reader.readlines()
-#         credentials = [credential.strip("\n") for credential in credentials]
-#         reader.close()
-# else:
-#     username = input("Enter database user: ")
-#     password = input("Enter database password: ")
-
 database = mysql.connector.connect(
     host=os.environ['MYSQL_HOSTNAME'],
     user=os.environ['MYSQL_USER'],

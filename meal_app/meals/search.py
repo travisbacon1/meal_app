@@ -1,5 +1,4 @@
 from flask import Blueprint, render_template, request, redirect, url_for, session
-from .. import mysql
 from ..utilities import execute_mysql_query
 import json
 import os
@@ -34,11 +33,9 @@ def index():
         elif "null" not in request.form["Dairy_Ingredients"]:
             json_key = "Dairy_Ingredients"
             ingredient = details_dict[json_key]
-        db_cursor = mysql.connection.cursor()
-        query = f"""SELECT * FROM {os.environ['MYSQL_DATABASE']}.{os.environ['MYSQL_TABLE']}
+        query_string = f"""SELECT * FROM {os.environ['MYSQL_DATABASE']}.{os.environ['MYSQL_TABLE']}
                 WHERE JSON_EXTRACT({json_key}, '$."{ingredient}"');"""
-        db_cursor.execute(query)
-        results = db_cursor.fetchall()
+        results = execute_mysql_query(query_string)
         session['meal_list'] = [result['Name'] for result in results]
         return redirect(url_for('search.search_results', ingredient = ingredient))
     return render_template('search.html', 
