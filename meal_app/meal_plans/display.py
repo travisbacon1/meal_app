@@ -2,7 +2,6 @@ from flask import Blueprint, redirect, url_for, render_template, request, sessio
 import os
 import json
 from datetime import datetime
-from ..variables import fresh_ingredients_dict, tinned_ingredients_dict, dry_ingredients_dict, dairy_ingredients_dict
 from ..utilities import execute_mysql_query
 
 display = Blueprint('display', __name__, template_folder='templates', static_folder='../static')
@@ -46,21 +45,26 @@ def create_meal_info_table(meal_info_tuple) -> list[dict]:
     return meal_info_dicts
 
 
-def append_ingredient_units(ingredients_dict, ingredients_units_list) -> dict:
+def append_ingredient_units(ingredient_dict) -> dict:
     """Appends unit ingredients (i.e. g or ml) to ingredient dictionary
 
     Parameters
     ----------
-    ingredients_dict : dict
-    ingredients_units_list : list[dict]
+    ingredient_dict : dict
 
     Returns
     -------
     dict
         Ingredient dictionary containing units
     """
-    ingredients_with_units = {key: f"{str(value)} {str(ingredients_units_list[key])}" if key in list(ingredients_units_list.keys()) else '' for key, value in ingredients_dict.items()}
-    return ingredients_with_units
+    for ingredient_type in ["Fresh", "Dairy", "Dry", "Tinned"]:
+        ingredients = "'" + "', '".join(list(ingredient_dict[f'{ingredient_type}_Ingredients'].keys())) + "'"
+        query_string = f"SELECT Name, Unit FROM {os.environ['MYSQL_DATABASE']}.{os.environ['MYSQL_INGREDIENTS_TABLE']} WHERE Type = '{ingredient_type}' AND Name IN ({ingredients});"
+        results = execute_mysql_query(query_string)
+        for ingredient in results:
+            temp_dict = {ingredient['Name']: f"{ingredient_dict[f'{ingredient_type}_Ingredients'][ingredient['Name']]} {ingredient['Unit']}"}
+            ingredient_dict[f'{ingredient_type}_Ingredients'].update(temp_dict)
+    return ingredient_dict
 
 
 @display.route('/display', methods=['GET', 'POST'])
@@ -70,11 +74,8 @@ def display_meal_plan():
         meal_list_string = str(complete_ingredient_dict['Meal_List']).strip("[]")
         query_string = f"SELECT Name, Book, Page, Website FROM {os.environ['MYSQL_DATABASE']}.{os.environ['MYSQL_TABLE']} WHERE Name IN ({meal_list_string});"
         info_meal_dict = create_meal_info_table(execute_mysql_query(query_string))
-        complete_ingredient_dict['Fresh_Ingredients'] = append_ingredient_units(complete_ingredient_dict['Fresh_Ingredients'], fresh_ingredients_dict)
-        complete_ingredient_dict['Tinned_Ingredients'] = append_ingredient_units(complete_ingredient_dict['Tinned_Ingredients'], tinned_ingredients_dict)
-        complete_ingredient_dict['Dry_Ingredients'] = append_ingredient_units(complete_ingredient_dict['Dry_Ingredients'], dry_ingredients_dict)
-        complete_ingredient_dict["Dairy_Ingredients"] = append_ingredient_units(complete_ingredient_dict["Dairy_Ingredients"], dairy_ingredients_dict)
-        return render_template('display.html', meal_info_list=info_meal_dict, complete_ingredient_dict = complete_ingredient_dict)
+        append_ingredient_units(complete_ingredient_dict)
+        return render_template('display.html', meal_info_list=info_meal_dict, complete_ingredient_dict=complete_ingredient_dict)
 
     if request.method == "POST":
         if request.form['submit'] == 'Save':

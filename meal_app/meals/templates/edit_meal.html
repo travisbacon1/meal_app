@@ -41,7 +41,7 @@
 					<li>
 						<label for="staple">Staple:</label>
 						<select class = "add_meal" name="Staple" selected="Risotto">
-							{%for i in range(0, len_staples)%}
+							{%for i in range(0, staples|length)%}
 								{%if staples[i] == staple%}
 									<option selected = "{{staple}}" value = "{{staples[i]}}">{{staples[i]}}</option>
 								{% else %}
@@ -53,7 +53,7 @@
 					<li>
 						<label for="book">Book:</label>
 						<select class = "add_meal" name="Book">
-							{%for i in range(0, len_books)%}
+							{%for i in range(0, books|length)%}
 								{%if books[i] == book%}
 									<option selected = "{{book}}" value = "{{books[i]}}">{{books[i]}}</option> 
 								{% else %}
@@ -71,7 +71,7 @@
 						<input class = "add_meal" type = "text" name = "Website"  value="{{website}}" />
 					</li>
 					<H2>Fresh Ingredients</H2>
-						{%for i in range(0, len_fresh_ingredients)%}
+						{%for i in range(0, fresh_ingredients|length)%}
 							<li>
 								<label for={{fresh_ingredients[i]}}>{{fresh_ingredients[i]}} </label>
 									{%if fresh_ingredients[i] in current_fresh_ingredients_keys%}
@@ -83,7 +83,7 @@
 							</li>
 						{%endfor%}
 					<H2>Tinned Ingredients</H2>
-						{%for i in range(0, len_tinned_ingredients)%}
+						{%for i in range(0, tinned_ingredients|length)%}
 							<li>
 								<label for={{tinned_ingredients[i]}}>{{tinned_ingredients[i]}} </label>
 									{%if tinned_ingredients[i] in current_tinned_ingredients_keys%}
@@ -95,7 +95,7 @@
 							</li>
 						{%endfor%}
 					<H2>Dry Ingredients</H2>
-						{%for i in range(0, len_dry_ingredients)%}
+						{%for i in range(0, dry_ingredients|length)%}
 							<li>
 								<label for={{dry_ingredients[i]}}>{{dry_ingredients[i]}} </label>
 									{%if dry_ingredients[i] in current_dry_ingredients_keys%}
@@ -107,7 +107,7 @@
 							</li>
 						{%endfor%}
 					<H2>Dairy Ingredients</H2>
-						{%for i in range(0, len_dairy_ingredients)%}
+						{%for i in range(0, dairy_ingredients|length)%}
 							<li>
 								<label for={{dairy_ingredients[i]}}>{{dairy_ingredients[i]}} </label>
 									{%if dairy_ingredients[i] in current_dairy_ingredients_keys%}
@@ -120,7 +120,7 @@
 						{%endfor%}
 					<H2>Tags</H2>
 						<table id="checkboxtable">
-							{%for i in range(0, len_tags)%}
+							{%for i in range(0, tags|length)%}
 								<tr>
 									<td id="checkboxtable_col1"><label for="{{tags[i]}}">{{tags[i]}}</label></td>
 									<td id="checkboxtable_col2">
