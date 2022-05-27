@@ -1,11 +1,12 @@
 import os
-import mysql.connector
+import MySQLdb
+import MySQLdb.cursors
 import json
 from dotenv import load_dotenv
 
 load_dotenv()
 
-database = mysql.connector.connect(
+database = MySQLdb.connect(
     host=os.environ['MYSQL_HOSTNAME'],
     user=os.environ['MYSQL_USER'],
     password=os.environ['MYSQL_PASSWORD'],
