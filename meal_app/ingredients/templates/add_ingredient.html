@@ -1,0 +1,27 @@
+{% extends "layout.html" %}
+{% block content %}
+	<form method="post", action="", autocomplete="off">
+		<H1>Add Ingredient</H1>
+		<ul>
+			<li>
+				<label for="name">Ingredient Name: </label>
+				<input class = "add_meal" type = "text" id="name" name= "Name" required />
+			</li>
+			<li>
+				<label for="staple">Unit:</label>
+				<input class = "add_meal" type = "text" id="unit" name= "Unit" />
+			</li>
+			<li>
+				<label for="type">Type:</label>
+				<select class = "add_meal" name="Type">
+					{%for i in range(0, ingredient_types|length)%}
+						<option value = "{{ingredient_types[i]}}">{{ingredient_types[i]}}</option> 
+					{%endfor%}
+				</select>
+			</li>
+			<li>
+				<input class="button" type="submit">
+			</li>
+		</ul>
+	</form>
+{% endblock %}

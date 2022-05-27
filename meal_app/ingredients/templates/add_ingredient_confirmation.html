@@ -1,0 +1,16 @@
+{% extends "layout.html" %}
+{% block content %}
+    <H1 class="display_meal_plan_header">{{ingredient_name}} Added</H1>
+        <table>
+            <tr>
+                <th class="ingredients">Name</th>
+                <th class="quantity">Unit</th>
+                <th class="quantity">Type</th>
+            </tr>
+            <tr>
+                <td>{{ingredient_name}}</td>
+                <td>{{ingredient_unit}}</td>
+                <td>{{ingredient_type}}</td>
+            </tr>
+            </table>
+{% endblock %}
