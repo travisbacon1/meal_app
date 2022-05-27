@@ -6,6 +6,7 @@ add_ingredient = Blueprint('add_ingredient', __name__, template_folder='template
 
 @add_ingredient.route('/add_ingredient', methods=['GET', 'POST'])
 def index():
+    # TODO: Enforce selection of an ingredient type
     ingredient_types = [
         "",
         "Fresh",
