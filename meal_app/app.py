@@ -1,4 +1,8 @@
 from flask import Flask
+import jinja2
+
+loader = jinja2.FileSystemLoader('templates')
+environment = jinja2.Environment(loader=loader)
 
 def create_app():
     """Initialize the core application."""

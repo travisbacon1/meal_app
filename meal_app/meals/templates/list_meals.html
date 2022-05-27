@@ -1,65 +1,32 @@
-<!DOCTYPE html>
-    <html>
-        <head>
-            <meta charset="utf-8" />
-            <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/styles.css') }}">
-        </head>
-            <div class="topnav">
-                <a class="active" href="/">Home</a>
-                <div class="dropdown">
-                    <button class="dropbtn">Meals
-                    <i class="fa fa-caret-down"></i>
-                    </button>
-                    <div class="dropdown-content">
-                        <a href="/add">Add Meal</a>
-                        <a href="/edit">Edit Meal</a>
-                        <a href="/list_meals">List Meals</a>
-                        <a href="/find">Get Meal Info</a>
-                        <a href="/search">Search Ingredients</a>
-                        <a href="/inspire">Inspire Me</a>
-                    </div>
-                </div>
-                <div class="dropdown">
-                    <button class="dropbtn">Meal Plans
-                    <i class="fa fa-caret-down"></i>
-                    </button>
-                    <div class="dropdown-content">
-                        <a href="/create">Create Meal Plan</a>
-                        <a href="/load">Load Meal Plan</a>
-                        <a href="/delete">Delete Meal Plan</a>
-                    </div>
-                </div>
-            </div>
-            <br></br>
-        	<body>
-                <H1>Meals List</H1>
-                    <H2>Current meal count: {{len_meals}}</H2>
-                    <script src="{{ url_for('static', filename='/js/sorttable.js') }}"></script>
-                        <table class="sortable">
-                                <tr class="item">
-                                    <th class="th_meal">Meal</th>
-                                    <th class="th_staple">Staple</th>
-                                    <th class="th_book">Book</th>
-                                    <th class="th_page">Page</th>
-                                    <th>Website</th>
-                                    <th>Last Made</th>
-                                    <th>Link</th>
-                                </tr>
-                            {%for i in range(0, len_meals)%}
-                                <tr class="item">
-                                    <td>{{meal_names[i]}}</td>
-                                    <td>{{staples[i]}}</td>
-                                    <td>{{books[i]}}</td>
-                                    <td>{{page[i]}}</td>
-                                    <td>{{website[i]}}</td>
-                                    <td>{{last_date[i]}}</td>
-                                    <td>
-                                        <form method="post" value="{{meal_names[i]}}" id="form1">
-                                            <input type="submit" name="submit" value="{{meal_names[i]}}" id="MealLink"></input>
-                                        </form>
-                                    </td>
-                                </tr>
-                            {%endfor%}
-                        </table>
-                    </body>
-                </html>
+{% extends "layout.html" %}
+{% block content %}
+    <H1>Meals List</H1>
+        <H2>Current meal count: {{len_meals}}</H2>
+        <script src="{{ url_for('static', filename='/js/sorttable.js') }}"></script>
+            <table class="sortable">
+                    <tr class="item">
+                        <th class="th_meal">Meal</th>
+                        <th class="th_staple">Staple</th>
+                        <th class="th_book">Book</th>
+                        <th class="th_page">Page</th>
+                        <th>Website</th>
+                        <th>Last Made</th>
+                        <th>Link</th>
+                    </tr>
+                {%for i in range(0, len_meals)%}
+                    <tr class="item">
+                        <td>{{meal_names[i]}}</td>
+                        <td>{{staples[i]}}</td>
+                        <td>{{books[i]}}</td>
+                        <td>{{page[i]}}</td>
+                        <td>{{website[i]}}</td>
+                        <td>{{last_date[i]}}</td>
+                        <td>
+                            <form method="post" value="{{meal_names[i]}}" id="form1">
+                                <input type="submit" name="submit" value="{{meal_names[i]}}" id="MealLink"></input>
+                            </form>
+                        </td>
+                    </tr>
+                {%endfor%}
+            </table>
+{% endblock %}

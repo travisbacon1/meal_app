@@ -1,64 +1,13 @@
-<html>
-	<head>
-		<meta charset="utf-8" />
-		<link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/styles.css') }}">
-	</head>
-	<div class="topnav">
-		<a class="active" href="/">Home</a>
-		<div class="dropdown">
-			<button class="dropbtn">Meals
-			  <i class="fa fa-caret-down"></i>
-			</button>
-		    <div class="dropdown-content">
-				<a href="/add">Add Meal</a>
-				<a href="/edit">Edit Meal</a>
-				<a href="/list_meals">List Meals</a>
-				<a href="/find">Get Meal Info</a>
-				<a href="/search">Search Ingredients</a>
-				<a href="/inspire">Inspire Me</a>
-			</div>
-		</div>
-		<div class="dropdown">
-			<button class="dropbtn">Meal Plans
-			  <i class="fa fa-caret-down"></i>
-			</button>
-		    <div class="dropdown-content">
-				<a href="/create">Create Meal Plan</a>
-				<a href="/load">Load Meal Plan</a>
-				<a href="/delete">Delete Meal Plan</a>
-			</div>
-		</div>
-	  </div>
-	<br></br>
-	<body>
-		<form method="post", action="">
-			<H1>Homepage</H1>
-			<ul>
+{% extends "layout.html" %}
+{% block content %}
+	<form method="post", action="">
+		<H1>Homepage</H1>
+		<ul>
+			{%for i in range(buttons|length)%}
 				<li>
-					<input class="homepagebutton" id="Add Meal" name="submit" type="submit" value="Add Meal">
-                </li>
-				<li>
-					<input class="homepagebutton" id="Edit Meal" name="submit" type="submit" value="Edit Meal">
-                </li>
-				<li>
-					<input class="homepagebutton" id="Get Meal Info" name="submit" type="submit" value="Get Meal Info">
+					<input class="homepagebutton" id="{{buttons[i]}}" name="submit" type="submit" value="{{buttons[i]}}">
 				</li>
-				<li>
-					<input class="homepagebutton" id="Search Ingredients" name="submit" type="submit" value="Search Ingredients">
-				</li>
-				<li>
-					<input class="homepagebutton" id="List Meals" name="submit" type="submit" value="List Meals">
-				</li>
-				<li>
-					<input class="homepagebutton" id="Create Meal Plan" name="submit" type="submit" value="Create Meal Plan">
-				</li>
-				<li>
-					<input class="homepagebutton" id="Load Meal Plan" name="submit" type="submit" value="Load Meal Plan">
-				</li>
-				<li>
-					<input class="homepagebutton" id="Delete Meal Plan" name="submit" type="submit" value="Delete Meal Plan">
-				</li>
-			</ul>
-		</form>
-	</body>
-</html>
+			{%endfor%}
+		</ul>
+	</form>
+{% endblock %}

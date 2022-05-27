@@ -4,6 +4,16 @@ home = Blueprint('home', __name__, template_folder="templates", static_folder='.
 
 @home.route("/", methods=['GET', 'POST'])
 def index():
+    buttons = [
+        "Add Meal",
+        "Edit Meal",
+        "Get Meal Info",
+        "Search Ingredients",
+        "List Meals",
+        "Create Meal Plan",
+        "Load Meal Plan",
+        "Delete Meal Plan"
+    ]
     if request.method == "POST":
         if request.form['submit'] == 'Add Meal':
             return redirect(url_for('add.index'))
@@ -21,4 +31,4 @@ def index():
             return redirect(url_for('load.choose_meal_plan'))
         elif request.form['submit'] == 'Delete Meal Plan':
             return redirect(url_for('delete.delete_meal_plan'))
-    return render_template('index.html')
+    return render_template('index.html', buttons=buttons)

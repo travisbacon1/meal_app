@@ -7,7 +7,6 @@ add = Blueprint('add', __name__, template_folder='templates', static_folder='../
 
 @add.route('/add', methods=['GET', 'POST'])
 def index():
-    from .. import mysql
     from ..variables import staples_list, book_list, fresh_ingredients, tinned_ingredients, dry_ingredients, dairy_ingredients, tag_list
     if request.method == "POST":
         details = request.form
@@ -18,12 +17,9 @@ def index():
                 tag_list.append(details_dict[key])
         print(details['Name'].replace("'", "\'"))
         tags = get_tags(tag_list)
-        cur = mysql.connection.cursor()
-        query = f"""INSERT INTO {os.environ['MYSQL_TABLE']} (Name, Staple, Book, Page, Website, Fresh_Ingredients, Tinned_Ingredients, Dry_Ingredients, Dairy_Ingredients, Last_Made, Spring_Summer, Autumn_Winter, Quick_Easy, Special) VALUES ('{details["Name"]}', '{details["Staple"]}', '{details["Book"]}', '{details["Page"]}', '{details["Website"]}', '{parse_ingredients(details_dict, "Fresh ")}', '{parse_ingredients(details_dict, "Tinned ")}', '{parse_ingredients(details_dict, "Dry ")}', '{parse_ingredients(details_dict, "Dairy ")}', '{"2021-01-01"}', '{tags["Spring_Summer"]}', '{tags["Autumn_Winter"]}', '{tags["Quick_Easy"]}', '{tags["Special"]}');"""
-        print(query)
-        cur.execute(query)
-        mysql.connection.commit()
-        cur.close()
+        query_string = f"""INSERT INTO {os.environ['MYSQL_TABLE']} (Name, Staple, Book, Page, Website, Fresh_Ingredients, Tinned_Ingredients, Dry_Ingredients, Dairy_Ingredients, Last_Made, Spring_Summer, Autumn_Winter, Quick_Easy, Special) VALUES ('{details["Name"]}', '{details["Staple"]}', '{details["Book"]}', '{details["Page"]}', '{details["Website"]}', '{parse_ingredients(details_dict, "Fresh ")}', '{parse_ingredients(details_dict, "Tinned ")}', '{parse_ingredients(details_dict, "Dry ")}', '{parse_ingredients(details_dict, "Dairy ")}', '{"2021-01-01"}', '{tags["Spring_Summer"]}', '{tags["Autumn_Winter"]}', '{tags["Quick_Easy"]}', '{tags["Special"]}');"""
+        execute_mysql_query(query_string, fetch_results=False, commit=True)
+        print(query_string)
         return redirect(url_for('add.confirmation', meal = details['Name']))
     return render_template('add.html', 
         len_staples = len(staples_list), staples = staples_list,

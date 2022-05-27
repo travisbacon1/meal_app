@@ -1,36 +1,4 @@
-<!DOCTYPE html>
-    <html>
-        <head>
-            <meta charset="utf-8" />
-            <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/styles.css') }}">
-        </head>
-            <div class="topnav">
-                <a class="active" href="/">Home</a>
-                <div class="dropdown">
-                    <button class="dropbtn">Meals
-                    <i class="fa fa-caret-down"></i>
-                    </button>
-                    <div class="dropdown-content">
-                        <a href="/add">Add Meal</a>
-                        <a href="/edit">Edit Meal</a>
-                        <a href="/list_meals">List Meals</a>
-                        <a href="/find">Get Meal Info</a>
-                        <a href="/search">Search Ingredients</a>
-                        <a href="/inspire">Inspire Me</a>
-                    </div>
-                </div>
-                <div class="dropdown">
-                    <button class="dropbtn">Meal Plans
-                    <i class="fa fa-caret-down"></i>
-                    </button>
-                    <div class="dropdown-content">
-                        <a href="/create">Create Meal Plan</a>
-                        <a href="/load">Load Meal Plan</a>
-                        <a href="/delete">Delete Meal Plan</a>
-                    </div>
-                </div>
-            </div>
-            <br></br>
-                <body>
-                        <H1>Meal plans deleted</H1>
-                    </html>
+{% extends "layout.html" %}
+{% block content %}
+    <H1>Meal plans deleted</H1>
+{% endblock %}

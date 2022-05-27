@@ -1,117 +1,84 @@
-<!DOCTYPE html>
-    <html>
-        <head>
-            <meta charset="utf-8" />
-            <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/styles.css') }}">
-        </head>
-        <div class="topnav">
-            <a class="active" href="/">Home</a>
-            <div class="dropdown">
-                <button class="dropbtn">Meals
-                  <i class="fa fa-caret-down"></i>
-                </button>
-                <div class="dropdown-content">
-                    <a href="/add">Add Meal</a>
-                    <a href="/edit">Edit Meal</a>
-                    <a href="/list_meals">List Meals</a>
-                    <a href="/find">Get Meal Info</a>
-                    <a href="/search">Search Ingredients</a>
-                    <a href="/inspire">Inspire Me</a>
-                </div>
-            </div>
-            <div class="dropdown">
-                <button class="dropbtn">Meal Plans
-                  <i class="fa fa-caret-down"></i>
-                </button>
-                <div class="dropdown-content">
-                    <a href="/create">Create Meal Plan</a>
-                    <a href="/load">Load Meal Plan</a>
-                    <a href="/delete">Delete Meal Plan</a>
-                </div>
-            </div>
-        </div>
-        <br></br>
-            <body>
-                <h1 class="display_meal_plan_header">{{meal_info_list|length}} Planned Meals</h1>
-                <table>
-                    <tr>
-                        <th class="Meal">Meal</th>
-                        <th class="Info">Info</th>
-                    </tr>
-                    {%for i in range(0, meal_info_list|length)%}
-                        <tr>
-                            <td>{{meal_info_list[i]["Name"]}}</td>
-                            <td>{{meal_info_list[i]["Info"]}}</td>
-                        </tr>
-                    {%endfor%}
-                </table>
-                <h1 class="display_meal_plan_header">Shopping List</h1>
-                    <table>
-                        <tr>
-                            <th class="ingredients">Fresh Ingredients</th>
-                            <th class="quantity">Quantity</th>
-                        </tr>
-                        {%for key, value in complete_ingredient_dict["Fresh_Ingredients"].items()%}
-                            <tr>
-                                <td>{{key}}</td>
-                                <td>{{value}}</td>
-                            </tr>
-                        {%endfor%}
-                    </table>
-                    <table>
-                        <tr>
-                            <th class="ingredients">Tinned Ingredients</th>
-                            <th class="quantity"> </th>
-                        </tr>
-                        {%for key, value in complete_ingredient_dict["Tinned_Ingredients"].items()%}
-                            <tr>
-                                <td>{{key}}</td>
-                                <td>{{value}}</td>
-                            </tr>
-                        {%endfor%}
-                    </table>
-                    <table>
-                        <tr>
-                            <th class="ingredients">Dry Ingredients</th>
-                            <th class="quantity"> </th>
-                        </tr>
-                        {%for key, value in complete_ingredient_dict["Dry_Ingredients"].items()%}
-                            <tr>
-                                <td>{{key}}</td>
-                                <td>{{value}}</td>
-                            </tr>
-                        {%endfor%}
-                    </table>
-                    <table>
-                        <tr>
-                            <th class="ingredients">Dairy Ingredients</th>
-                            <th class="quantity"> </th>
-                        </tr>
-                        {%for key, value in complete_ingredient_dict["Dairy_Ingredients"].items()%}
-                        <tr>
-                            <td>{{key}}</td>
-                            <td>{{value}}</td>
-                        </tr>
-                        {%endfor%}
-                    </table>
-                    <table>
-                        <tr>
-                            <th class="ingredients">Don't forget!</th>
-                            <th class="quantity"> </th>
-                        </tr>
-                        {%for i in range(0, complete_ingredient_dict['Extra_Ingredients']|length)%}
-                        <tr>
-                            <td>{{complete_ingredient_dict['Extra_Ingredients'][i]}}</td>
-                            <td></td>
-                        </tr>
-                        {%endfor%}
-                    </table>
-                        <form method="post", action="" id="returnform">
-                            <!-- <input class="button" type="submit" value="Return" id="returnbutton"> -->
-                            <br></br>
-                            <input class="button" name="submit" type="submit" value="Update Dates" id="datebutton">
-                            <br></br>
-                            <input class="button" name="submit" type="submit" value="Save" id="savebutton">
-                        </form>
-                    <body>
-                </html>
+{% extends "layout.html" %}
+{% block content %}
+    <h1 class="display_meal_plan_header">{{meal_info_list|length}} Planned Meals</h1>
+    <table>
+        <tr>
+            <th class="Meal">Meal</th>
+            <th class="Info">Info</th>
+        </tr>
+        {%for i in range(0, meal_info_list|length)%}
+            <tr>
+                <td>{{meal_info_list[i]["Name"]}}</td>
+                <td>{{meal_info_list[i]["Info"]}}</td>
+            </tr>
+        {%endfor%}
+    </table>
+    <h1 class="display_meal_plan_header">Shopping List</h1>
+        <table>
+            <tr>
+                <th class="ingredients">Fresh Ingredients</th>
+                <th class="quantity">Quantity</th>
+            </tr>
+            {%for key, value in complete_ingredient_dict["Fresh_Ingredients"].items()%}
+                <tr>
+                    <td>{{key}}</td>
+                    <td>{{value}}</td>
+                </tr>
+            {%endfor%}
+        </table>
+        <table>
+            <tr>
+                <th class="ingredients">Tinned Ingredients</th>
+                <th class="quantity"> </th>
+            </tr>
+            {%for key, value in complete_ingredient_dict["Tinned_Ingredients"].items()%}
+                <tr>
+                    <td>{{key}}</td>
+                    <td>{{value}}</td>
+                </tr>
+            {%endfor%}
+        </table>
+        <table>
+            <tr>
+                <th class="ingredients">Dry Ingredients</th>
+                <th class="quantity"> </th>
+            </tr>
+            {%for key, value in complete_ingredient_dict["Dry_Ingredients"].items()%}
+                <tr>
+                    <td>{{key}}</td>
+                    <td>{{value}}</td>
+                </tr>
+            {%endfor%}
+        </table>
+        <table>
+            <tr>
+                <th class="ingredients">Dairy Ingredients</th>
+                <th class="quantity"> </th>
+            </tr>
+            {%for key, value in complete_ingredient_dict["Dairy_Ingredients"].items()%}
+            <tr>
+                <td>{{key}}</td>
+                <td>{{value}}</td>
+            </tr>
+            {%endfor%}
+        </table>
+        <table>
+            <tr>
+                <th class="ingredients">Don't forget!</th>
+                <th class="quantity"> </th>
+            </tr>
+            {%for i in range(0, complete_ingredient_dict['Extra_Ingredients']|length)%}
+            <tr>
+                <td>{{complete_ingredient_dict['Extra_Ingredients'][i]}}</td>
+                <td></td>
+            </tr>
+            {%endfor%}
+        </table>
+            <form method="post", action="" id="returnform">
+                <!-- <input class="button" type="submit" value="Return" id="returnbutton"> -->
+                <br></br>
+                <input class="button" name="submit" type="submit" value="Update Dates" id="datebutton">
+                <br></br>
+                <input class="button" name="submit" type="submit" value="Save" id="savebutton">
+            </form>
+{% endblock %}

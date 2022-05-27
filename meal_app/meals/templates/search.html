@@ -1,89 +1,56 @@
-<!DOCTYPE html>
-        <html>
-            <head>
-                <meta charset="utf-8" />
-                <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/styles.css') }}">
-            </head>
-                <div class="topnav">
-                    <a class="active" href="/">Home</a>
-                    <div class="dropdown">
-                        <button class="dropbtn">Meals
-                        <i class="fa fa-caret-down"></i>
-                        </button>
-                        <div class="dropdown-content">
-                            <a href="/add">Add Meal</a>
-                            <a href="/edit">Edit Meal</a>
-                            <a href="/list_meals">List Meals</a>
-                            <a href="/find">Get Meal Info</a>
-                            <a href="/search">Search Ingredients</a>
-                            <a href="/inspire">Inspire Me</a>
-                        </div>
-                    </div>
-                    <div class="dropdown">
-                        <button class="dropbtn">Meal Plans
-                        <i class="fa fa-caret-down"></i>
-                        </button>
-                        <div class="dropdown-content">
-                            <a href="/create">Create Meal Plan</a>
-                            <a href="/load">Load Meal Plan</a>
-                            <a href="/delete">Delete Meal Plan</a>
-                        </div>
-                    </div>
-                </div>
-                <br></br>
-                <body>
-                    <form method="post", action="">
-                        <H1>Meal Finder</H1>
-                        <ul>
-                            <li>
-                                <label for="Fresh_Ingredients">Fresh Ingredients:</label>
-                                    <select name="Fresh_Ingredients" required>
-                                        <option value="null"></option>
-                                        {%for i in range(0, len_fresh_ingredients)%}
-                                        <option value = "{{fresh_ingredients[i]}}">{{fresh_ingredients[i]}}</option> 
-                                        {%endfor%}
-                                    </select>
-                            </li>
-                            <li>
-                                <input class="button" type="submit" name="Fresh_Ingredients" value="Find meals">
-                            </li>
-                            <li>
-                                <label for="Tinned_Ingredients">Tinned Ingredients:</label>
-                                    <select name="Tinned_Ingredients" required>
-                                        <option value="null"></option>
-                                        {%for i in range(0, len_tinned_ingredients)%}
-                                        <option value = "{{tinned_ingredients[i]}}">{{tinned_ingredients[i]}}</option> 
-                                        {%endfor%}
-                                    </select>
-                            </li>
-                            <li>
-                                <input class="button" type="submit" name="Tinned_Ingredients" value="Find meals">
-                            </li>
-                            <li>
-                                <label for="Dry_Ingredients">Dry Ingredients:</label>
-                                    <select name="Dry_Ingredients" required>
-                                        <option value="null"></option>
-                                        {%for i in range(0, len_dry_ingredients)%}
-                                        <option value = "{{dry_ingredients[i]}}">{{dry_ingredients[i]}}</option> 
-                                        {%endfor%}
-                                    </select>
-                            </li>
-                            <li>
-                                <input class="button" type="submit" name="Dry_Ingredients" value="Find meals">
-                            </li>
-                            <li>
-                            <label for="Dairy_Ingredients">Dairy Ingredients:</label>
-                                <select name="Dairy_Ingredients" required>
-                                    <option value="null"></option>
-                                    {%for i in range(0, len_dairy_ingredients)%}
-                                    <option value = "{{dairy_ingredients[i]}}">{{dairy_ingredients[i]}}</option> 
-                                    {%endfor%}
-                                </select>
-                            </li>
-                            <li>
-                                <input class="button" type="submit" name="Dairy_Ingredients" value="Find meals">
-                            </li>
-                        </ul>
-                    </form>
-                </html>
-                    
+{% extends "layout.html" %}
+{% block content %}
+    <form method="post", action="">
+        <H1>Meal Finder</H1>
+        <ul>
+            <li>
+                <label for="Fresh_Ingredients">Fresh Ingredients:</label>
+                    <select name="Fresh_Ingredients" required>
+                        <option value="null"></option>
+                        {%for i in range(0, len_fresh_ingredients)%}
+                        <option value = "{{fresh_ingredients[i]}}">{{fresh_ingredients[i]}}</option> 
+                        {%endfor%}
+                    </select>
+            </li>
+            <li>
+                <input class="button" type="submit" name="Fresh_Ingredients" value="Find meals">
+            </li>
+            <li>
+                <label for="Tinned_Ingredients">Tinned Ingredients:</label>
+                    <select name="Tinned_Ingredients" required>
+                        <option value="null"></option>
+                        {%for i in range(0, len_tinned_ingredients)%}
+                        <option value = "{{tinned_ingredients[i]}}">{{tinned_ingredients[i]}}</option> 
+                        {%endfor%}
+                    </select>
+            </li>
+            <li>
+                <input class="button" type="submit" name="Tinned_Ingredients" value="Find meals">
+            </li>
+            <li>
+                <label for="Dry_Ingredients">Dry Ingredients:</label>
+                    <select name="Dry_Ingredients" required>
+                        <option value="null"></option>
+                        {%for i in range(0, len_dry_ingredients)%}
+                        <option value = "{{dry_ingredients[i]}}">{{dry_ingredients[i]}}</option> 
+                        {%endfor%}
+                    </select>
+            </li>
+            <li>
+                <input class="button" type="submit" name="Dry_Ingredients" value="Find meals">
+            </li>
+            <li>
+            <label for="Dairy_Ingredients">Dairy Ingredients:</label>
+                <select name="Dairy_Ingredients" required>
+                    <option value="null"></option>
+                    {%for i in range(0, len_dairy_ingredients)%}
+                    <option value = "{{dairy_ingredients[i]}}">{{dairy_ingredients[i]}}</option> 
+                    {%endfor%}
+                </select>
+            </li>
+            <li>
+                <input class="button" type="submit" name="Dairy_Ingredients" value="Find meals">
+            </li>
+        </ul>
+    </form>
+{% endblock %}
