@@ -107,4 +107,4 @@ def create_meal_plan():
         complete_ingredient_dict['Meal_List'] = [meal for meal in meal_list if meal != 'null']
         session['complete_ingredient_dict'] = complete_ingredient_dict
         return redirect(url_for('display.display_meal_plan'))
-    return render_template('create.html', staples_dict=staples_dict, extras=extras)
+    return render_template('create.html', staples=list(staples_dict.keys()), staples_dict=staples_dict, extras=extras)
