@@ -3,7 +3,7 @@
     <form method="post", action="" class="wideform">
         <H1>Meal Planner</H1>
         <div class="grid-container">
-        {% set counter = 1 -%}
+        {% set ftotal= {'total': 0} %}
         {%for week_number in range(1, 4)%}
         <div>
         <H2>Week {{week_number}} Meals</H2>
@@ -11,20 +11,20 @@
         {%for staple in staples%}
             <li>
                 <label for="{{staple|lower}}" class=create_form_label>{{staple}}</label>
-                <select name="Meal {{counter}}" required>
+                <select name="Meal {{ftotal.total}}" required>
                     <option value="null"></option>
                     {%for i in range(0, staples_dict[staple]|length)%}
                     <option value = "{{staples_dict[staple][i]}}">{{staples_dict[staple][i]}}</option> 
                     {%endfor%}
                 </select>
-                <select name="Quantity {{counter}}" id="quantity" required>
+                <select name="Quantity {{ftotal.total}}" id="quantity" required>
                     <option value="null"></option>
                     {%for i in range(1, 5)%}
                     <option value = "{{i}}">{{i}}</option> 
                     {%endfor%}
                 </select>
             </li>
-        {% set counter = counter + 1 %}
+        {% if ftotal.update({'total': ftotal.total + 1}) %}{% endif %} 
         {%endfor%}
         </ul>
         </div>

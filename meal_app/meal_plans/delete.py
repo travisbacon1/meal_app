@@ -19,7 +19,7 @@ def delete_plans(meal_plan_list) -> None:
 
 @delete.route('/delete', methods=['GET', 'POST'])
 def delete_meal_plan():
-    meal_plans = [f.replace('.json', '').split('/')[1] for f in glob("saved_meal_plans/*.json")]
+    meal_plans = sorted([f.replace('.json', '').split('/')[1] for f in glob("saved_meal_plans/*.json")])
     if len(meal_plans) == 0:
         return render_template('no_meal_plans.html')
     if request.method == "POST":
