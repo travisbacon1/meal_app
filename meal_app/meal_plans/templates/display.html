@@ -14,54 +14,20 @@
         {%endfor%}
     </table>
     <h1 class="display_meal_plan_header">Shopping List</h1>
+        {%for ingredient_type in ingredient_types%}
         <table>
             <tr>
-                <th class="ingredients">Fresh Ingredients</th>
+                <th class="ingredients">{{ingredient_type.replace("_", " ")}}</th>
                 <th class="quantity">Quantity</th>
             </tr>
-            {%for key, value in complete_ingredient_dict["Fresh_Ingredients"].items()%}
+            {%for key, value in complete_ingredient_dict[ingredient_type].items()%}
                 <tr>
                     <td>{{key}}</td>
                     <td>{{value}}</td>
                 </tr>
             {%endfor%}
         </table>
-        <table>
-            <tr>
-                <th class="ingredients">Tinned Ingredients</th>
-                <th class="quantity"> </th>
-            </tr>
-            {%for key, value in complete_ingredient_dict["Tinned_Ingredients"].items()%}
-                <tr>
-                    <td>{{key}}</td>
-                    <td>{{value}}</td>
-                </tr>
-            {%endfor%}
-        </table>
-        <table>
-            <tr>
-                <th class="ingredients">Dry Ingredients</th>
-                <th class="quantity"> </th>
-            </tr>
-            {%for key, value in complete_ingredient_dict["Dry_Ingredients"].items()%}
-                <tr>
-                    <td>{{key}}</td>
-                    <td>{{value}}</td>
-                </tr>
-            {%endfor%}
-        </table>
-        <table>
-            <tr>
-                <th class="ingredients">Dairy Ingredients</th>
-                <th class="quantity"> </th>
-            </tr>
-            {%for key, value in complete_ingredient_dict["Dairy_Ingredients"].items()%}
-            <tr>
-                <td>{{key}}</td>
-                <td>{{value}}</td>
-            </tr>
-            {%endfor%}
-        </table>
+        {%endfor%}
         <table>
             <tr>
                 <th class="ingredients">Don't forget!</th>
@@ -75,7 +41,6 @@
             {%endfor%}
         </table>
             <form method="post", action="" id="returnform">
-                <!-- <input class="button" type="submit" value="Return" id="returnbutton"> -->
                 <br></br>
                 <input class="button" name="submit" type="submit" value="Update Dates" id="datebutton">
                 <br></br>

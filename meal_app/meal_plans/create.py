@@ -22,11 +22,11 @@ def get_meal_info(meal_list, quantity_list) -> list[dict]:
     results = []
     for idx, meal in enumerate(meal_list):
         query_string = f"SELECT Fresh_Ingredients, Tinned_Ingredients, Dry_Ingredients, Dairy_Ingredients FROM {os.environ['MYSQL_DATABASE']}.{os.environ['MYSQL_TABLE']} WHERE Name = '{meal}';"
-        ingredients = execute_mysql_query(query_string)
-        for ingredient_type in list(ingredients[0].keys()):
-            ingredients[0][ingredient_type] = json.loads(ingredients[0][ingredient_type])
-        ingredients[0]['quantity'] = quantity_list[idx]
-        results.append(ingredients[0])
+        ingredients = execute_mysql_query(query_string)[0]
+        for ingredient_type in list(ingredients.keys()):
+            ingredients[ingredient_type] = json.loads(ingredients[ingredient_type])
+        ingredients['quantity'] = quantity_list[idx]
+        results.append(ingredients)
     return results
 
 

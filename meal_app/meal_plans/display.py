@@ -71,11 +71,18 @@ def append_ingredient_units(ingredient_dict) -> dict:
 def display_meal_plan():
     complete_ingredient_dict = session['complete_ingredient_dict']
     if request.method == "GET":
+        ingredient_types = [
+            "Fresh_Ingredients",
+            "Dairy_Ingredients",
+            "Dry_Ingredients",
+            "Tinned_Ingredients"
+        ]
         meal_list_string = str(complete_ingredient_dict['Meal_List']).strip("[]")
         query_string = f"SELECT Name, Book, Page, Website FROM {os.environ['MYSQL_DATABASE']}.{os.environ['MYSQL_TABLE']} WHERE Name IN ({meal_list_string});"
         info_meal_dict = create_meal_info_table(execute_mysql_query(query_string))
         append_ingredient_units(complete_ingredient_dict)
-        return render_template('display.html', meal_info_list=info_meal_dict, complete_ingredient_dict=complete_ingredient_dict)
+        return render_template('display.html', meal_info_list=info_meal_dict,
+                                ingredient_types=ingredient_types, complete_ingredient_dict=complete_ingredient_dict)
 
     if request.method == "POST":
         if request.form['submit'] == 'Save':
