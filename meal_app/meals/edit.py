@@ -5,6 +5,16 @@ import os
 
 edit = Blueprint('edit', __name__, template_folder='templates', static_folder='../static')
 
+def append_current_ingredients(dict_1, dict_2):
+    current_ingredients = list(dict_2.keys())
+    for idx, ingredient_dict in enumerate(dict_1):
+        try:
+            current_ingredients.index(ingredient_dict['Ingredient'])
+            dict_1[idx]['Quantity'] = (dict_2[ingredient_dict['Ingredient']])
+        except ValueError:
+            pass
+    return dict_1
+
 def unpack_ingredients(ingredients):
     current_ingredients = json.loads(ingredients)
     current_ingredients_keys = list(current_ingredients.keys())
@@ -57,6 +67,24 @@ def edit_meal(meal):
     if request.method == "GET":
         query_string = f"SELECT * FROM {os.environ['MYSQL_DATABASE']}.{os.environ['MYSQL_TABLE']} WHERE Name = '{meal}';"
         results = execute_mysql_query(query_string)[0]
+        current_meal_data = execute_mysql_query(query_string)[0]
+        # query_string = f"SELECT Type, JSON_OBJECTAGG(Name, Unit)  AS Ingredients FROM {os.environ['MYSQL_DATABASE']}.{os.environ['MYSQL_INGREDIENTS_TABLE']} GROUP BY Type;"
+        query_string = f"""
+                        SELECT
+                            Type,
+                            JSON_ARRAYAGG(
+                                JSON_OBJECT(
+                                    'Ingredient', Name,
+                                    'Unit', Unit,
+                                    'Quantity', "")
+                                )
+                                AS Ingredient_data
+                        FROM {os.environ['MYSQL_DATABASE']}.{os.environ['MYSQL_INGREDIENTS_TABLE']}
+                        GROUP BY Type;"""
+        all_ingredient_data = execute_mysql_query(query_string)
+        current_ingredients = {}
+        for ingredient_type in all_ingredient_data:
+            current_ingredients[ingredient_type['Type']] = append_current_ingredients(json.loads(ingredient_type['Ingredient_data']), json.loads(current_meal_data[f'{ingredient_type["Type"]}_Ingredients']))
         current_fresh_ingredients, current_fresh_ingredients_keys = unpack_ingredients(results['Fresh_Ingredients'])
         current_tinned_ingredients, current_tinned_ingredients_keys = unpack_ingredients(results['Tinned_Ingredients'])
         current_dry_ingredients, current_dry_ingredients_keys = unpack_ingredients(results['Dry_Ingredients'])
@@ -65,6 +93,7 @@ def edit_meal(meal):
         current_tags = [results['Spring_Summer'], results['Autumn_Winter'], results['Quick_Easy'], results['Special']]
 
         return render_template('edit_meal.html', meal_name = results['Name'], staple = results['Staple'], book = results['Book'], page = results['Page'], website = results['Website'],
+            current_ingredients=current_ingredients,
             current_fresh_ingredients = current_fresh_ingredients, current_fresh_ingredients_keys = current_fresh_ingredients_keys, 
             current_tinned_ingredients = current_tinned_ingredients, current_tinned_ingredients_keys = current_tinned_ingredients_keys, 
             current_dry_ingredients = current_dry_ingredients, current_dry_ingredients_keys = current_dry_ingredients_keys, 
