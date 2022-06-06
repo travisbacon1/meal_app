@@ -15,37 +15,10 @@ def append_current_ingredients(dict_1, dict_2):
             pass
     return dict_1
 
-def unpack_ingredients(ingredients):
-    current_ingredients = json.loads(ingredients)
-    current_ingredients_keys = list(current_ingredients.keys())
-    return current_ingredients, current_ingredients_keys
-
 
 def unpack_ingredient_key_values(ingredients):
     # TODO: Combine this with unpack_ingredients method
     return [list(json.loads(ingredients).keys()), list(json.loads(ingredients).values())]
-
-
-def get_ingredients() -> dict:
-    """Appends unit ingredients (i.e. g or ml) to ingredient dictionary
-
-    Parameters
-    ----------
-    ingredient_dict : dict
-
-    Returns
-    -------
-    dict
-        Ingredient dictionary containing units
-    """
-    ingredient_dict = {}
-    for ingredient_type in ["Fresh", "Dairy", "Dry", "Tinned"]:
-        query_string = f"SELECT Name, Unit FROM {os.environ['MYSQL_DATABASE']}.{os.environ['MYSQL_INGREDIENTS_TABLE']} WHERE Type = '{ingredient_type}');"
-        results = execute_mysql_query(query_string)
-        for ingredient in results:
-            temp_dict = {ingredient['Name']: ingredient['Unit']}
-            ingredient_dict[f'{ingredient_type}_Ingredients'].update(temp_dict)
-    return ingredient_dict
 
 
 @edit.route('/edit', methods=['GET', 'POST'])
@@ -63,12 +36,28 @@ def index():
 
 @edit.route('/edit/<meal>', methods=['GET', 'POST'])
 def edit_meal(meal):
-    from ..variables import staples_list, book_list, fresh_ingredients, tinned_ingredients, dry_ingredients, dairy_ingredients, tag_list
+    from ..variables import staples_list, book_list
     if request.method == "GET":
-        query_string = f"SELECT * FROM {os.environ['MYSQL_DATABASE']}.{os.environ['MYSQL_TABLE']} WHERE Name = '{meal}';"
+        query_string = f"""
+                        SELECT
+                            Name,
+                            Staple,
+                            Book,
+                            Page,
+                            Website,
+                            Fresh_Ingredients,
+                            Tinned_Ingredients,
+                            Dry_Ingredients,
+                            Dairy_Ingredients,
+                            JSON_OBJECT(
+                                'Spring_Summer', Spring_Summer,
+                                'Autumn_Winter', Autumn_Winter,
+                                'Quick_Easy', Quick_Easy,
+                                'Special', Special)
+                            AS Tags
+                        FROM {os.environ['MYSQL_DATABASE']}.{os.environ['MYSQL_TABLE']} WHERE Name = '{meal}';"""
         results = execute_mysql_query(query_string)[0]
         current_meal_data = execute_mysql_query(query_string)[0]
-        # query_string = f"SELECT Type, JSON_OBJECTAGG(Name, Unit)  AS Ingredients FROM {os.environ['MYSQL_DATABASE']}.{os.environ['MYSQL_INGREDIENTS_TABLE']} GROUP BY Type;"
         query_string = f"""
                         SELECT
                             Type,
@@ -85,27 +74,12 @@ def edit_meal(meal):
         current_ingredients = {}
         for ingredient_type in all_ingredient_data:
             current_ingredients[ingredient_type['Type']] = append_current_ingredients(json.loads(ingredient_type['Ingredient_data']), json.loads(current_meal_data[f'{ingredient_type["Type"]}_Ingredients']))
-        current_fresh_ingredients, current_fresh_ingredients_keys = unpack_ingredients(results['Fresh_Ingredients'])
-        current_tinned_ingredients, current_tinned_ingredients_keys = unpack_ingredients(results['Tinned_Ingredients'])
-        current_dry_ingredients, current_dry_ingredients_keys = unpack_ingredients(results['Dry_Ingredients'])
-        current_dairy_ingredients, current_dairy_ingredients_keys = unpack_ingredients(results['Dairy_Ingredients'])
-        current_dairy_ingredients_keys = list(current_dairy_ingredients.keys())
-        current_tags = [results['Spring_Summer'], results['Autumn_Winter'], results['Quick_Easy'], results['Special']]
 
-        return render_template('edit_meal.html', meal_name = results['Name'], staple = results['Staple'], book = results['Book'], page = results['Page'], website = results['Website'],
-            current_ingredients=current_ingredients,
-            current_fresh_ingredients = current_fresh_ingredients, current_fresh_ingredients_keys = current_fresh_ingredients_keys, 
-            current_tinned_ingredients = current_tinned_ingredients, current_tinned_ingredients_keys = current_tinned_ingredients_keys, 
-            current_dry_ingredients = current_dry_ingredients, current_dry_ingredients_keys = current_dry_ingredients_keys, 
-            current_dairy_ingredients = current_dairy_ingredients, current_dairy_ingredients_keys = current_dairy_ingredients_keys, 
-            staples = staples_list,
-            books = book_list,
-            fresh_ingredients = [ingredient[0] for ingredient in fresh_ingredients], fresh_ingredients_units = [ingredient[1] for ingredient in fresh_ingredients],
-            tinned_ingredients = [ingredient[0] for ingredient in tinned_ingredients], tinned_ingredients_units = [ingredient[1] for ingredient in tinned_ingredients],
-            dry_ingredients = [ingredient[0] for ingredient in dry_ingredients], dry_ingredients_units = [ingredient[1] for ingredient in dry_ingredients],
-            dairy_ingredients = [ingredient[0] for ingredient in dairy_ingredients], dairy_ingredients_units = [ingredient[1] for ingredient in dairy_ingredients],
-            tags = tag_list,
-            current_tags = current_tags)
+        return render_template('edit_meal.html', meal_name=results['Name'], staple=results['Staple'],
+                                book=results['Book'], page=results['Page'], website=results['Website'],
+                                current_ingredients=current_ingredients, staples=staples_list,
+                                books=book_list, current_tags=json.loads(results['Tags']))
+
     if request.method == "POST":
         details = request.form
         details_dict = details.to_dict()
