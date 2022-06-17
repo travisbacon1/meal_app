@@ -1,5 +1,6 @@
-import json
+from flask import render_template, request
 import os
+import json
 import MySQLdb
 import MySQLdb.cursors
 
@@ -69,3 +70,71 @@ def get_tags(tags):
         else:
             parsed_tags[tag.replace('/', '_')] = "0"
     return parsed_tags
+
+
+def append_current_ingredients(dict_1, dict_2):
+    current_ingredients = list(dict_2.keys())
+    for idx, ingredient_dict in enumerate(dict_1):
+        try:
+            current_ingredients.index(ingredient_dict['Ingredient'])
+            dict_1[idx]['Quantity'] = (dict_2[ingredient_dict['Ingredient']])
+        except ValueError:
+            pass
+    return dict_1
+
+
+def meal_confirmation(meal):
+    if request.method == "GET":
+        query_string = f"""
+                        SELECT
+                            Name,
+                            Staple,
+                            Book,
+                            Page,
+                            Website,
+                            Fresh_Ingredients,
+                            Tinned_Ingredients,
+                            Dry_Ingredients,
+                            Dairy_Ingredients,
+                            JSON_OBJECT(
+                                'Spring_Summer', Spring_Summer,
+                                'Autumn_Winter', Autumn_Winter,
+                                'Quick_Easy', Quick_Easy,
+                                'Special', Special)
+                            AS Tags
+                        FROM {os.environ['MYSQL_DATABASE']}.{os.environ['MYSQL_TABLE']} WHERE Name = '{meal}';"""
+        result = execute_mysql_query(query_string)[0]
+        location_details = {}
+        if result['Website'] == None or result['Website'] == '':
+            location_details['Book'] = result['Book']
+            location_details['Page'] = result['Page']
+        else:
+            location_details['Website'] = result['Website']
+        ingredients = []
+        for ingredient_type in ["Fresh", "Dairy", "Dry", "Tinned"]:
+            ingredients.extend(list(json.loads(result[f'{ingredient_type}_Ingredients']).keys()))
+        ingredients = "'" + "', '".join(ingredients) + "'"
+        query_string = f"""SELECT 
+                            Type,
+                            JSON_ARRAYAGG(JSON_OBJECT('Ingredient',
+                                            Name,
+                                            'Unit',
+                                            Unit,
+                                            'Quantity',
+                                            '')) AS Ingredient_data
+                        FROM
+                            {os.environ['MYSQL_DATABASE']}.{os.environ['MYSQL_INGREDIENTS_TABLE']}
+                        WHERE Name in ({ingredients})
+                        GROUP BY Type;
+                        """
+        all_ingredient_data = execute_mysql_query(query_string)
+        current_ingredients = {}
+        for ingredient_type in all_ingredient_data:
+            current_ingredients[ingredient_type['Type']] = append_current_ingredients(json.loads(ingredient_type['Ingredient_data']), json.loads(result[f'{ingredient_type["Type"]}_Ingredients']))
+
+        current_tags = [tag_key.replace("_","/") for (tag_key, tag_value) in json.loads(result['Tags']).items() if tag_value == 1]
+        return render_template('meal_confirmation.html', meal_name=meal,
+                                location_details=location_details, location_keys=location_details.keys(),
+                                staple=result['Staple'],
+                                current_ingredients=current_ingredients,
+                                current_tags=current_tags)

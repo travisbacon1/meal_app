@@ -11,10 +11,11 @@
 				<label for="staple">Staple:</label>
 				<select class = "add_meal" name="Staple" selected="Risotto">
 					{%for i in range(0, staples|length)%}
-						{%if staples[i] == staple%}
-							<option selected = "{{staple}}" value = "{{staples[i]}}">{{staples[i]}}</option>
+					<p>i.Staple</p>
+						{%if staples[i].Staple == current_staple%}
+							<option selected = "{{current_staple}}" value = "{{current_staple}}">{{current_staple}}</option>
 						{% else %}
-							<option value = "{{staples[i]}}">{{staples[i]}}</option>
+							<option value = "{{staples[i].Staple}}">{{staples[i].Staple}}</option>
 						{%endif%}
 					{%endfor%}
 				</select>
@@ -60,9 +61,9 @@
 							<td id="checkboxtable_col1"><label for="{{tag_key}}">{{tag_key|replace("_", "/")}}</label></td>
 							<td id="checkboxtable_col2">
 								{%if tag_value == 1%}
-								<input type="checkbox" id="{{tag_value}}" name="Tag {{tag_value}}" value="{{tag_value}}" checked="True">
+								<input type="checkbox" id="{{tag_key}}" name="{{tag_key}}" value="{{tag_value}}" checked="True">
 								{%else%}
-								<input type="checkbox" id="{{tag_value}}" name="Tag {{tag_value}}" value="{{tag_value}}">
+								<input type="checkbox" id="{{tag_key}}" name="{{tag_key}}" value="{{tag_value}}">
 								{%endif%}
 							</td>
 						</tr>

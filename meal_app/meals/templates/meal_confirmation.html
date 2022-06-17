@@ -1,0 +1,36 @@
+{% extends "layout.html" %}
+{% block content %}
+    <h1 class="display_meal_plan_header">Meal info for {{meal_name}}!</h1>
+        {% if 'Book' in location_keys %}
+            <h2 class="display_meal_plan_header">{{location_details['Book']}}, page {{location_details['Page']}}</h2>
+        {% else %}
+            <h2 class="display_meal_plan_header">{{location_details['Website']}}</h2>
+        {% endif %}
+        {%for ingredient_type, ingredient_dict in current_ingredients.items()%}
+            <table>
+                <tr>
+                    <th class="ingredients">{{ingredient_type}} Ingredients</th>
+                    <th class="quantity">Quantity</th>
+                </tr>
+                {%for i in range(0, ingredient_dict|length)%}
+                    <tr>
+                        <td>{{ingredient_dict[i].Ingredient}}</td>
+                        <td>{{ingredient_dict[i].Quantity}} {{ingredient_dict[i].Unit}}</td>
+                    </tr>
+                {%endfor%}
+            </table>
+        {%endfor%}
+            <table>
+                <tr>
+                    <th class="ingredients">Tags</th>
+                </tr>
+                {%for tag in current_tags%}
+                <tr>
+                    <td>{{tag}}</td>
+                </tr>
+                {%endfor%}
+            </table>
+            <form method="post", action="" id="returnform">
+                <input class="button" type="submit" value="Return" id="returnbutton">
+            </form>
+{% endblock %}

@@ -1,24 +1,18 @@
 from flask import Blueprint, render_template, request, redirect, url_for
 import json
-from ..utilities import execute_mysql_query, parse_ingredients, get_tag_keys, get_tags
+from ..utilities import execute_mysql_query, parse_ingredients, append_current_ingredients, meal_confirmation
 import os
 
 edit = Blueprint('edit', __name__, template_folder='templates', static_folder='../static')
 
-def append_current_ingredients(dict_1, dict_2):
-    current_ingredients = list(dict_2.keys())
-    for idx, ingredient_dict in enumerate(dict_1):
-        try:
-            current_ingredients.index(ingredient_dict['Ingredient'])
-            dict_1[idx]['Quantity'] = (dict_2[ingredient_dict['Ingredient']])
-        except ValueError:
-            pass
-    return dict_1
-
-
-def unpack_ingredient_key_values(ingredients):
-    # TODO: Combine this with unpack_ingredients method
-    return [list(json.loads(ingredients).keys()), list(json.loads(ingredients).values())]
+def update_tags(results):
+    tag_list = ['Spring_Summer', 'Autumn_Winter', 'Quick_Easy', 'Special']
+    for tag in tag_list:
+        if tag in results:
+            results[tag] = 1
+        else:
+            results[tag] = 0
+    return results
 
 
 @edit.route('/edit', methods=['GET', 'POST'])
@@ -31,12 +25,13 @@ def index():
         query_string = f"SELECT * FROM {os.environ['MYSQL_DATABASE']}.{os.environ['MYSQL_TABLE']} WHERE Name='{details['Meal']}';"
         results = execute_mysql_query(query_string)
         return redirect(url_for('edit.edit_meal', meal=results[0]['Name']))
-    return render_template('edit_list.html', meals=meals)
+    else:
+        return render_template('edit_list.html', meals=meals)
 
 
 @edit.route('/edit/<meal>', methods=['GET', 'POST'])
 def edit_meal(meal):
-    from ..variables import staples_list, book_list
+    from ..variables import book_list
     if request.method == "GET":
         query_string = f"""
                         SELECT
@@ -75,9 +70,11 @@ def edit_meal(meal):
         for ingredient_type in all_ingredient_data:
             current_ingredients[ingredient_type['Type']] = append_current_ingredients(json.loads(ingredient_type['Ingredient_data']), json.loads(current_meal_data[f'{ingredient_type["Type"]}_Ingredients']))
 
-        return render_template('edit_meal.html', meal_name=results['Name'], staple=results['Staple'],
+        query_string = f"""SELECT DISTINCT(Staple) FROM {os.environ['MYSQL_DATABASE']}.{os.environ['MYSQL_TABLE']} ORDER BY Staple ASC;"""
+        staples = execute_mysql_query(query_string)
+        return render_template('edit_meal.html', meal_name=results['Name'], current_staple=results['Staple'],
                                 book=results['Book'], page=results['Page'], website=results['Website'],
-                                current_ingredients=current_ingredients, staples=staples_list,
+                                current_ingredients=current_ingredients, staples=staples,
                                 books=book_list, current_tags=json.loads(results['Tags']))
 
     if request.method == "POST":
@@ -87,40 +84,14 @@ def edit_meal(meal):
         tinned_ing = parse_ingredients(details_dict, "Tinned ")
         dry_ing = parse_ingredients(details_dict, "Dry ")
         dairy_ing = parse_ingredients(details_dict, "Dairy ")
-        tag_list = []
-        for key in list(details_dict.keys()):
-            if 'Tag' in key:
-                tag_list.append(details_dict[key])
-        tags = get_tags(tag_list)
-        query_string = f"UPDATE {os.environ['MYSQL_DATABASE']}.{os.environ['MYSQL_TABLE']} SET Name = '{details['Name']}', Staple = '{details['Staple']}', Book = '{details['Book']}', Page = '{details['Page']}', Website = '{details['Website']}', Fresh_Ingredients = '{fresh_ing}', Tinned_Ingredients = '{tinned_ing}', Dry_Ingredients = '{dry_ing}', Dairy_Ingredients = '{dairy_ing}', Spring_Summer = {tags['Spring_Summer']}, Autumn_Winter = {tags['Autumn_Winter']}, Quick_Easy = {tags['Quick_Easy']}, Special = {tags['Special']} WHERE (Name = '{details['Name']}');"
+        details_dict = update_tags(details_dict)
+        query_string = f"UPDATE {os.environ['MYSQL_DATABASE']}.{os.environ['MYSQL_TABLE']} SET Name = '{details['Name']}', Staple = '{details['Staple']}', Book = '{details['Book']}', Page = '{details['Page']}', Website = '{details['Website']}', Fresh_Ingredients = '{fresh_ing}', Tinned_Ingredients = '{tinned_ing}', Dry_Ingredients = '{dry_ing}', Dairy_Ingredients = '{dairy_ing}', Spring_Summer = {details_dict['Spring_Summer']}, Autumn_Winter = {details_dict['Autumn_Winter']}, Quick_Easy = {details_dict['Quick_Easy']}, Special = {details_dict['Special']} WHERE (Name = '{details['Name']}');"
         print(query_string)
         execute_mysql_query(query_string, fetch_results=False, commit=True)
         return redirect(url_for('edit.confirmation', meal=meal))
 
 
-@edit.route('/edit_confirmation/<meal>', methods=['GET', 'POST'])
+@edit.route('/edit_confirmation/<meal>', methods=['GET'])
 def confirmation(meal):
-    if request.method == "GET":
-        query_string = f"SELECT * FROM {os.environ['MYSQL_DATABASE']}.{os.environ['MYSQL_TABLE']} WHERE Name='{meal}';"
-        result = execute_mysql_query(query_string)[0]
-        print(result)
-        location_details = {}
-        if result['Website'] == None or result['Website'] == '':
-            location_details['Book'] = result['Book']
-            location_details['Page'] = result['Page']
-        else:
-            location_details['Website'] = result['Website']
-        fresh_ingredients = unpack_ingredient_key_values(result['Fresh_Ingredients'])
-        tinned_ingredients = unpack_ingredient_key_values(result['Tinned_Ingredients'])
-        dry_ingredients = unpack_ingredient_key_values(result['Dry_Ingredients'])
-        dairy_ingredients = unpack_ingredient_key_values(result['Dairy_Ingredients'])
-        tags = [{"Spring/Summer": result['Spring_Summer']}, {"Autumn/Winter": result['Autumn_Winter']}, {"Quick/Easy": result['Quick_Easy']}, {"Special": result['Special']}]
-        tags = get_tag_keys(tags)
-        return render_template('edit_confirmation.html', meal_name=meal,
-                                location_details=location_details, location_keys=location_details.keys(),
-                                staple=result['Staple'],
-                                len_fresh_ingredients=len(fresh_ingredients[0]), fresh_ingredients_keys=fresh_ingredients[0], fresh_ingredients_values=fresh_ingredients[1],
-                                len_tinned_ingredients=len(tinned_ingredients[0]), tinned_ingredients_keys=tinned_ingredients[0], tinned_ingredients_values=tinned_ingredients[1],
-                                len_dry_ingredients=len(dry_ingredients[0]), dry_ingredients_keys=dry_ingredients[0], dry_ingredients_values=dry_ingredients[1],
-                                len_dairy_ingredients=len(dairy_ingredients[0]), dairy_ingredients_keys=dairy_ingredients[0], dairy_ingredients_values=dairy_ingredients[1],
-                                len_tags=len(tags), tags=tags)
+    template = meal_confirmation(meal)
+    return template
