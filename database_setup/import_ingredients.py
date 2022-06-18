@@ -43,7 +43,7 @@ def main():
         `Unit` varchar(45) DEFAULT NULL,
         `Type` varchar(45) DEFAULT NULL,
         PRIMARY KEY (`Name`)
-        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci"""
+        )"""
 
     db_cursor = database.cursor()
     db_cursor.execute(query_string)

@@ -83,7 +83,7 @@ def append_current_ingredients(dict_1, dict_2):
     return dict_1
 
 
-def meal_confirmation(meal):
+def meal_information(meal):
     if request.method == "GET":
         query_string = f"""
                         SELECT
@@ -133,7 +133,7 @@ def meal_confirmation(meal):
             current_ingredients[ingredient_type['Type']] = append_current_ingredients(json.loads(ingredient_type['Ingredient_data']), json.loads(result[f'{ingredient_type["Type"]}_Ingredients']))
 
         current_tags = [tag_key.replace("_","/") for (tag_key, tag_value) in json.loads(result['Tags']).items() if tag_value == 1]
-        return render_template('meal_confirmation.html', meal_name=meal,
+        return render_template('meal_information.html', meal_name=meal,
                                 location_details=location_details, location_keys=location_details.keys(),
                                 staple=result['Staple'],
                                 current_ingredients=current_ingredients,

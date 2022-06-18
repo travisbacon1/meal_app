@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, request, redirect, url_for
-from ..utilities import execute_mysql_query, parse_ingredients, get_tags, meal_confirmation
+from ..utilities import execute_mysql_query, parse_ingredients, get_tags, meal_information
 import os
 
 add = Blueprint('add', __name__, template_folder='templates', static_folder='../static')
@@ -31,5 +31,5 @@ def index():
 
 @add.route('/edit_confirmation/<meal>', methods=['GET'])
 def confirmation(meal):
-    template = meal_confirmation(meal)
+    template = meal_information(meal)
     return template

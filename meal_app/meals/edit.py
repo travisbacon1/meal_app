@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, request, redirect, url_for
 import json
-from ..utilities import execute_mysql_query, parse_ingredients, append_current_ingredients, meal_confirmation
+from ..utilities import execute_mysql_query, parse_ingredients, append_current_ingredients, meal_information
 import os
 
 edit = Blueprint('edit', __name__, template_folder='templates', static_folder='../static')
@@ -93,5 +93,5 @@ def edit_meal(meal):
 
 @edit.route('/edit_confirmation/<meal>', methods=['GET'])
 def confirmation(meal):
-    template = meal_confirmation(meal)
+    template = meal_information(meal)
     return template
