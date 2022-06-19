@@ -9,6 +9,8 @@ python = "^3.9"
 Flask = "^2.1.2"
 mysqlclient = "^2.1.0"
 python-dotenv = "^0.20.0"
+coverage = "^6.4.1"
+black = "^22.3.0"
 
 [tool.poetry.dev-dependencies]
 pytest = "^7.1.2"
