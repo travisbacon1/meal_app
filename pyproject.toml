@@ -1,0 +1,19 @@
+[tool.poetry]
+name = "meal_planner"
+version = "0.1.0"
+description = ""
+authors = ["Travis Bacon <travisbacon1@gmail.com>"]
+
+[tool.poetry.dependencies]
+python = "^3.9"
+Flask = "^2.1.2"
+mysqlclient = "^2.1.0"
+python-dotenv = "^0.20.0"
+
+[tool.poetry.dev-dependencies]
+pytest = "^7.1.2"
+selenium = "4.0.0"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
