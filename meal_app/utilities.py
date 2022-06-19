@@ -53,14 +53,6 @@ def parse_ingredients(ingredients_dict, filter_word, remove_prefix=False):
     return json.dumps(parsed_ingredient_dict)
 
 
-def get_tag_keys(tags):
-    tag_list = []
-    for tag_dict in tags:
-        if list(tag_dict.values())[0] == 1:
-            tag_list.append(list(tag_dict.keys())[0])
-    return tag_list
-
-
 def get_tags(tags):
     from .variables import tag_list
     parsed_tags = {}

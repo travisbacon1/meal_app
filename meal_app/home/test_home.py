@@ -8,7 +8,7 @@ from selenium.webdriver.common.by import By
 class TestUserInteraction(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        cls.url = 'http://127.0.0.1:5000'
+        cls.url = 'http://0.0.0.0:5000'
         cls.chrome_options = Options()
         cls.chrome_options.add_argument("--headless")
 
