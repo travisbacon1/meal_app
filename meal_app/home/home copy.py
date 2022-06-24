@@ -1,26 +1,44 @@
 from flask import Blueprint, render_template, request, redirect, url_for
-from app import TestTable, engine
-from sqlmodel import Session, select
+from app import TestTable2, engine
+from sqlmodel import SQLModel, Session, create_engine, select
+# from sqlalchemy import create_engine, select
+# from sqlalchemy.orm import Session
+# import sqlalchemy
+import os
+import json
 
 home = Blueprint('home', __name__, template_folder="templates", static_folder='../static')
 
 @home.route("/", methods=['GET', 'POST'])
 def index():
-    bla = TestTable(
-        Name = "bla8",
-        Staple = "Bla",
-        # Tinned_Ingredients = {"Apple": "1"},
-        # Special = 1,
-        Last_Made = "2022-06-18"
-        )
-    print(bla.__repr__())
-
+    # bla = TestTable2(Name = "bla")
+    # bla2 = MealNew2(
+    #     Name = "bla",
+    #     Staple = "Bla",
+    #     Tinned_Ingredients = {"Apple": 1}
+    #     )
+    # engine = create_engine(f'mysql+mysqldb://{os.environ["MYSQL_USER"]}:{os.environ["MYSQL_PASSWORD"]}@{os.environ["MYSQL_HOSTNAME"]}/{os.environ["MYSQL_DATABASE"]}', echo=True)
+    # print(sqlalchemy.inspect(engine).has_table("TestTable2"))
     # with Session(engine) as session:
-    #     # statement = select(TestTable)
-    #     # results = [row for row in session.exec(statement).fetchall()]
-    #     # print(results)
-    #     session.add(bla)
-    #     session.commit()
+    #     statement = select(TestTable2.Name)
+    #     results = [dict(row) for row in session.execute(statement).fetchall()]
+    #     print(results)
+
+    with Session(engine) as session:
+        statement = select(TestTable2)
+        results = [row for row in session.exec(statement).fetchall()]
+        print(results[0].Name)
+        # session.query(MealNew2.Name)
+        # statement = select(MealNew2)
+        # orgs = session.exec(statement)
+        # print(f"orgs::{orgs}")
+        # org_list = orgs.fetchall()
+    # bla2.Book = "bla"
+
+    # print(bla2)
+    # print(dir(MealNew2))
+    # db.session.query(MealNew2.Name)
+    # db.session.add(bla2)
 
     buttons = [
         "Add Ingredient",
