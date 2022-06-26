@@ -55,7 +55,7 @@ class IngredientsTestTable(SQLModel, table=True):
     __tablename__ = "IngredientsTestTable"
     Name: str = Field(primary_key=True)
     Unit: Optional[str] = None
-    Type: Literal["Fresh", "Dairy", "Dry", "Tinned"]
+    Type: str
 
 
     def __new__(cls, *args, **kwargs):
