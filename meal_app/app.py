@@ -17,30 +17,30 @@ def create_app():
         # Include our Routes
         from .home.home import home
         from .ingredients.add_ingredient import add_ingredient
-        from .meals.add import add
-        from .meals.edit import edit
+        from .ingredients.search_ingredients import search_ingredients
+        from .meals.add_meal import add_meal
+        from .meals.edit_meal import edit_meal
         from .meals.list_meals import list_meals
-        from .meals.find import find
+        from .meals.find_meal import find_meal
         from .meals.inspire import inspire
-        from .meals.search import search
-        from .meal_plans.create import create
-        from .meal_plans.display import display
-        from .meal_plans.load import load
-        from .meal_plans.delete import delete
+        from .meal_plans.create_meal_plan import create_meal_plan
+        from .meal_plans.display_meal_plan import display_meal_plan
+        from .meal_plans.load_meal_plan import load_meal_plan
+        from .meal_plans.delete_meal_plan import delete_meal_plan
 
         # Register Blueprints
         app.register_blueprint(home)
         app.register_blueprint(add_ingredient)
-        app.register_blueprint(add)
-        app.register_blueprint(edit)
+        app.register_blueprint(search_ingredients)
+        app.register_blueprint(add_meal)
+        app.register_blueprint(edit_meal)
         app.register_blueprint(list_meals)
-        app.register_blueprint(find)
+        app.register_blueprint(find_meal)
         app.register_blueprint(inspire)
-        app.register_blueprint(search)
-        app.register_blueprint(create)
-        app.register_blueprint(display)
-        app.register_blueprint(load)
-        app.register_blueprint(delete)
+        app.register_blueprint(create_meal_plan)
+        app.register_blueprint(display_meal_plan)
+        app.register_blueprint(load_meal_plan)
+        app.register_blueprint(delete_meal_plan)
 
         return app
 

@@ -2,10 +2,10 @@ from flask import Blueprint, render_template, request, redirect, url_for
 from ..utilities import execute_mysql_query, parse_ingredients, get_tags, meal_information
 import os
 
-add = Blueprint('add', __name__, template_folder='templates', static_folder='../static')
+add_meal = Blueprint('add_meal', __name__, template_folder='templates', static_folder='../static')
 
-@add.route('/add', methods=['GET', 'POST'])
-def index():
+@add_meal.route('/add_meal', methods=['GET', 'POST'])
+def main():
     from ..variables import staples_list, book_list, fresh_ingredients, tinned_ingredients, dry_ingredients, dairy_ingredients, tag_list
     if request.method == "POST":
         details = request.form
@@ -19,7 +19,7 @@ def index():
         execute_mysql_query(query_string, fetch_results=False, commit=True)
         print(query_string)
         return redirect(url_for('add.confirmation', meal = details['Name']))
-    return render_template('add.html', 
+    return render_template('add_meal.html', 
         len_staples = len(staples_list), staples = staples_list,
         len_books = len(book_list), books = book_list,
         len_fresh_ingredients = len(fresh_ingredients), fresh_ingredients = [ingredient[0] for ingredient in fresh_ingredients], fresh_ingredients_units = [ingredient[1] for ingredient in fresh_ingredients],
@@ -29,7 +29,7 @@ def index():
         len_tags = len(tag_list), tags = tag_list)
 
 
-@add.route('/edit_confirmation/<meal>', methods=['GET'])
+@add_meal.route('/confirmation/<meal>', methods=['GET'])
 def confirmation(meal):
     template = meal_information(meal)
     return template

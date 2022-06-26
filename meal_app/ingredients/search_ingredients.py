@@ -3,10 +3,10 @@ from ..utilities import execute_mysql_query
 import json
 import os
 
-search = Blueprint('search', __name__, template_folder='templates', static_folder='../static')
+search_ingredients = Blueprint('search_ingredients', __name__, template_folder='templates', static_folder='../static')
 
-@search.route('/search', methods=['GET', 'POST'])
-def index():
+@search_ingredients.route('/search_ingredients', methods=['GET', 'POST'])
+def main():
     query_string = f"SELECT Fresh_Ingredients, Tinned_Ingredients, Dry_Ingredients, Dairy_Ingredients FROM {os.environ['MYSQL_DATABASE']}.{os.environ['MYSQL_TABLE']} WHERE json_length(Fresh_Ingredients) > 0;"
     results = execute_mysql_query(query_string)
     json_results = [json.loads(result['Fresh_Ingredients']) for result in results]
@@ -37,18 +37,18 @@ def index():
                 WHERE JSON_EXTRACT({json_key}, '$."{ingredient}"');"""
         results = execute_mysql_query(query_string)
         session['meal_list'] = [result['Name'] for result in results]
-        return redirect(url_for('search.search_results', ingredient = ingredient))
-    return render_template('search.html', 
+        return redirect(url_for('search_ingredients.search_results', ingredient = ingredient))
+    return render_template('search_ingredients.html', 
                             len_fresh_ingredients = len(fresh_ingredients), fresh_ingredients = fresh_ingredients,
                             len_tinned_ingredients = len(tinned_ingredients), tinned_ingredients = tinned_ingredients,
                             len_dry_ingredients = len(dry_ingredients), dry_ingredients = dry_ingredients,
                             len_dairy_ingredients = len(dairy_ingredients), dairy_ingredients = dairy_ingredients)
 
 
-@search.route('/search/<ingredient>', methods=['GET', 'POST'])
+@search_ingredients.route('/search_ingredients/<ingredient>', methods=['GET', 'POST'])
 def search_results(ingredient):
     if request.method == "GET":
         meals = session.pop('meal_list', [])
         return render_template('search_results.html', ingredient = ingredient, len_meals = len(meals), meals = meals)
     else:
-        return redirect(url_for('search'))
+        return redirect(url_for('search.index'))

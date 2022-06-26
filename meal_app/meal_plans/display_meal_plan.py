@@ -4,7 +4,7 @@ import json
 from datetime import datetime
 from ..utilities import execute_mysql_query
 
-display = Blueprint('display', __name__, template_folder='templates', static_folder='../static')
+display_meal_plan = Blueprint('display_meal_plan', __name__, template_folder='templates', static_folder='../static')
 
 def save_meal_plan(complete_ingredient_dict) -> str:
     """Saves created meal plan to the local saved_meal_plans directory
@@ -67,8 +67,8 @@ def append_ingredient_units(ingredient_dict) -> dict:
     return ingredient_dict
 
 
-@display.route('/display', methods=['GET', 'POST'])
-def display_meal_plan():
+@display_meal_plan.route('/display_meal_plan', methods=['GET', 'POST'])
+def main():
     complete_ingredient_dict = session['complete_ingredient_dict']
     if request.method == "GET":
         ingredient_types = [
@@ -81,14 +81,14 @@ def display_meal_plan():
         query_string = f"SELECT Name, Book, Page, Website FROM {os.environ['MYSQL_DATABASE']}.{os.environ['MYSQL_TABLE']} WHERE Name IN ({meal_list_string});"
         info_meal_dict = create_meal_info_table(execute_mysql_query(query_string))
         append_ingredient_units(complete_ingredient_dict)
-        return render_template('display.html', meal_info_list=info_meal_dict,
+        return render_template('display_meal_plan.html', meal_info_list=info_meal_dict,
                                 ingredient_types=ingredient_types, complete_ingredient_dict=complete_ingredient_dict)
 
     if request.method == "POST":
         if request.form['submit'] == 'Save':
             file_path = save_meal_plan(complete_ingredient_dict)
             session['complete_ingredient_dict'] = complete_ingredient_dict
-            return render_template('save_complete.html', file_path=file_path)
+            return render_template('save_meal_plan_complete.html', file_path=file_path)
         if request.form['submit'] == 'Update Dates':
             date_now = datetime.now().strftime("%Y-%-m-%d")
             meals = complete_ingredient_dict['Meal_List']
@@ -96,4 +96,4 @@ def display_meal_plan():
                 query_string = f"""UPDATE `{os.environ['MYSQL_DATABASE']}`.`{os.environ['MYSQL_TABLE']}` SET `Last_Made` = '{date_now}' WHERE (`Name` = '{meal}');"""
                 execute_mysql_query(query_string, fetch_results=False, commit=True)
             session['complete_ingredient_dict'] = complete_ingredient_dict
-            return redirect(url_for('display.display_meal_plan'))
+            return redirect(url_for('display_meal_plan.main'))

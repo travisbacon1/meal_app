@@ -6,7 +6,7 @@ import os
 list_meals = Blueprint('list_meals', __name__, template_folder='templates', static_folder='../static')
 
 @list_meals.route('/list_meals', methods=['GET', 'POST'])
-def index():
+def main():
     if request.method == "GET":
         from datetime import datetime
         query_string = f"SELECT *, CAST(Page AS SIGNED) AS Page FROM {os.environ['MYSQL_DATABASE']}.{os.environ['MYSQL_TABLE']} ORDER BY Book, Page;"
@@ -25,4 +25,4 @@ def index():
     elif request.method == "POST" and (request.form['submit']):
         details_dict = request.form.to_dict()
         meal = json.dumps(details_dict['submit']).replace('"', '')
-        return redirect(url_for('find.some_meal_page', meal = meal))
+        return redirect(url_for('find.meal_info', meal = meal))

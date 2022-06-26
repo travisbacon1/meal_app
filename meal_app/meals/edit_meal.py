@@ -3,7 +3,7 @@ import json
 from ..utilities import execute_mysql_query, parse_ingredients, append_current_ingredients, meal_information
 import os
 
-edit = Blueprint('edit', __name__, template_folder='templates', static_folder='../static')
+edit_meal = Blueprint('edit_meal', __name__, template_folder='templates', static_folder='../static')
 
 def update_tags(results):
     tag_list = ['Spring_Summer', 'Autumn_Winter', 'Quick_Easy', 'Special']
@@ -15,8 +15,8 @@ def update_tags(results):
     return results
 
 
-@edit.route('/edit', methods=['GET', 'POST'])
-def index():
+@edit_meal.route('/edit_meal', methods=['GET', 'POST'])
+def main():
     query_string = f"SELECT Name FROM {os.environ['MYSQL_DATABASE']}.{os.environ['MYSQL_TABLE']};"
     results = execute_mysql_query(query_string)
     meals = [result['Name'] for result in results]
@@ -24,13 +24,13 @@ def index():
         details = request.form
         query_string = f"SELECT * FROM {os.environ['MYSQL_DATABASE']}.{os.environ['MYSQL_TABLE']} WHERE Name='{details['Meal']}';"
         results = execute_mysql_query(query_string)
-        return redirect(url_for('edit.edit_meal', meal=results[0]['Name']))
+        return redirect(url_for('edit_meal.edit', meal=results[0]['Name']))
     else:
         return render_template('edit_list.html', meals=meals)
 
-
-@edit.route('/edit/<meal>', methods=['GET', 'POST'])
-def edit_meal(meal):
+# TODO: BUG: Need to capture current name as updating name doesn't work
+@edit_meal.route('/edit/<meal>', methods=['GET', 'POST'])
+def edit(meal):
     from ..variables import book_list
     if request.method == "GET":
         query_string = f"""
@@ -88,10 +88,10 @@ def edit_meal(meal):
         query_string = f"UPDATE {os.environ['MYSQL_DATABASE']}.{os.environ['MYSQL_TABLE']} SET Name = '{details['Name']}', Staple = '{details['Staple']}', Book = '{details['Book']}', Page = '{details['Page']}', Website = '{details['Website']}', Fresh_Ingredients = '{fresh_ing}', Tinned_Ingredients = '{tinned_ing}', Dry_Ingredients = '{dry_ing}', Dairy_Ingredients = '{dairy_ing}', Spring_Summer = {details_dict['Spring_Summer']}, Autumn_Winter = {details_dict['Autumn_Winter']}, Quick_Easy = {details_dict['Quick_Easy']}, Special = {details_dict['Special']} WHERE (Name = '{details['Name']}');"
         print(query_string)
         execute_mysql_query(query_string, fetch_results=False, commit=True)
-        return redirect(url_for('edit.confirmation', meal=meal))
+        return redirect(url_for('edit_meal.confirmation', meal=meal))
 
 
-@edit.route('/edit_confirmation/<meal>', methods=['GET'])
+@edit_meal.route('/edit_confirmation/<meal>', methods=['GET'])
 def confirmation(meal):
     template = meal_information(meal)
     return template

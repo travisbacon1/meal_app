@@ -4,7 +4,7 @@ from ..variables import extras
 import json
 import os
 
-create = Blueprint('create', __name__, template_folder='templates', static_folder='static')
+create_meal_plan = Blueprint('create_meal_plan', __name__, template_folder='templates', static_folder='static')
 
 def get_meal_info(meal_list, quantity_list) -> list[dict]:
     """Converts a list of meals into a string and uses this in an SQL query to get the information on these meals (ingredients not yet de-duped)
@@ -93,8 +93,8 @@ def collate_ingredients(meal_info_list) -> dict:
     return complete_ingredient_dict
 
 
-@create.route('/create', methods=['GET', 'POST'])
-def create_meal_plan():
+@create_meal_plan.route('/create_meal_plan', methods=['GET', 'POST'])
+def main():
     query_string = f"SELECT GROUP_CONCAT(Name ORDER BY Name ASC) as Meals, Staple FROM {os.environ['MYSQL_DATABASE']}.{os.environ['MYSQL_TABLE']} GROUP BY Staple;"
     results = execute_mysql_query(query_string)
     staples_dict = {str(item['Staple']): list(item['Meals'].split(',')) for item in results}
@@ -106,5 +106,5 @@ def create_meal_plan():
         complete_ingredient_dict['Extra_Ingredients'] = [value for key, value in details_dict.items() if 'Extra' in key]
         complete_ingredient_dict['Meal_List'] = [meal for meal in meal_list if meal != 'null']
         session['complete_ingredient_dict'] = complete_ingredient_dict
-        return redirect(url_for('display.display_meal_plan'))
-    return render_template('create.html', staples=list(staples_dict.keys()), staples_dict=staples_dict, extras=extras)
+        return redirect(url_for('display_meal_plan.main'))
+    return render_template('create_meal_plan.html', staples=list(staples_dict.keys()), staples_dict=staples_dict, extras=extras)

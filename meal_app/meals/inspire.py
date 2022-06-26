@@ -6,7 +6,7 @@ import os
 inspire = Blueprint('inspire', __name__, template_folder='templates', static_folder='../static')
 
 @inspire.route('/inspire', methods=['GET', 'POST'])
-def index():
+def main():
     from ..variables import tag_list
     from datetime import datetime
     if request.method == "POST":

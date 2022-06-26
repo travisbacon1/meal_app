@@ -6,7 +6,7 @@ from sqlmodel import Session, select
 add_ingredient = Blueprint('add_ingredient', __name__, template_folder='templates', static_folder='../static')
 
 @add_ingredient.route('/add_ingredient', methods=['GET', 'POST'])
-def index():
+def main():
     ingredient_types = [
         "",
         "Fresh",
