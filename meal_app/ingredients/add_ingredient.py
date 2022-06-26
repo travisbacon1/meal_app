@@ -1,12 +1,12 @@
 from flask import Blueprint, render_template, request, redirect, url_for
-from ..utilities import execute_mysql_query
-import os
+from models import IngredientsTestTable
+from app import engine
+from sqlmodel import Session, select
 
 add_ingredient = Blueprint('add_ingredient', __name__, template_folder='templates', static_folder='../static')
 
 @add_ingredient.route('/add_ingredient', methods=['GET', 'POST'])
 def index():
-    # TODO: Enforce selection of an ingredient type
     ingredient_types = [
         "",
         "Fresh",
@@ -17,8 +17,15 @@ def index():
     if request.method == "POST":
         details = request.form
         details_dict = details.to_dict()
-        query_string = f"""INSERT INTO {os.environ['MYSQL_INGREDIENTS_TABLE']} (Name, Unit, Type) VALUES ('{details_dict["Name"]}', '{details_dict["Unit"]}', '{details_dict["Type"]}');"""
-        execute_mysql_query(query_string, fetch_results=False, commit=True)
+        ingredient = IngredientsTestTable(
+            Name = details_dict["Name"],
+            Unit = details_dict["Unit"],
+            Type = details_dict["Type"]
+            )
+
+        with Session(engine) as session:
+            session.add(ingredient)
+            session.commit()
         return redirect(url_for('add_ingredient.confirmation', ingredient=details_dict["Name"]))
     return render_template('add_ingredient.html', ingredient_types=ingredient_types)
 
@@ -26,7 +33,8 @@ def index():
 @add_ingredient.route('/add_ingredient_confirmation/<ingredient>', methods=['GET', 'POST'])
 def confirmation(ingredient):
     if request.method == "GET":
-        query_string = f"SELECT * FROM {os.environ['MYSQL_INGREDIENTS_TABLE']} WHERE Name='{ingredient}';"
-        result = execute_mysql_query(query_string)[0]
-        return render_template('add_ingredient_confirmation.html', ingredient_name=result['Name'],
-                                ingredient_unit=result['Unit'], ingredient_type=result['Type'])
+        with Session(engine) as session:
+            statement = select(IngredientsTestTable).where(IngredientsTestTable.Name == ingredient)
+            result = session.exec(statement).first()
+        return render_template('add_ingredient_confirmation.html', ingredient_name=result.Name,
+                                ingredient_unit=result.Unit, ingredient_type=result.Type)
