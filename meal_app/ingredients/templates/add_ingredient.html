@@ -13,9 +13,9 @@
 			</li>
 			<li>
 				<label for="type">Type:</label>
-				<select class = "add_meal" name="Type">
+				<select class = "add_meal" name="Type" required>
 					{%for i in range(0, ingredient_types|length)%}
-						<option value = "{{ingredient_types[i]}}">{{ingredient_types[i]}}</option> 
+						<option value = "{{ingredient_types[i]}}">{{ingredient_types[i]}} </option> 
 					{%endfor%}
 				</select>
 			</li>
