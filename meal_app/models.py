@@ -1,5 +1,5 @@
 from sqlmodel import Field, SQLModel, JSON, Column
-from typing import Optional, Dict, Pattern, Literal
+from typing import Optional, Dict, Pattern
 import re
 import json
 
@@ -14,9 +14,9 @@ class MissingIngredientType(Exception):
     pass
 
 
-class TestTable(SQLModel, table=True):
+class MealsTable(SQLModel, table=True):
     __table_args__ = {'extend_existing': True}
-    __tablename__ = "TestTable"
+    __tablename__ = "MealsTable"
     Name: str = Field(primary_key=True)
     Staple: str
     Book: Optional[str] = None
@@ -35,11 +35,11 @@ class TestTable(SQLModel, table=True):
 
     def __new__(cls, *args, **kwargs):
         if kwargs.get('Last_Made') is None:
-            return super(TestTable, cls).__new__(cls, *args, **kwargs)
+            return super(MealsTable, cls).__new__(cls, *args, **kwargs)
         elif not re.match(r'[\d]{4}-[\d]{2}-[\d]{2}', kwargs['Last_Made']):
             raise InvalidDateFormat('Invalid date format')
         else:
-            return super(TestTable, cls).__new__(cls, *args, **kwargs)
+            return super(MealsTable, cls).__new__(cls, *args, **kwargs)
 
 
     def __repr__(self):
@@ -50,9 +50,9 @@ class TestTable(SQLModel, table=True):
         arbitrary_types_allowed = True
 
 
-class IngredientsTestTable(SQLModel, table=True):
+class IngredientsTable(SQLModel, table=True):
     __table_args__ = {'extend_existing': True}
-    __tablename__ = "IngredientsTestTable"
+    __tablename__ = "IngredientsTable"
     Name: str = Field(primary_key=True)
     Unit: Optional[str] = None
     Type: str
@@ -62,7 +62,7 @@ class IngredientsTestTable(SQLModel, table=True):
         if kwargs.get('Type') not in ["Fresh", "Dairy", "Dry", "Tinned"]:
             raise MissingIngredientType('Invalid ingredient type, must be one of: Fresh, Dairy, Dry or Tinned')
         else:
-            return super(IngredientsTestTable, cls).__new__(cls, *args, **kwargs)
+            return super(IngredientsTable, cls).__new__(cls, *args, **kwargs)
 
 
     def __repr__(self):
