@@ -3,54 +3,20 @@
     <form method="post", action="">
         <H1>Meal Finder</H1>
         <ul>
+            {%for ingredient_type, ingredient_values in ingredients.items()%}
             <li>
-                <label for="Fresh_Ingredients">Fresh Ingredients:</label>
-                    <select name="Fresh_Ingredients" required>
+                <label for="{{ingredient_type}}_Ingredients">{{ingredient_type.replace("_", " ")}} Ingredients:</label>
+                    <select name="{{ingredient_type}}_Ingredients" required>
                         <option value="null"></option>
-                        {%for i in range(0, len_fresh_ingredients)%}
-                        <option value = "{{fresh_ingredients[i]}}">{{fresh_ingredients[i]}}</option> 
+                        {%for i in range(0, ingredient_values|length)%}
+                        <option value = "{{ingredient_values[i]}}">{{ingredient_values[i]}}</option> 
                         {%endfor%}
                     </select>
             </li>
             <li>
-                <input class="button" type="submit" name="Fresh_Ingredients" value="Find meals">
+                <input class="button" type="submit" name="{{ingredient_type}}_Ingredients" value="Find meals">
             </li>
-            <li>
-                <label for="Tinned_Ingredients">Tinned Ingredients:</label>
-                    <select name="Tinned_Ingredients" required>
-                        <option value="null"></option>
-                        {%for i in range(0, len_tinned_ingredients)%}
-                        <option value = "{{tinned_ingredients[i]}}">{{tinned_ingredients[i]}}</option> 
-                        {%endfor%}
-                    </select>
-            </li>
-            <li>
-                <input class="button" type="submit" name="Tinned_Ingredients" value="Find meals">
-            </li>
-            <li>
-                <label for="Dry_Ingredients">Dry Ingredients:</label>
-                    <select name="Dry_Ingredients" required>
-                        <option value="null"></option>
-                        {%for i in range(0, len_dry_ingredients)%}
-                        <option value = "{{dry_ingredients[i]}}">{{dry_ingredients[i]}}</option> 
-                        {%endfor%}
-                    </select>
-            </li>
-            <li>
-                <input class="button" type="submit" name="Dry_Ingredients" value="Find meals">
-            </li>
-            <li>
-            <label for="Dairy_Ingredients">Dairy Ingredients:</label>
-                <select name="Dairy_Ingredients" required>
-                    <option value="null"></option>
-                    {%for i in range(0, len_dairy_ingredients)%}
-                    <option value = "{{dairy_ingredients[i]}}">{{dairy_ingredients[i]}}</option> 
-                    {%endfor%}
-                </select>
-            </li>
-            <li>
-                <input class="button" type="submit" name="Dairy_Ingredients" value="Find meals">
-            </li>
+            {%endfor%}
         </ul>
     </form>
 {% endblock %}
