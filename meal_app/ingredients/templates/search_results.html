@@ -2,7 +2,7 @@
 {% block content %}
     <H1 class="display_meal_plan_header">Meals containing {{ingredient}}</H1>
         <ul>
-            {%for i in range(0, len_meals)%}
+            {%for i in range(meals|length)%}
                 <li>{{meals[i]}}</li>
             {%endfor%}
         </ul>
