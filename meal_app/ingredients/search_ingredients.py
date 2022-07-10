@@ -3,7 +3,6 @@ from models import MealsTable, IngredientsTable
 from app import engine
 from sqlmodel import Session, select, func
 
-
 search_ingredients = Blueprint('search_ingredients', __name__, template_folder='templates', static_folder='../static')
 
 @search_ingredients.route('/search_ingredients', methods=['GET', 'POST'])
