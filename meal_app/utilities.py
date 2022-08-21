@@ -65,12 +65,12 @@ def get_tags(tags):
 
 
 def append_current_ingredients(dict_1, dict_2):
-    current_ingredients = list(dict_2.keys())
+    if len(dict_2.keys()) == 0:
+        return dict_1
     for idx, ingredient_dict in enumerate(dict_1):
         try:
-            current_ingredients.index(ingredient_dict['Ingredient'])
             dict_1[idx]['Quantity'] = (dict_2[ingredient_dict['Ingredient']])
-        except ValueError:
+        except KeyError:
             pass
     return dict_1
 
@@ -103,6 +103,7 @@ def meal_information(meal):
         else:
             location_details['Website'] = result['Website']
         ingredients = []
+        print(f"{result}")
         for ingredient_type in ["Fresh", "Dairy", "Dry", "Tinned"]:
             ingredients.extend(list(json.loads(result[f'{ingredient_type}_Ingredients']).keys()))
         ingredients = "'" + "', '".join(ingredients) + "'"

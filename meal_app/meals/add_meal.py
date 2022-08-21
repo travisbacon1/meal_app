@@ -39,7 +39,7 @@ def main():
         query_string = f"""INSERT INTO {os.environ['MYSQL_TABLE']} (Name, Staple, Book, Page, Website, Fresh_Ingredients, Tinned_Ingredients, Dry_Ingredients, Dairy_Ingredients, Last_Made, Spring_Summer, Autumn_Winter, Quick_Easy, Special) VALUES ('{details["Name"]}', '{details["Staple"]}', '{details["Book"]}', '{details["Page"]}', '{details["Website"]}', '{parse_ingredients(details_dict, "Fresh ")}', '{parse_ingredients(details_dict, "Tinned ")}', '{parse_ingredients(details_dict, "Dry ")}', '{parse_ingredients(details_dict, "Dairy ")}', '{"2021-01-01"}', '{tags["Spring_Summer"]}', '{tags["Autumn_Winter"]}', '{tags["Quick_Easy"]}', '{tags["Special"]}');"""
         execute_mysql_query(query_string, fetch_results=False, commit=True)
         print(query_string)
-        return redirect(url_for('add.confirmation', meal=details['Name']))
+        return redirect(url_for('add_meal.confirmation', meal=details_dict['Name']))
     return render_template('add_meal.html', 
         staples=staples_list, books=book_list,
         ingredients=ingredient_dict, tags=tag_list)

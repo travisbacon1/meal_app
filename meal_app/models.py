@@ -1,5 +1,6 @@
 from sqlmodel import Field, SQLModel, JSON, Column
-from typing import Optional, Dict, Pattern
+from pydantic import BaseModel
+from typing import List, Optional, Dict, Pattern
 import re
 import json
 
@@ -21,7 +22,7 @@ class MealsTable(SQLModel, table=True):
     Staple: str
     Book: Optional[str] = None
     Page: Optional[str] = None
-    website: Optional[str] = None
+    Website: Optional[str] = None
     Fresh_Ingredients: Dict = Field(default={}, sa_column=Column(JSON))
     Dairy_Ingredients: Dict = Field(default={}, sa_column=Column(JSON))
     Dry_Ingredients: Dict = Field(default={}, sa_column=Column(JSON))
@@ -67,3 +68,12 @@ class IngredientsTable(SQLModel, table=True):
 
     def __repr__(self):
         return json.dumps(self.dict(), indent=4, ensure_ascii=False)
+
+
+class MealPlan(BaseModel):
+    Meal_List: List[str]
+    Dairy_Ingredients: Dict[str, float]
+    Dry_Ingredients: Dict[str, float]
+    Fresh_Ingredients: Dict[str, float]
+    Tinned_Ingredients: Dict[str, float]
+    Extra_Ingredients: List[str]
